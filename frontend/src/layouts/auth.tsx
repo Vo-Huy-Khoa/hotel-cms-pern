@@ -13,7 +13,9 @@ export function Auth() {
           ({ layout, pages }) =>
             layout === "auth" &&
             pages.map(({ path, element }) => (
-              <Route  path={path} element={element || null} />
+              // <Route  path={path} element={element || null} />
+               <Route  path={path}  />
+
             ))
         )}
       </Routes>
