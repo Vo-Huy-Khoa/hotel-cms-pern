@@ -1,25 +1,24 @@
-import SignIn from "../pages/auth/sign-in";
-import SignUp from "../pages/auth/sign-up";
-import Home from "../pages/dashboard/home";
-import Profile from "../pages/dashboard/profile";
+import { SignIn, SignUp } from "../pages/auth";
+import { Home, Profile, Notification } from "../pages/dashboard";
+
 const routes = [
   {
     layout: "dashboard",
     pages: [
       {
         name: "dashboard",
-        path: "/home",
-        element: Home,
+        path: "/",
+        element: <Home />,
       },
       {
         name: "profile",
         path: "/profile",
-        element: Profile,
+        element: <Profile />,
       },
       {
-        name: "notifactions",
-        path: "/notifactions",
-        element: Notification,
+        name: "notification",
+        path: "/notification",
+        element: <Notification />,
       },
     ],
   },
@@ -30,12 +29,12 @@ const routes = [
       {
         name: "sign in",
         path: "/sign-in",
-        element: SignIn,
+        element: <SignIn />,
       },
       {
         name: "sign up",
         path: "/sign-up",
-        element: SignUp,
+        element: <SignUp />,
       },
     ],
   },
