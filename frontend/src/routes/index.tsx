@@ -12,12 +12,12 @@ const routes = [
       },
       {
         name: "profile",
-        path: "/profile",
+        path: "profile",
         element: <Profile />,
       },
       {
         name: "notification",
-        path: "/notification",
+        path: "notification",
         element: <Notification />,
       },
     ],
@@ -28,12 +28,12 @@ const routes = [
     pages: [
       {
         name: "sign in",
-        path: "/sign-in",
+        path: "sign-in",
         element: <SignIn />,
       },
       {
         name: "sign up",
-        path: "/sign-up",
+        path: "sign-up",
         element: <SignUp />,
       },
     ],
