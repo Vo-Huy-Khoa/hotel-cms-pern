@@ -1,10 +1,5 @@
 function Profile() {
-    return (
-   <div>
-    
-   </div>
-    );
-  }
-  
-  export default Profile;
-  
+  return <div></div>;
+}
+
+export default Profile;

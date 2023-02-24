@@ -1,7 +1,5 @@
- function SignUp() {
-  return (
-<></>
-  );
+function SignUp() {
+  return <></>;
 }
 
 export default SignUp;
