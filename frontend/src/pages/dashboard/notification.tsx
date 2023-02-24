@@ -1,10 +1,5 @@
 function Notification() {
-    return (
-   <div>
-    
-   </div>
-    );
-  }
-  
-  export default Notification;
-  
+  return <div></div>;
+}
+
+export default Notification;

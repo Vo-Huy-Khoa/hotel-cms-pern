@@ -1,8 +1,8 @@
-import { Footer, Navbar } from "flowbite-react";
+import { Footer } from "flowbite-react";
 import { Routes, Route } from "react-router-dom";
 import routes from "../routes";
 
-export function Auth() {
+export function Dashboard() {
   return (
     <div className="relative min-h-screen w-full">
       <div className="container relative z-40 mx-auto p-4"></div>
@@ -23,4 +23,4 @@ export function Auth() {
   );
 }
 
-export default Auth;
+export default Dashboard;

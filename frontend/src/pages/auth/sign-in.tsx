@@ -1,8 +1,5 @@
- function SignIn() {
-  return (
-  <>
-  </>
-  );
+function SignIn() {
+  return <></>;
 }
 
 export default SignIn;
