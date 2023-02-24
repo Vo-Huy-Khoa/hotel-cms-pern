@@ -1,5 +1,4 @@
-function Profile() {
-  return <div></div>;
-}
-
-export default Profile;
+import React from "react";
+export const Profile = () => {
+  return <div>Profile</div>;
+};
