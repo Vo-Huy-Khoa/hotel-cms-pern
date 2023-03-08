@@ -3,9 +3,9 @@ import { Auth, Dashboard } from "./layouts";
 function App() {
   return (
     <Routes>
-      <Route path="/*" element={<Dashboard />} />
+      <Route path="/dashboard/*" element={<Dashboard />} />
       <Route path="/auth/*" element={<Auth />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<Navigate to="/dashboard/home" replace />} />
     </Routes>
   );
 }
