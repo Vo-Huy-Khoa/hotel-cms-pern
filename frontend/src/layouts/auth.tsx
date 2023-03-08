@@ -1,4 +1,3 @@
-import React from "react";
 import { Footer } from "flowbite-react";
 import { Routes, Route } from "react-router-dom";
 import routes from "../routes";

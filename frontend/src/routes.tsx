@@ -7,7 +7,7 @@ const routes = [
     pages: [
       {
         name: "dashboard",
-        path: "/",
+        path: "/home",
         element: <Home />,
       },
       {

@@ -1,3 +1,3 @@
 export function Sidebar() {
-  return <div className="py-2"></div>;
+  return <div className="py-2">Sidebar</div>;
 }
