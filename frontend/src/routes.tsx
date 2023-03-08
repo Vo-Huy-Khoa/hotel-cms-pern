@@ -1,5 +1,5 @@
-import { SignIn, SignUp } from "../pages/auth";
-import { Home, Profile, Notification } from "../pages/dashboard";
+import { SignIn, SignUp } from "./pages/auth";
+import { Home, Profile, Notification } from "./pages/dashboard";
 
 const routes = [
   {
