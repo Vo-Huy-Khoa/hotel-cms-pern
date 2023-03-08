@@ -1,1 +1,2 @@
-import React from "react";
+export * from "./auth";
+export * from "./dashboard";

@@ -1,2 +1,2 @@
-export * from "./Button";
-export * from "./Image";
+export * from "./CustomButton";
+export * from "./CustomImage";
