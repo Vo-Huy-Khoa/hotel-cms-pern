@@ -10,13 +10,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@fontsource/roboto": "^4.5.8",
+    "@material-tailwind/react": "^1.4.2",
+    "@mui/icons-material": "^5.11.11",
+    "@mui/styled-engine-sc": "^5.11.11",
     "autoprefixer": "^10.4.13",
     "flowbite": "^1.6.3",
     "flowbite-react": "^0.3.8",
     "postcss": "^8.4.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "6.4.2"
+    "react-router-dom": "6.4.2",
+    "styled-components": "^5.3.8"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
