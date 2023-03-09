@@ -3,7 +3,7 @@ import routes from "../routes";
 
 export const Auth = () => {
   return (
-    <div className="h-screen flex items-center justify-center">
+    <div className="h-screen flex items-center justify-center bg-gray-200">
       <Routes>
         {routes.map(({ layout, pages }) => {
           return (
