@@ -1,6 +1,10 @@
 import { Button, Checkbox, Input, Typography } from "@material-tailwind/react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 export function SignIn() {
+  const navigate = useNavigate();
+  const handleLogin = () => {
+    navigate("/dashboard/home");
+  };
   return (
     <section className="bg-white w-96 flex flex-col gap-4 p-10 rounded-lg">
       <div className="text-center">
@@ -17,7 +21,9 @@ export function SignIn() {
           <Typography>Password</Typography>
           <Input name="password" label="Password" />
         </div>
-        <Button color="blue">Sign In</Button>
+        <Button onClick={handleLogin} color="blue">
+          Sign In
+        </Button>
         <div>
           <Checkbox
             label={
@@ -45,7 +51,7 @@ export function SignIn() {
             to="/auth/sign-up"
             className="font-medium text-blue-500 transition-colors "
           >
-            Sign Up
+            &nbsp;Sign Up
           </NavLink>
         </Typography>
       </form>

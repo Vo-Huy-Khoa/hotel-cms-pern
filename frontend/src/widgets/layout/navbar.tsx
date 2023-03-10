@@ -1,3 +1,3 @@
 export function Navbar() {
-  return <div className="py-2"></div>;
+  return <div>navbar</div>;
 }
