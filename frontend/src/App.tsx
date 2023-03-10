@@ -1,5 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
-import { BrowserRouter } from "react-router-dom";
+import { Navigate, Route, Routes, BrowserRouter } from "react-router-dom";
 import { Auth, Dashboard } from "./layouts";
 import "./style.css";
 function App() {
@@ -8,7 +7,7 @@ function App() {
       <Routes>
         <Route path="/dashboard/*" element={<Dashboard />} />
         <Route path="/auth/*" element={<Auth />} />
-        <Route path="*" element={<Navigate to="/dashboard/home" replace />} />
+        <Route path="*" element={<Navigate to="/auth/sign-in" replace />} />
       </Routes>
     </BrowserRouter>
   );

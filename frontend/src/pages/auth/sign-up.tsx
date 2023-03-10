@@ -36,7 +36,7 @@ export function SignUp() {
             to="/auth/sign-in"
             className="font-medium text-blue-500 transition-colors "
           >
-            Sign In
+            &nbsp;Sign In
           </NavLink>
         </Typography>
       </form>

@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { Footer, Sidebar } from "../widgets/layout";
+import { Footer, Navbar, Sidebar } from "../widgets/layout";
 import routes from "../routes";
 
 export function Dashboard() {
@@ -26,11 +26,14 @@ export function Dashboard() {
     },
   ];
   return (
-    <div className="relative min-h-screen w-full">
-      <header>
-        <Sidebar />
-      </header>
-      <main>
+    <div className="min-h-screen bg-blue-gray-50/50 flex">
+      <div className="w-1/5 h-screen">
+        <Sidebar routes={routes} />
+      </div>
+      <div className="w-4/5 bg-white h-screen">
+        <div>
+          <Navbar />
+        </div>
         <Routes>
           {routes.map(({ layout, pages }) => {
             return (
@@ -41,10 +44,10 @@ export function Dashboard() {
             );
           })}
         </Routes>
-      </main>
-      <footer>
-        <Footer />
-      </footer>
+        <div className="text-blue-gray-600">
+          <Footer />
+        </div>
+      </div>
     </div>
   );
 }
