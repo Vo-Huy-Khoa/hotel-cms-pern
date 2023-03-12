@@ -18,7 +18,7 @@ export function Dashboard() {
             );
           })}
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </div>
   );
