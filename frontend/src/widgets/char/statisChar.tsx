@@ -6,27 +6,30 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import PropTypes from "prop-types";
+import Chart from "react-apexcharts";
 
-export function StatisticsCard({ color, icon, title, value, footer }: any) {
+export function StatisticsChart({
+  color,
+  chart,
+  title,
+  description,
+  footer,
+}: any) {
   return (
     <Card>
-      <CardHeader
-        variant="gradient"
-        color={color}
-        className="absolute -mt-4 grid h-16 w-16 place-items-center"
-      >
-        {icon}
+      <CardHeader variant="gradient" color={color}>
+        <Chart {...chart} />
       </CardHeader>
-      <CardBody className="p-4 text-right">
-        <Typography variant="small" className="font-normal text-blue-gray-600">
+      <CardBody className="p-6">
+        <Typography variant="h6" color="blue-gray">
           {title}
         </Typography>
-        <Typography variant="h4" color="blue-gray">
-          {value}
+        <Typography variant="small" className="font-normal text-blue-gray-600">
+          {description}
         </Typography>
       </CardBody>
       {footer && (
-        <CardFooter className="border-t border-blue-gray-50 p-4">
+        <CardFooter className="border-t border-blue-gray-50 px-6 py-5">
           {footer}
         </CardFooter>
       )}
@@ -34,12 +37,12 @@ export function StatisticsCard({ color, icon, title, value, footer }: any) {
   );
 }
 
-StatisticsCard.defaultProps = {
+StatisticsChart.defaultProps = {
   color: "blue",
   footer: null,
 };
 
-StatisticsCard.propTypes = {
+StatisticsChart.propTypes = {
   color: PropTypes.oneOf([
     "white",
     "blue-gray",
@@ -62,12 +65,12 @@ StatisticsCard.propTypes = {
     "pink",
     "red",
   ]),
-  icon: PropTypes.node.isRequired,
+  chart: PropTypes.object.isRequired,
   title: PropTypes.node.isRequired,
-  value: PropTypes.node.isRequired,
+  description: PropTypes.node.isRequired,
   footer: PropTypes.node,
 };
 
-StatisticsCard.displayName = "/src/widgets/cards/statistics-card.jsx";
+StatisticsChart.displayName = "/src/widgets/charts/statistics-chart.jsx";
 
-export default StatisticsCard;
+export default StatisticsChart;

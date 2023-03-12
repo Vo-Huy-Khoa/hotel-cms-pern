@@ -6,7 +6,7 @@ export function SignIn() {
     navigate("/dashboard/home");
   };
   return (
-    <section className="bg-white w-96 flex flex-col gap-4 p-10 rounded-lg">
+    <section className="bg-white w-96 flex flex-col gap-4 p-10 rounded-xl">
       <div className="text-center">
         <Typography variant="h4" color="blue-gray">
           Sign In
