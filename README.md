@@ -2,8 +2,6 @@
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![Node.js](https://img.shields.io/badge/node.js-339933.svg?style=for-the-badge&logo=Node%2Ejs&logoColor=white)
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248.svg?style=for-the-badge&logo=MongoDB&logoColor=white)
-![Socket.io](https://img.shields.io/badge/socket.io-010101.svg?style=for-the-badge&logo=Socket%2Eio&logoColor=white)
 
 <h1>CMS MERN</h1>
 CMS Application built using Typescript, React, Express.
@@ -12,8 +10,8 @@ CMS Application built using Typescript, React, Express.
 
 - [Demo](#demo)
 - [Features](#features)
+- [Special Thanks](#special)
 - [Installation](#installation)
-- [How It Works](#how-it-works)
 - [Structure](#structure)
 
 ## Demo
@@ -21,16 +19,22 @@ CMS Application built using Typescript, React, Express.
 <h3 name="demo">Live <a href="https://blog-vo-huy-khoa.vercel.app/">CMS</a></h3>
 <!-- https://ezgif.com/ -->
 <br>
-<img src="https://user-images.githubusercontent.com/78124749/223079377-2d9426ef-b157-4b80-a6b7-facceff67f79.gif" width="100%" height="550" alt="chat app" />
+<img src="https://s3.amazonaws.com/creativetim_bucket/products/488/original/material-tailwind-react-dashboard.jpg" alt="cms" />
 <br>
 
 ## Features<a name="features"></a>
 
 - Use Express to build the backend.
 - Use React to build the frontend.
-- Authenticates via username and password.
-- Real-time communication between a client and a server using [Socket.io](https://github.com/socketio/socket.io).
-- Uses [MongoDB](https://github.com/mongodb/mongo), [Mongoose](https://github.com/Automattic/mongoose) for storing and querying data.
+
+
+## Special thanks<a name="special"></a>
+
+During the development of this dashboard, we have used many existing resources from awesome developers. We want to thank them for providing their tools open source:
+
+- [Material Tailwind](https://material-tailwind.com/) - Material Tailwind is an easy to use components library for Tailwind CSS and Material Design.
+- [Hero Icons](https://heroicons.com/) - Beautiful hand-crafted SVG icons.
+- [Apex Charts](https://apexcharts.com/) - Modern & Interactive open-source Charts.
 
 ## Installation<a name="installation"></a>
 
@@ -58,50 +62,11 @@ Make sure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.co
    ```bash
    cd frontend
    npm install
-   npm run start
+   npm run dev
    ```
 
-## How It Works<a name="how-it-works"></a>
 
-#### MongoDB
 
-You need to create a database on MongoDB, then create a database user, get the `MongoDB URI`, and assign it to `dbURI`.
-
-### Database<a name="database"></a>
-
-Mongoose is used to interact with a MongoDB.
-
-#### Schemas
-
-There are two schemas; users and rooms.
-
-Each user has a username, password,and picture. If the user is logged via username and password, and the if logged in via a social account, then the password will be null.
-
-### Models<a name="models"></a>
-
-Each model wraps Mongoose Model object, overrides and provides some methods.
-
-### Sockets<a name="sockets"></a>
-
-Having an active connection opened between the client and the server so client can send and receive data. This allows real-time communication using sockets. This is made possible by [Socket.io](https://github.com/socketio/socket.io).
-
-The client starts by connecting to the server through a socket (maybe also assigned to a specific namespace) . Once connections is successful, client and server can emit and listen to events.
-
-### DESGIN DATABASE
-
-```text
-|─────────────|       |─────────────|
-|   USER      |       |   MESSAGE   |
-├─────────────|       ├─────────────|
-| id          |       | id          |
-│ fullname    |       │ senderID    |
-| username    |       | receiverID  |
-| password    |       | message     |
-│ avatar      |       ├─────────────|
-│refreshToken |
-│ socketID    |
-├─────────────|
-```
 
 ## Structure of the project: <a name='structure'></a>
 
@@ -154,20 +119,6 @@ src
 │       └── notification.tsx
 │       └── sidebar.tsx
 │       └── index.ts
-├── redux
-│   └── actions
-│       └── sign-in.tsx
-│       └── index.ts
-│   └── reducers
-│       └── visibility.ts
-│       └── rootReducer.ts
-│   └── initState.ts
-│   └── store.ts
-├── services
-│   └── auth.ts
-│   └── dashboard.ts
-│   └── index.ts
-├── socket.tsx
 ├── route.tsx
 ├── App.tsx
 └── index.tsx
