@@ -5,7 +5,6 @@ import {
   Button,
   IconButton,
   Breadcrumbs,
-  Input,
   Menu,
   MenuHandler,
   MenuList,
@@ -28,7 +27,7 @@ export function Navbar() {
   return (
     <MTNavbar
       color={"transparent"}
-      className={"rounded-xl transition-all py-0 px-0 "}
+      className={"rounded-xl transition-all py-0 px-0"}
       fullWidth
     >
       <div className="flex flex-col-reverse justify-between gap-6 md:flex-row md:items-center">

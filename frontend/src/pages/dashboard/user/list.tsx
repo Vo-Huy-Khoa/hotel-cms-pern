@@ -10,7 +10,7 @@ import {
   Select,
   Option,
 } from "@material-tailwind/react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import authorsTableData from "../../../data/authors-table-data";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
@@ -18,21 +18,18 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
 export function UserList() {
   const [isVisibleSearch, setVisibleSearch] = useState(false);
-  const navigate = useNavigate();
   const handleVisibleSearch = () => {
     setVisibleSearch(!isVisibleSearch);
   };
-  const redirectCreate = () => {
-    navigate("/dashboard/user/create");
-  };
+
   return (
     <div className="mt-12 mb-8 flex flex-col gap-4">
       <div className="flex flex-row items-center justify-between">
         <Typography variant="h4" className="font-medium capitalize">
           User List
         </Typography>
-        <Button className="w-24" onClick={redirectCreate}>
-          Create
+        <Button className="w-24">
+          <NavLink to="/dashboard/user/create">Create</NavLink>
         </Button>
       </div>
       <div
@@ -130,7 +127,9 @@ export function UserList() {
                               color="blue-gray"
                               className="font-semibold"
                             >
-                              {name}
+                              <NavLink to="/dashboard/user/edit">
+                                {name}
+                              </NavLink>
                             </Typography>
                           </div>
                         </div>
