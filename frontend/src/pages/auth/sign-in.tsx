@@ -15,11 +15,16 @@ export function SignIn() {
       <form className="flex flex-col gap-4" action="">
         <div className="flex flex-col gap-1">
           <Typography>User Name</Typography>
-          <Input name="username" label="Username" />
+          <Input name="username" label="Username" value="khoavh" />
         </div>
         <div className="flex flex-col gap-1">
           <Typography>Password</Typography>
-          <Input name="password" label="Password" />
+          <Input
+            type="password"
+            name="password"
+            label="Password"
+            value="123456"
+          />
         </div>
         <Button onClick={handleLogin} color="blue">
           Sign In

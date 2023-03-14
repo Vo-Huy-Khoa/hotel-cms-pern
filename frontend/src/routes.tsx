@@ -6,7 +6,9 @@ import {
   UserPlusIcon,
 } from "@heroicons/react/24/solid";
 import { SignIn, SignUp } from "./pages/auth";
-import { Home, User } from "./pages/dashboard";
+import { Home, UserList } from "./pages/dashboard";
+import UserCreate from "./pages/dashboard/user/create";
+import UserEdit from "./pages/dashboard/user/edit";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -41,9 +43,39 @@ const routes = [
       },
       {
         icon: <UserCircleIcon {...icon} />,
-        name: "user",
-        path: "user",
-        element: <User />,
+        name: "user list",
+        path: "user/list",
+        element: <UserList />,
+      },
+      {
+        icon: <UserCircleIcon {...icon} />,
+        name: "user create",
+        path: "user/create",
+        element: <UserCreate />,
+      },
+      {
+        icon: <UserCircleIcon {...icon} />,
+        name: "user edit",
+        path: "user/edit",
+        element: <UserEdit />,
+      },
+    ],
+  },
+
+  {
+    layout: "sidebar",
+    pages: [
+      {
+        icon: <HomeIcon {...icon} />,
+        name: "dashboard",
+        path: "home",
+        element: <Home />,
+      },
+      {
+        icon: <UserCircleIcon {...icon} />,
+        name: "user list",
+        path: "user/list",
+        element: <UserList />,
       },
     ],
   },

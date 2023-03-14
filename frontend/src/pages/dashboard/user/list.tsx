@@ -10,50 +10,83 @@ import {
   Select,
   Option,
 } from "@material-tailwind/react";
-import { NavLink } from "react-router-dom";
-import authorsTableData from "../../data/authors-table-data";
+import { NavLink, useNavigate } from "react-router-dom";
+import authorsTableData from "../../../data/authors-table-data";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
-export function User() {
+export function UserList() {
+  const [isVisibleSearch, setVisibleSearch] = useState(false);
+  const navigate = useNavigate();
+  const handleVisibleSearch = () => {
+    setVisibleSearch(!isVisibleSearch);
+  };
+  const redirectCreate = () => {
+    navigate("/dashboard/user/create");
+  };
   return (
-    <div className="mt-12 mb-8 flex flex-col gap-12">
-      <div className=" h-60 bg-white rounded-lg p-6 flex flex-col justify-between">
-        <div className="flex flex-row items-center gap-1">
-          <XMarkIcon
-            strokeWidth={3}
-            className="h-4 w-4 text-black-500 cursor-pointer"
-          />
-          <Typography className="font-medium capitalize">Search</Typography>
-        </div>
-        <div className="grid grid-cols-4 gap-4">
-          <div className="flex flex-col gap-2">
-            <Typography className="font-small capitalize">Name</Typography>
-            <Input />
-          </div>
-          <div className="flex flex-col gap-2">
-            <Typography className="font-small capitalize">Email</Typography>
-            <Input />
-          </div>
-          <div className="flex flex-col gap-2">
-            <Typography className="font-small capitalize">Role</Typography>
-            <Select>
-              <Option>Admin</Option>
-              <Option>User</Option>
-            </Select>
-          </div>
-          <div className="flex flex-col gap-2">
-            <Typography className="font-small capitalize">Status</Typography>
-            <Select>
-              <Option>Enable</Option>
-              <Option>Disable</Option>
-            </Select>
-          </div>
-        </div>
-        <div className="w-full flex flex-row justify-between">
-          <Button>Search</Button>
-          <Button className=" bg-blue-gray-700">Cancel</Button>
-        </div>
+    <div className="mt-12 mb-8 flex flex-col gap-4">
+      <div className="flex flex-row items-center justify-between">
+        <Typography variant="h4" className="font-medium capitalize">
+          User List
+        </Typography>
+        <Button className="w-24" onClick={redirectCreate}>
+          Create
+        </Button>
       </div>
+      <div
+        className="flex flex-row items-center gap-1 cursor-pointer w-20"
+        onClick={handleVisibleSearch}
+      >
+        <MagnifyingGlassIcon
+          strokeWidth={3}
+          className="h-4 w-4 text-black-500 cursor-pointer"
+        />
+        <Typography className="font-medium capitalize">Search</Typography>
+      </div>
+      {isVisibleSearch && (
+        <div className="h-60 bg-white rounded-lg p-6 flex flex-col justify-between">
+          <div className="flex flex-row items-center gap-1">
+            <XMarkIcon
+              strokeWidth={3}
+              className="h-4 w-4 text-black-500 cursor-pointer"
+              onClick={handleVisibleSearch}
+            />
+            <Typography className="font-medium capitalize">
+              Handle search
+            </Typography>
+          </div>
+          <div className="grid grid-cols-4 gap-4">
+            <div className="flex flex-col gap-2">
+              <Typography className="font-small capitalize">Name</Typography>
+              <Input />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Typography className="font-small capitalize">Email</Typography>
+              <Input />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Typography className="font-small capitalize">Role</Typography>
+              <Select>
+                <Option>Admin</Option>
+                <Option>User</Option>
+              </Select>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Typography className="font-small capitalize">Status</Typography>
+              <Select>
+                <Option>Enable</Option>
+                <Option>Disable</Option>
+              </Select>
+            </div>
+          </div>
+          <div className="w-full flex flex-row justify-between">
+            <Button>Search</Button>
+            <Button className=" bg-blue-gray-700">Cancel</Button>
+          </div>
+        </div>
+      )}
       <Card>
         <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
           <table className="w-full min-w-[640px] table-auto">
@@ -198,4 +231,4 @@ export function User() {
   );
 }
 
-export default User;
+export default UserList;
