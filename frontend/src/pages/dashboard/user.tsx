@@ -12,12 +12,17 @@ import {
 } from "@material-tailwind/react";
 import { NavLink } from "react-router-dom";
 import authorsTableData from "../../data/authors-table-data";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 export function User() {
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
       <div className=" h-60 bg-white rounded-lg p-6 flex flex-col justify-between">
-        <div>
+        <div className="flex flex-row items-center gap-1">
+          <XMarkIcon
+            strokeWidth={3}
+            className="h-4 w-4 text-black-500 cursor-pointer"
+          />
           <Typography className="font-medium capitalize">Search</Typography>
         </div>
         <div className="grid grid-cols-4 gap-4">
@@ -46,7 +51,7 @@ export function User() {
         </div>
         <div className="w-full flex flex-row justify-between">
           <Button>Search</Button>
-          <Button color="gray">Cancel</Button>
+          <Button className=" bg-blue-gray-700">Cancel</Button>
         </div>
       </div>
       <Card>
