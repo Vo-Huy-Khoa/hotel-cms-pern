@@ -28,9 +28,9 @@ export function UserList() {
         <Typography variant="h4" className="font-medium capitalize">
           User List
         </Typography>
-        <Button className="w-24">
-          <NavLink to="/dashboard/user/create">Create</NavLink>
-        </Button>
+        <NavLink to="/dashboard/user/create">
+          <Button className="w-24">Create</Button>
+        </NavLink>
       </div>
       <div
         className="flex flex-row items-center gap-1 cursor-pointer w-20"
