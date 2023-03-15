@@ -1,4 +1,4 @@
-import pool from "../configs/db";
+import pool from "../../configs";
 
 const migrationQuery = `
   CREATE TABLE IF NOT EXISTS users (
@@ -9,10 +9,23 @@ const migrationQuery = `
   );
 `;
 
-const migrationUser = () => {
+function up() {
   pool
     .query(migrationQuery)
     .then(() => console.log("Migration successful"))
     .catch((error) => console.error("Migration error:", error))
     .finally(() => pool.end());
-};
+}
+
+function down() {
+  pool.query("DROP TABLE users", (err, res) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log("Table dropped successfully");
+    }
+    pool.end();
+  });
+}
+
+export { up, down };
