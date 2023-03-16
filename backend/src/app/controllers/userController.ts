@@ -5,14 +5,30 @@ import { Request, Response } from "express";
 class userController {
   async create(req: Request, res: Response) {
     try {
-      const { username, password }: any = req.body;
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const query =
-        "INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id, username";
-      const values = [username, hashedPassword];
-      const { rows } = await pool.query(query, values);
+      const user_name = req.body.user_name;
+      const full_name = req.body.full_name;
+      const email = req.body.email;
+      const oldPassword = req.body.password;
+      const password = await bcrypt.hash(oldPassword, 10);
+      const identity_number = req.body.identity_number;
+      const phone = req.body.phone;
+      const avatar = req.body.avatar;
+      const role = req.body.role;
+      const initValue = [
+        user_name,
+        full_name,
+        email,
+        password,
+        identity_number,
+        phone,
+        avatar,
+        role,
+      ];
 
-      res.status(200).json(rows[0]);
+      const insertQuery =
+        "INSERT INTO users(user_name, full_name, email, password, identity_number, phone, avatar, role) VALUES($1, $2, $3, $4, $5, $6, $7, $8)";
+      const { rows } = await pool.query(insertQuery, initValue);
+      res.status(201).json(rows[0]);
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: "Internal server error" });

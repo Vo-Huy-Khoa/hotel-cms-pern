@@ -1,31 +1,37 @@
 import pool from "../../configs";
+import { Request, Response } from "express";
 
 const migrationQuery = `
   CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL
+    user_name VARCHAR(50) NOT NULL,
+    full_name VARCHAR(60) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    identity_number VARCHAR(15) NOT NULL,
+    phone VARCHAR(12),
+    avatar BYTEA,
+    role SERIAL
   );
 `;
 
-function up() {
-  pool
-    .query(migrationQuery)
-    .then(() => console.log("Migration successful"))
-    .catch((error) => console.error("Migration error:", error))
-    .finally(() => pool.end());
+async function UserUp(req: Request, res: Response) {
+  try {
+    await pool.query(migrationQuery);
+    res.status(201).json("Migration users successful");
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Migration users error" });
+  }
 }
 
-function down() {
-  pool.query("DROP TABLE users", (err, res) => {
-    if (err) {
-      console.error(err);
-    } else {
-      console.log("Table dropped successfully");
-    }
-    pool.end();
-  });
+async function UserDown(req: Request, res: Response) {
+  try {
+    await pool.query("DROP TABLE users");
+    res.status(201).json("DROP users successful");
+  } catch (error) {
+    res.status(500).json({ error: "DROP table users error" });
+  }
 }
 
-export { up, down };
+export { UserUp, UserDown };
