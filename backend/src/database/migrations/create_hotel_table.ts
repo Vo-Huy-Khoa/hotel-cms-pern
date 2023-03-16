@@ -1,28 +1,32 @@
 import pool from "../../configs";
+import { Request, Response } from "express";
 
 const migrationQuery = `
   CREATE TABLE IF NOT EXISTS hotels (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
+    name VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    phone VARCHAR(12) NOT NULL,
+    email VARCHAR(100),
+    description NVARCHAR
   );
 `;
 
-function up() {
-  pool
-    .query(migrationQuery)
-    .then(() => console.log("Migration successful"))
-    .catch((error) => console.error("Migration error:", error))
-    .finally(() => pool.end());
+async function HotelUp(req: Request, res: Response) {
+  try {
+    await pool.query(migrationQuery);
+    res.status(201).json("Migration hotels successful");
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
 }
 
-function down() {
-  pool.query("DROP TABLE hotels", (err, res) => {
-    if (err) {
-      console.error(err);
-    } else {
-      console.log("Table dropped successfully");
-    }
-    pool.end();
-  });
+async function HotelDown(req: Request, res: Response) {
+  try {
+    await pool.query("DROP TABLE hotels");
+    res.status(201).json("DROP hotels successful");
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
 }
-export { up, down };
+export { HotelUp, HotelDown };
