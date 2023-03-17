@@ -11,9 +11,11 @@ const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
+const ORIGIN_LOCALHOST = process.env.ORIGIN_LOCALHOST || "";
+const ORIGIN_PRODUCT = process.env.ORIGIN_PRODUCT || "";
+const allowedOrigins = [ORIGIN_LOCALHOST, ORIGIN_PRODUCT];
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
-const allowedOrigins = ["http://localhost:5173"];
 const corsOptions = {
     origin: allowedOrigins,
     credentials: true,
