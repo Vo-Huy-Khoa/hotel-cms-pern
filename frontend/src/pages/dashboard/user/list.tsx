@@ -11,16 +11,30 @@ import {
   Option,
 } from "@material-tailwind/react";
 import { NavLink } from "react-router-dom";
-import authorsTableData from "../../../data/authors-table-data";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import { getUsers } from "../../../services";
 
 export function UserList() {
+  const [listUser, setListUser] = useState([]);
   const [isVisibleSearch, setVisibleSearch] = useState(false);
   const handleVisibleSearch = () => {
     setVisibleSearch(!isVisibleSearch);
   };
+
+  useEffect(() => {
+    async function fetchGetListUser() {
+      try {
+        const listUser = await getUsers();
+        setListUser(listUser);
+      } catch (error) {
+        // Handle errors
+      }
+    }
+
+    fetchGetListUser();
+  }, []);
 
   return (
     <div className="mt-12 mb-8 flex flex-col gap-4">
@@ -116,19 +130,19 @@ export function UserList() {
               </tr>
             </thead>
             <tbody>
-              {authorsTableData.map(
-                ({ img, name, email, online, date }, key) => {
+              {listUser.map(
+                ({ id, avatar, full_name, email, status, role }, key) => {
                   const className = "py-3 px-5 border-b border-blue-gray-50";
                   return (
                     <tr key={key}>
                       <td className={className}>
                         <Typography className="text-xs font-normal text-blue-gray-500">
-                          1
+                          {id}
                         </Typography>
                       </td>
                       <td className={className}>
                         <div className="flex items-center gap-4">
-                          <Avatar src={img} alt={name} size="sm" />
+                          <Avatar src={avatar} alt={full_name} size="sm" />
                         </div>
                       </td>
                       <td className={className}>
@@ -137,7 +151,9 @@ export function UserList() {
                           color="blue-gray"
                           className="font-semibold"
                         >
-                          <NavLink to="/dashboard/user/edit">{name}</NavLink>
+                          <NavLink to="/dashboard/user/edit">
+                            {full_name}
+                          </NavLink>
                         </Typography>
                       </td>
                       <td className={className}>
@@ -148,35 +164,35 @@ export function UserList() {
                       <td className={className}>
                         <Chip
                           variant="gradient"
-                          color={online ? "green" : "blue-gray"}
-                          value={online ? "online" : "offline"}
+                          color={status ? "green" : "blue-gray"}
+                          value={status ? "online" : "offline"}
                           className="py-0.5 px-2 text-[11px] font-medium"
                         />
                       </td>
                       <td className={className}>
                         <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {date}
+                          {role}
                         </Typography>
                       </td>
 
                       <td className={className}>
                         <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {date}
+                          {role}
                         </Typography>
                       </td>
                       <td className={className}>
                         <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {date}
+                          {role}
                         </Typography>
                       </td>
                       <td className={className}>
                         <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {date}
+                          {role}
                         </Typography>
                       </td>
                       <td className={className}>
                         <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {date}
+                          {role}
                         </Typography>
                       </td>
                     </tr>
