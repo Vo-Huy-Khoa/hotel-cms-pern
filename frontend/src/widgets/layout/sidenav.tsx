@@ -7,12 +7,21 @@ import {
   IconButton,
   Typography,
 } from "@material-tailwind/react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/reducers/rootReducer";
+import { setVisibility } from "../../redux/actions";
 
 export function Sidenav({ brandImg, brandName, routes }: any) {
+  const isVisible = useSelector((state: RootState) => state.currentVisibility);
+  const dispatch = useDispatch();
+
+  const handleSideBar = () => {
+    dispatch(setVisibility(!isVisible));
+  };
   return (
     <aside
-      className=" bg-gray-900
-      fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-0px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0 -translate-x-80"
+      className={`bg-gray-900 ${isVisible ? "translate-x-0" : "-translate-x-80"}
+      fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-0px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0 -translate-x-80`}
     >
       <div className="border-white/20">
         <Link to="/" className="flex items-center gap-4 py-6 px-8">
@@ -28,7 +37,11 @@ export function Sidenav({ brandImg, brandName, routes }: any) {
           ripple={false}
           className="absolute right-0 top-0 grid rounded-br-none rounded-tl-none xl:hidden"
         >
-          <XMarkIcon strokeWidth={2.5} className="h-5 w-5 text-white" />
+          <XMarkIcon
+            onClick={handleSideBar}
+            strokeWidth={2.5}
+            className="h-5 w-5 text-white"
+          />
         </IconButton>
       </div>
       <div className="m-4">
