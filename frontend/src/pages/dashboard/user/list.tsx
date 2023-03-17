@@ -90,9 +90,12 @@ export function UserList() {
             <thead>
               <tr>
                 {[
-                  "name",
+                  "id",
+                  "avatar",
+                  "full name",
                   "email",
                   "status",
+                  "role",
                   "user create",
                   "date create",
                   "user update",
@@ -114,25 +117,28 @@ export function UserList() {
             </thead>
             <tbody>
               {authorsTableData.map(
-                ({ img, name, email, job, online, date }, key) => {
+                ({ img, name, email, online, date }, key) => {
                   const className = "py-3 px-5 border-b border-blue-gray-50";
                   return (
-                    <tr key={name}>
+                    <tr key={key}>
+                      <td className={className}>
+                        <Typography className="text-xs font-normal text-blue-gray-500">
+                          1
+                        </Typography>
+                      </td>
                       <td className={className}>
                         <div className="flex items-center gap-4">
                           <Avatar src={img} alt={name} size="sm" />
-                          <div>
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-semibold"
-                            >
-                              <NavLink to="/dashboard/user/edit">
-                                {name}
-                              </NavLink>
-                            </Typography>
-                          </div>
                         </div>
+                      </td>
+                      <td className={className}>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-semibold"
+                        >
+                          <NavLink to="/dashboard/user/edit">{name}</NavLink>
+                        </Typography>
                       </td>
                       <td className={className}>
                         <Typography className="text-xs font-normal text-blue-gray-500">
@@ -147,6 +153,12 @@ export function UserList() {
                           className="py-0.5 px-2 text-[11px] font-medium"
                         />
                       </td>
+                      <td className={className}>
+                        <Typography className="text-xs font-semibold text-blue-gray-600">
+                          {date}
+                        </Typography>
+                      </td>
+
                       <td className={className}>
                         <Typography className="text-xs font-semibold text-blue-gray-600">
                           {date}
