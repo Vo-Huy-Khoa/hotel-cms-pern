@@ -39,7 +39,7 @@ class userController {
     try {
       const query = "SELECT * FROM users";
       const { rows } = await pool.query(query);
-      res.status(200).json(rows[0]);
+      res.status(200).json(rows);
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
     }
