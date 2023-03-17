@@ -7,10 +7,13 @@ import cors from "cors";
 dotenv.config();
 const app: Express = express();
 const port = process.env.PORT;
+const ORIGIN_LOCALHOST = process.env.ORIGIN_LOCALHOST || "";
+const ORIGIN_PRODUCT = process.env.ORIGIN_PRODUCT || "";
+
+const allowedOrigins: string[] = [ORIGIN_LOCALHOST, ORIGIN_PRODUCT];
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const allowedOrigins: string[] = ["http://localhost:5173"];
 
 const corsOptions: cors.CorsOptions = {
   origin: allowedOrigins,
