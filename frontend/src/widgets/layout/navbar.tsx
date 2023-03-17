@@ -19,11 +19,19 @@ import {
   CreditCardIcon,
   Bars3Icon,
 } from "@heroicons/react/24/solid";
+import { useDispatch, useSelector } from "react-redux";
+import { setVisibility } from "../../redux/actions";
+import { RootState } from "../../redux/reducers/rootReducer";
 
 export function Navbar() {
   const { pathname } = useLocation();
   const [layout, page] = pathname.split("/").filter((el) => el !== "");
+  const dispatch = useDispatch();
+  const isVisible = useSelector((state: RootState) => state.currentVisibility);
 
+  const handleSideBar = () => {
+    dispatch(setVisibility(!isVisible));
+  };
   return (
     <MTNavbar
       color={"transparent"}
@@ -59,7 +67,11 @@ export function Navbar() {
             color="blue-gray"
             className="grid xl:hidden"
           >
-            <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
+            <Bars3Icon
+              onClick={handleSideBar}
+              strokeWidth={3}
+              className="h-6 w-6 text-blue-gray-500"
+            />
           </IconButton>
           <Link to="/auth/sign-in">
             <Button

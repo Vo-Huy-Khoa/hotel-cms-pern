@@ -10,7 +10,9 @@ const migrationQuery = `
     password VARCHAR(255) NOT NULL,
     identity_number VARCHAR(15) NOT NULL,
     phone VARCHAR(12),
-    role SERIAL
+    role SERIAL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
   );
 `;
 

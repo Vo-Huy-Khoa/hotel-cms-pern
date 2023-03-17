@@ -108,11 +108,8 @@ export function UserList() {
                   "avatar",
                   "full name",
                   "email",
-                  "status",
                   "role",
-                  "user create",
                   "date create",
-                  "user update",
                   "date update",
                 ].map((el) => (
                   <th
@@ -131,7 +128,18 @@ export function UserList() {
             </thead>
             <tbody>
               {listUser.map(
-                ({ id, avatar, full_name, email, status, role }, key) => {
+                (
+                  {
+                    id,
+                    avatar,
+                    full_name,
+                    email,
+                    role,
+                    created_at,
+                    updated_at,
+                  },
+                  key
+                ) => {
                   const className = "py-3 px-5 border-b border-blue-gray-50";
                   return (
                     <tr key={key}>
@@ -164,35 +172,19 @@ export function UserList() {
                       <td className={className}>
                         <Chip
                           variant="gradient"
-                          color={status ? "green" : "blue-gray"}
-                          value={status ? "online" : "offline"}
+                          color={role === 1 ? "green" : "blue-gray"}
+                          value={role === 1 ? "admin" : "user"}
                           className="py-0.5 px-2 text-[11px] font-medium"
                         />
                       </td>
                       <td className={className}>
                         <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {role}
-                        </Typography>
-                      </td>
-
-                      <td className={className}>
-                        <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {role}
+                          {created_at}
                         </Typography>
                       </td>
                       <td className={className}>
                         <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {role}
-                        </Typography>
-                      </td>
-                      <td className={className}>
-                        <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {role}
-                        </Typography>
-                      </td>
-                      <td className={className}>
-                        <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {role}
+                          {updated_at}
                         </Typography>
                       </td>
                     </tr>
@@ -250,7 +242,7 @@ export function UserList() {
             </ul>
           </nav>
           <Typography className="font-medium">
-            Showing 41 to 50 of 57 entries
+            Showing 9 to 50 of {listUser.length} entries
           </Typography>
         </CardFooter>
       </Card>

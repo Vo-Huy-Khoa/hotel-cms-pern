@@ -22,7 +22,6 @@ const users = [
         password: "1",
         identity_number: "2006444928",
         phone: "0977425396",
-        avatar: "avatar",
         role: "0",
     },
     {
@@ -32,7 +31,6 @@ const users = [
         password: "1",
         identity_number: "2006444928",
         phone: "0977425396",
-        avatar: "avatar",
         role: "0",
     },
     {
@@ -42,7 +40,6 @@ const users = [
         password: "1",
         identity_number: "2006444928",
         phone: "0977425396",
-        avatar: "avatar",
         role: "1",
     },
     {
@@ -52,7 +49,6 @@ const users = [
         password: "1",
         identity_number: "2006444928",
         phone: "0977425396",
-        avatar: "avatar",
         role: "1",
     },
 ];
@@ -62,7 +58,7 @@ const seederUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         yield configs_1.default.query("BEGIN");
         // Insert each user in parallel
         yield Promise.all(users.map((user) => __awaiter(void 0, void 0, void 0, function* () {
-            const insertQuery = "INSERT INTO users(user_name, full_name, email, password, identity_number, phone, avatar, role) VALUES($1, $2, $3, $4, $5, $6, $7, $8)";
+            const insertQuery = "INSERT INTO users(user_name, full_name, email, password, identity_number, phone,  role) VALUES($1, $2, $3, $4, $5, $6, $7)";
             const insertValues = [
                 user.user_name,
                 user.full_name,
@@ -70,14 +66,13 @@ const seederUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 user.password,
                 user.identity_number,
                 user.phone,
-                user.avatar,
                 user.role,
             ];
             yield configs_1.default.query(insertQuery, insertValues);
         })));
         // Commit the transaction
         const { rows } = yield configs_1.default.query("COMMIT");
-        res.status(201).json(rows[0]);
+        res.status(201).json(rows);
     }
     catch (err) {
         console.log(err);
