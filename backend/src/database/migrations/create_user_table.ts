@@ -10,7 +10,6 @@ const migrationQuery = `
     password VARCHAR(255) NOT NULL,
     identity_number VARCHAR(15) NOT NULL,
     phone VARCHAR(12),
-    avatar BYTEA,
     role SERIAL
   );
 `;
