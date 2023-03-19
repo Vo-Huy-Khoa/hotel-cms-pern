@@ -27,7 +27,6 @@ CMS Application built using Typescript, React, Express.
 - Use Express to build the backend.
 - Use React to build the frontend.
 
-
 ## Special thanks<a name="special"></a>
 
 During the development of this dashboard, we have used many existing resources from awesome developers. We want to thank them for providing their tools open source:
@@ -65,9 +64,6 @@ Make sure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.co
    npm run dev
    ```
 
-
-
-
 ## Structure of the project: <a name='structure'></a>
 
 ### BackEnd
@@ -75,19 +71,24 @@ Make sure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.co
 ```text
 src
 |
+├── app
+|   └── controllers
+│       └── userController.ts
+│   └── middleware
+│       └── auth.ts
+│   └── models
+│       └── User.ts
 ├── configs
-|   └── db.ts
-├── controllers
-|   └── UserController.ts
-│   └── MessageController.ts
-├── middleware
-|   └── auth.ts
-│   └── token.ts
-├── models
-|   └── User.ts
-|   └──Message.ts
-├── routes
 |   └── index.ts
+├── database
+|   └── migrations
+│       └── create_hotel_table.ts
+│       └── create_user_table.ts
+│       └── index.tsx
+│   └── seeders
+│       └── user.ts
+│       └── index.ts
+├── routes.ts
 └── server.ts
 ```
 
@@ -95,16 +96,15 @@ src
 
 ```text
 src
-├── assets
-|   └── icons
-│   └── scss
 ├── components
-│   └── Account.tsx
-│   └── Image.tsx
+|   └── CustomButton.tsx
+│   └── index.ts
+├── configs
 │   └── index.ts
 ├── hooks
-│   └── useDebounce
-│   └── index
+│   └── useDebounce.ts
+│   └── useReadLocalStorage.ts
+│   └── index.ts
 ├── layouts
 │   └── auth.tsx
 │   └── dashboard.tsx
@@ -115,13 +115,24 @@ src
 │       └── sign-up.tsx
 │       └── index.ts
 │   └── dashboard
+│       └── user
+│           └── create.tsx
+│           └── edit.tsx
+│           └── list.tsx
 │       └── home.tsx
-│       └── notification.tsx
-│       └── sidebar.tsx
 │       └── index.ts
-├── route.tsx
+├── redux
+│   └── actions
+│       └── visibility.ts
+│       └── index.ts
+│   └── reducer
+│       └── visibility.ts
+│       └── rootReducer.ts
+│   └── initState.ts
+│   └── store.ts
 ├── App.tsx
-└── index.tsx
+└── main.tsx
+├── routes.tsx
 
 ```
 
