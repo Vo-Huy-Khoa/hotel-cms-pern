@@ -48,7 +48,7 @@ export const UserEdit = () => {
           </div>
         </form>
       </div>
-      <div className=" fixed left-10 bottom-0 w-full h-14 bg-gray-900  flex flex-row justify-end gap-6 items-center px-16 ">
+      <div className=" fixed left-0 bottom-0 w-full h-14 bg-gray-900  flex flex-row justify-end gap-6 items-center px-16 ">
         <Button className="h-10">Submit</Button>
         <Button className="bg-blue-gray-700 h-10">Clear</Button>
       </div>

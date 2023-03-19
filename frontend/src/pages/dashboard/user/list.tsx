@@ -4,7 +4,6 @@ import {
   Typography,
   Avatar,
   Chip,
-  CardFooter,
   Button,
   Input,
   Select,
@@ -15,10 +14,17 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { getUsers } from "../../../services";
+import Pagination from "../../../widgets/layout/panigation";
 
 export function UserList() {
-  const [listUser, setListUser] = useState([]);
   const [isVisibleSearch, setVisibleSearch] = useState(false);
+  const [listUser, setListUser] = useState([]);
+  const totalRow: number = listUser.length;
+  const [page, setPage] = useState(1);
+
+  function handlePageChange(newPage: number) {
+    setPage(newPage);
+  }
   const handleVisibleSearch = () => {
     setVisibleSearch(!isVisibleSearch);
   };
@@ -105,7 +111,6 @@ export function UserList() {
               <tr>
                 {[
                   "id",
-                  "avatar",
                   "full name",
                   "email",
                   "role",
@@ -127,124 +132,72 @@ export function UserList() {
               </tr>
             </thead>
             <tbody>
-              {listUser.map(
-                (
-                  {
-                    id,
-                    avatar,
-                    full_name,
-                    email,
-                    role,
-                    created_at,
-                    updated_at,
-                  },
-                  key
-                ) => {
-                  const className = "py-3 px-5 border-b border-blue-gray-50";
-                  return (
-                    <tr key={key}>
-                      <td className={className}>
-                        <Typography className="text-xs font-normal text-blue-gray-500">
-                          {id}
-                        </Typography>
-                      </td>
-                      <td className={className}>
+              {listUser
+                .slice(page * 10 - 10, page * 10)
+                .map(
+                  (
+                    { id, full_name, email, role, created_at, updated_at },
+                    key
+                  ) => {
+                    const className = "py-3 px-5 border-b border-blue-gray-50";
+                    return (
+                      <tr key={key}>
+                        <td className={className}>
+                          <Typography className="text-xs font-normal text-blue-gray-500">
+                            {id}
+                          </Typography>
+                        </td>
+                        {/* <td className={className}>
                         <div className="flex items-center gap-4">
                           <Avatar src={avatar} alt={full_name} size="sm" />
                         </div>
-                      </td>
-                      <td className={className}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-semibold"
-                        >
-                          <NavLink to="/dashboard/user/edit">
-                            {full_name}
-                          </NavLink>
-                        </Typography>
-                      </td>
-                      <td className={className}>
-                        <Typography className="text-xs font-normal text-blue-gray-500">
-                          {email}
-                        </Typography>
-                      </td>
-                      <td className={className}>
-                        <Chip
-                          variant="gradient"
-                          color={role === 1 ? "green" : "blue-gray"}
-                          value={role === 1 ? "admin" : "user"}
-                          className="py-0.5 px-2 text-[11px] font-medium"
-                        />
-                      </td>
-                      <td className={className}>
-                        <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {created_at}
-                        </Typography>
-                      </td>
-                      <td className={className}>
-                        <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {updated_at}
-                        </Typography>
-                      </td>
-                    </tr>
-                  );
-                }
-              )}
+                      </td> */}
+                        <td className={className}>
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-semibold"
+                          >
+                            <NavLink to="/dashboard/user/edit">
+                              {full_name}
+                            </NavLink>
+                          </Typography>
+                        </td>
+                        <td className={className}>
+                          <Typography className="text-xs font-normal text-blue-gray-500">
+                            {email}
+                          </Typography>
+                        </td>
+                        <td className={className}>
+                          <Chip
+                            variant="gradient"
+                            color={role === 1 ? "green" : "blue-gray"}
+                            value={role === 1 ? "admin" : "user"}
+                            className="py-0.5 px-2 text-[11px] font-medium"
+                          />
+                        </td>
+                        <td className={className}>
+                          <Typography className="text-xs font-semibold text-blue-gray-600">
+                            {created_at}
+                          </Typography>
+                        </td>
+                        <td className={className}>
+                          <Typography className="text-xs font-semibold text-blue-gray-600">
+                            {updated_at}
+                          </Typography>
+                        </td>
+                      </tr>
+                    );
+                  }
+                )}
             </tbody>
           </table>
         </CardBody>
-        <CardFooter divider className="flex items-center justify-between py-3">
-          <nav aria-label="Page navigation example">
-            <ul className="inline-flex -space-x-px">
-              <li>
-                <NavLink
-                  to="#"
-                  className="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >
-                  Previous
-                </NavLink>
-              </li>
-
-              <li>
-                <NavLink
-                  to="#"
-                  className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >
-                  1
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="#"
-                  className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >
-                  2
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="#"
-                  aria-current="page"
-                  className="px-3 py-2 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-                >
-                  3
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="#"
-                  className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >
-                  Next
-                </NavLink>
-              </li>
-            </ul>
-          </nav>
-          <Typography className="font-medium">
-            Showing 9 to 50 of {listUser.length} entries
-          </Typography>
-        </CardFooter>
+        <Pagination
+          page={page}
+          totalRow={totalRow}
+          onPageChange={handlePageChange}
+        />
       </Card>
     </div>
   );
