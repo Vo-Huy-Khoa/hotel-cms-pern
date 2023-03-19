@@ -32,7 +32,7 @@ export const statisticsCardsData = [
     color: "green",
     icon: UserPlusIcon,
     title: "New Clients",
-    value: "3,462",
+    value: "62",
     footer: {
       color: "text-red-500",
       value: "-2%",
