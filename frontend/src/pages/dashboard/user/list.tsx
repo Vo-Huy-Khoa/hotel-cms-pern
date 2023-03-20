@@ -11,22 +11,48 @@ import {
 } from "@material-tailwind/react";
 import { NavLink } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { getUsers } from "../../../services";
 import Pagination from "../../../widgets/layout/panigation";
+import { IUser } from "../../../types";
 
 export function UserList() {
   const [isVisibleSearch, setVisibleSearch] = useState(false);
   const [listUser, setListUser] = useState([]);
   const totalRow: number = listUser.length;
   const [page, setPage] = useState(1);
+  const userNameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const roleRef = useRef<HTMLInputElement>(null);
+  const statusRef = useRef<HTMLInputElement>(null);
 
   function handlePageChange(newPage: number) {
     setPage(newPage);
   }
   const handleVisibleSearch = () => {
     setVisibleSearch(!isVisibleSearch);
+  };
+
+  const handleSearch = () => {
+    const full_name = userNameRef.current?.querySelector("input")?.value || "";
+    const email = userNameRef.current?.querySelector("input")?.value || "";
+    const role = userNameRef.current?.querySelector("input")?.value || "";
+    const status = userNameRef.current?.querySelector("input")?.value || "";
+
+    const fillUser = listUser.filter((user: IUser) => {
+      return user.full_name.includes(full_name);
+    });
+    setListUser(fillUser);
+  };
+
+  const handleClearSearch = async () => {
+    userNameRef.current?.querySelector("input")?.onreset;
+    userNameRef.current?.querySelector("input")?.onreset;
+    userNameRef.current?.querySelector("input")?.onreset;
+    userNameRef.current?.querySelector("input")?.onreset;
+    const listUser = await getUsers();
+    setListUser(listUser);
   };
 
   useEffect(() => {
@@ -77,30 +103,32 @@ export function UserList() {
           <div className="grid grid-cols-4 gap-4">
             <div className="flex flex-col gap-2">
               <Typography className="font-small capitalize">Name</Typography>
-              <Input />
+              <Input ref={userNameRef} />
             </div>
             <div className="flex flex-col gap-2">
               <Typography className="font-small capitalize">Email</Typography>
-              <Input />
+              <Input ref={emailRef} />
             </div>
             <div className="flex flex-col gap-2">
               <Typography className="font-small capitalize">Role</Typography>
-              <Select>
+              <Select ref={roleRef}>
                 <Option>Admin</Option>
                 <Option>User</Option>
               </Select>
             </div>
             <div className="flex flex-col gap-2">
               <Typography className="font-small capitalize">Status</Typography>
-              <Select>
+              <Select ref={statusRef}>
                 <Option>Enable</Option>
                 <Option>Disable</Option>
               </Select>
             </div>
           </div>
           <div className="w-full flex flex-row justify-between">
-            <Button>Search</Button>
-            <Button className=" bg-blue-gray-700">Cancel</Button>
+            <Button onClick={handleSearch}>Search</Button>
+            <Button onClick={handleClearSearch} className=" bg-blue-gray-700">
+              Cancel
+            </Button>
           </div>
         </div>
       )}
@@ -147,11 +175,6 @@ export function UserList() {
                             {id}
                           </Typography>
                         </td>
-                        {/* <td className={className}>
-                        <div className="flex items-center gap-4">
-                          <Avatar src={avatar} alt={full_name} size="sm" />
-                        </div>
-                      </td> */}
                         <td className={className}>
                           <Typography
                             variant="small"

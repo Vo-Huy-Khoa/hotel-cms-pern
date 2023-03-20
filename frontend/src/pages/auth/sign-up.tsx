@@ -23,13 +23,6 @@ export function SignUp() {
           <Input name="password" label="Password" />
         </div>
         <Button color="blue">Create an account</Button>
-        <div className="text-center">
-          <Typography>Or sign up with</Typography>
-        </div>
-        <Button className="h-10" variant="gradient">
-          Continue with Facebook
-        </Button>
-        <Button color="light-blue">Continue with Twitter</Button>
         <Typography color="gray" className="mt-4 text-center">
           Already have an account?
           <NavLink
