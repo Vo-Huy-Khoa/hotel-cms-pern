@@ -1,4 +1,4 @@
-Khoi tao: npm init -y
+init project: npm init -y
 dependencies:
 npm install express dotenv @types/cors bcrypt body-parser dotenv express jsonwebtoken mongoose morgan @types/bcrypt @types/jsonwebtoken rimraf
 devDependencies:

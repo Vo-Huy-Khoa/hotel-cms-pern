@@ -131,8 +131,8 @@ src
 │   └── initState.ts
 │   └── store.ts
 ├── App.tsx
-└── main.tsx
-├── routes.tsx
+├── main.tsx
+└── routes.tsx
 
 ```
 
