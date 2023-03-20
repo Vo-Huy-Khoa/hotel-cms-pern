@@ -1,6 +1,4 @@
-import React from "react";
 import PropTypes from "prop-types";
-import "./CustomButton.css";
 
 export function Button(props: any) {
   const { children, onClick, disabled } = props;
