@@ -29,27 +29,6 @@ export function SignIn() {
         <Button onClick={handleLogin} color="blue">
           Sign In
         </Button>
-        <div>
-          <Checkbox
-            label={
-              <Typography
-                variant="small"
-                color="gray"
-                className="flex items-center "
-              >
-                I agree the
-                <a href="#" className="font-medium transition-colors">
-                  &nbsp;Terms and Conditions
-                </a>
-              </Typography>
-            }
-            containerProps={{ className: "-ml-2.5" }}
-          />
-        </div>
-        <Button className="h-10" variant="gradient">
-          Continue with Facebook
-        </Button>
-        <Button color="light-blue">Continue with Twitter</Button>
         <Typography color="gray" className="mt-4 text-center">
           Already have an account?
           <NavLink
