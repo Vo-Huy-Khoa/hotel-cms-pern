@@ -17,9 +17,26 @@ import { getUsers } from "../../../services";
 import Pagination from "../../../widgets/layout/panigation";
 import { IUser } from "../../../types";
 
+function filterUsers(
+  users: IUser[],
+  full_name: string,
+  email: string,
+  role: string,
+  status: string
+) {
+  return users.filter((user) => {
+    return (
+      user.full_name.includes(full_name) ||
+      user.email.includes(email) ||
+      user.role.includes(role) ||
+      user.status.includes(status)
+    );
+  });
+}
+
 export function UserList() {
   const [isVisibleSearch, setVisibleSearch] = useState(false);
-  const [listUser, setListUser] = useState([]);
+  const [listUser, setListUser] = useState<IUser[]>([]);
   const totalRow: number = listUser.length;
   const [page, setPage] = useState(1);
   const userNameRef = useRef<HTMLInputElement>(null);
@@ -36,21 +53,19 @@ export function UserList() {
 
   const handleSearch = () => {
     const full_name = userNameRef.current?.querySelector("input")?.value || "";
-    const email = userNameRef.current?.querySelector("input")?.value || "";
-    const role = userNameRef.current?.querySelector("input")?.value || "";
-    const status = userNameRef.current?.querySelector("input")?.value || "";
+    const email = emailRef.current?.querySelector("input")?.value || "";
+    const role = roleRef.current?.querySelector("input")?.value || "0";
+    const status = statusRef.current?.querySelector("input")?.value || "0";
 
-    const fillUser = listUser.filter((user: IUser) => {
-      return user.full_name.includes(full_name);
-    });
+    const fillUser = filterUsers(listUser, full_name, email, role, status);
     setListUser(fillUser);
   };
 
   const handleClearSearch = async () => {
-    userNameRef.current?.querySelector("input")?.onreset;
-    userNameRef.current?.querySelector("input")?.onreset;
-    userNameRef.current?.querySelector("input")?.onreset;
-    userNameRef.current?.querySelector("input")?.onreset;
+    userNameRef.current?.onreset;
+    emailRef.current?.onreset;
+    roleRef.current?.querySelector("input")?.onreset;
+    statusRef.current?.querySelector("input")?.onreset;
     const listUser = await getUsers();
     setListUser(listUser);
   };
@@ -112,15 +127,15 @@ export function UserList() {
             <div className="flex flex-col gap-2">
               <Typography className="font-small capitalize">Role</Typography>
               <Select ref={roleRef}>
-                <Option>Admin</Option>
-                <Option>User</Option>
+                <Option>0</Option>
+                <Option>1</Option>
               </Select>
             </div>
             <div className="flex flex-col gap-2">
               <Typography className="font-small capitalize">Status</Typography>
               <Select ref={statusRef}>
-                <Option>Enable</Option>
-                <Option>Disable</Option>
+                <Option>0</Option>
+                <Option>1</Option>
               </Select>
             </div>
           </div>
@@ -194,8 +209,8 @@ export function UserList() {
                         <td className={className}>
                           <Chip
                             variant="gradient"
-                            color={role === 1 ? "green" : "blue-gray"}
-                            value={role === 1 ? "admin" : "user"}
+                            color={role == "1" ? "green" : "blue-gray"}
+                            value={role == "1" ? "admin" : "user"}
                             className="py-0.5 px-2 text-[11px] font-medium"
                           />
                         </td>
