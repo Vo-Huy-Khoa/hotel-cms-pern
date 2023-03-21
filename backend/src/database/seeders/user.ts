@@ -10,6 +10,7 @@ const users = [
     identity_number: "2006444928",
     phone: "0977425396",
     role: "0",
+    refresh_token: "",
   },
   {
     user_name: "anhthy",
@@ -19,6 +20,7 @@ const users = [
     identity_number: "2006444928",
     phone: "0977425396",
     role: "0",
+    refresh_token: "",
   },
   {
     user_name: "ngockhue",
@@ -28,6 +30,7 @@ const users = [
     identity_number: "2006444928",
     phone: "0977425396",
     role: "1",
+    refresh_token: "",
   },
   {
     user_name: "jennie",
@@ -37,6 +40,7 @@ const users = [
     identity_number: "2006444928",
     phone: "0977425396",
     role: "1",
+    refresh_token: "",
   },
 ];
 
@@ -49,7 +53,7 @@ const seederUser = async (req: Request, res: Response) => {
     await Promise.all(
       users.map(async (user) => {
         const insertQuery =
-          "INSERT INTO users(user_name, full_name, email, password, identity_number, phone,  role) VALUES($1, $2, $3, $4, $5, $6, $7)";
+          "INSERT INTO users(user_name, full_name, email, password, identity_number, phone,  role, refresh_token) VALUES($1, $2, $3, $4, $5, $6, $7, $8)";
         const insertValues = [
           user.user_name,
           user.full_name,
@@ -58,6 +62,7 @@ const seederUser = async (req: Request, res: Response) => {
           user.identity_number,
           user.phone,
           user.role,
+          user.refresh_token,
         ];
         await pool.query(insertQuery, insertValues);
       })

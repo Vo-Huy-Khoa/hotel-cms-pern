@@ -20,7 +20,6 @@ const migrationQuery = `
     name VARCHAR(255) NOT NULL,
     address VARCHAR(255) NOT NULL,
     phone VARCHAR(12) NOT NULL,
-    email VARCHAR(100),
     description NVARCHAR
   );
 `;

@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const configs_1 = __importDefault(require("../../configs"));
+const configs_1 = __importDefault(require("../configs"));
 class userController {
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -25,7 +25,6 @@ class userController {
                 const password = yield bcrypt_1.default.hash(oldPassword, 10);
                 const identity_number = req.body.identity_number;
                 const phone = req.body.phone;
-                const avatar = req.body.avatar;
                 const role = req.body.role;
                 const initValue = [
                     user_name,
@@ -34,10 +33,9 @@ class userController {
                     password,
                     identity_number,
                     phone,
-                    avatar,
                     role,
                 ];
-                const insertQuery = "INSERT INTO users(user_name, full_name, email, password, identity_number, phone, avatar, role) VALUES($1, $2, $3, $4, $5, $6, $7, $8)";
+                const insertQuery = "INSERT INTO users(user_name, full_name, email, password, identity_number, phone,  role) VALUES($1, $2, $3, $4, $5, $6, $7)";
                 const { rows } = yield configs_1.default.query(insertQuery, initValue);
                 res.status(201).json(rows[0]);
             }
@@ -68,6 +66,35 @@ class userController {
                 res.status(202).json(rows);
             }
             catch (error) {
+                res.status(500).json({ error: "Internal server error" });
+            }
+        });
+    }
+    update(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id, user_name, full_name, email, password, identity_number, phone, role, } = req.body;
+                const query = {
+                    text: "UPDATE users SET user_name = $2, full_name = $3, email = $4, password = $5, identity_number = $6, phone = $7, role = $8 WHERE id = $1",
+                    values: [
+                        id,
+                        user_name,
+                        full_name,
+                        email,
+                        password,
+                        identity_number,
+                        phone,
+                        role,
+                    ],
+                };
+                const { rowCount } = yield configs_1.default.query(query);
+                if (rowCount === 0) {
+                    return res.status(404).json({ error: "User not found" });
+                }
+                res.status(202).json({ message: "User updated successfully" });
+            }
+            catch (error) {
+                console.error(error);
                 res.status(500).json({ error: "Internal server error" });
             }
         });
