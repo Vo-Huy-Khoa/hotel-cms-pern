@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import pool from "../../configs";
+import pool from "../configs";
 import { Request, Response } from "express";
 
 class userController {
@@ -54,6 +54,43 @@ class userController {
       );
       res.status(202).json(rows);
     } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+  async update(req: Request, res: Response) {
+    try {
+      const {
+        id,
+        user_name,
+        full_name,
+        email,
+        password,
+        identity_number,
+        phone,
+        avatar,
+        role,
+      } = req.body; // Assuming both username and email can be updated
+      const query = {
+        text: "UPDATE users SET user_name = $2,user_name,full_name = $3 ,email = $4 , password = $5 ,identity_number = $6 ,phone = $7 ,avatar = $8 ,role = $9 , WHERE id = $1",
+        values: [
+          id,
+          user_name,
+          full_name,
+          email,
+          password,
+          identity_number,
+          phone,
+          avatar,
+          role,
+        ],
+      };
+      const { rowCount } = await pool.query(query);
+      if (rowCount === 0) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      res.status(202).json({ message: "User updated successfully" });
+    } catch (error) {
+      console.error(error);
       res.status(500).json({ error: "Internal server error" });
     }
   }

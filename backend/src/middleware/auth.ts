@@ -18,16 +18,4 @@ const authToken = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const UpdateToken = async (req: Request, res: Response) => {
-  const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || "";
-  const JWT_SECRET = process.env.JWT_SECRET || "";
-  const { token: refreshToken, id: userId } = req.body;
-  try {
-    return res.status(201).json("{ token: accessToken }");
-  } catch (error) {
-    console.error(error);
-    return res.sendStatus(500);
-  }
-};
-
-export { authToken, UpdateToken };
+export { authToken };
