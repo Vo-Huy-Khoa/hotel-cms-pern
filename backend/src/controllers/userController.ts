@@ -12,7 +12,6 @@ class userController {
       const password = await bcrypt.hash(oldPassword, 10);
       const identity_number = req.body.identity_number;
       const phone = req.body.phone;
-      const avatar = req.body.avatar;
       const role = req.body.role;
       const initValue = [
         user_name,
@@ -21,12 +20,11 @@ class userController {
         password,
         identity_number,
         phone,
-        avatar,
         role,
       ];
 
       const insertQuery =
-        "INSERT INTO users(user_name, full_name, email, password, identity_number, phone, avatar, role) VALUES($1, $2, $3, $4, $5, $6, $7, $8)";
+        "INSERT INTO users(user_name, full_name, email, password, identity_number, phone,  role) VALUES($1, $2, $3, $4, $5, $6, $7)";
       const { rows } = await pool.query(insertQuery, initValue);
       res.status(201).json(rows[0]);
     } catch (err) {
@@ -67,11 +65,10 @@ class userController {
         password,
         identity_number,
         phone,
-        avatar,
         role,
-      } = req.body; // Assuming both username and email can be updated
+      } = req.body;
       const query = {
-        text: "UPDATE users SET user_name = $2,user_name,full_name = $3 ,email = $4 , password = $5 ,identity_number = $6 ,phone = $7 ,avatar = $8 ,role = $9 , WHERE id = $1",
+        text: "UPDATE users SET user_name = $2, full_name = $3, email = $4, password = $5, identity_number = $6, phone = $7, role = $8 WHERE id = $1",
         values: [
           id,
           user_name,
@@ -80,7 +77,6 @@ class userController {
           password,
           identity_number,
           phone,
-          avatar,
           role,
         ],
       };

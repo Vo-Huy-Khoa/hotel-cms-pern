@@ -5,12 +5,13 @@ const migrationQuery = `
   CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     user_name VARCHAR(50) NOT NULL,
-    full_name VARCHAR(60) NOT NULL,
-    email VARCHAR(100) NOT NULL,
+    full_name VARCHAR(60),
+    email VARCHAR(100),
     password VARCHAR(255) NOT NULL,
-    identity_number VARCHAR(15) NOT NULL,
+    identity_number VARCHAR(15),
     phone VARCHAR(12),
     role SERIAL,
+    refresh_token VARCHAR(255),
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
   );

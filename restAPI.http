@@ -1,0 +1,93 @@
+
+@url  = http://localhost:3001/api
+# @url  = https://chat-backend-7jgs.onrender.com/api
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwidXNlcl9uYW1lIjoidHVuZ3NvbiIsImlhdCI6MTY3OTM5MzE0OSwiZXhwIjoxNjc5MzkzMjY5fQ.L2M9w9KAChl5YQN91u85SpXae0GYtquhNNyUc7yx6Qk
+
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoYW5odGh1eSIsImlhdCI6MTY3NDcyNTI2MX0.WttXYRfnVlQuZTPqlE9JSdpwsu91t_xYvdYOyQzI7wo
+
+# =============AUTH================== 
+
+### Register
+POST {{url}}/auth/register
+Content-Type: application/json
+
+{
+    "user_name": "khoavh2",
+    "email" : "huykhoa630@gmail.com",
+    "password": "1"
+}
+
+### Login
+POST {{url}}/auth/login
+Content-Type: application/json
+
+{
+    "user_name": "tungson",
+    "password": "1"
+}
+
+### Logout
+POST {{url}}/auth/logout
+Content-Type: application/json
+
+{
+    "id": "2"
+}
+
+### refreshToken
+POST {{url}}/auth/refreshToken
+Content-Type: application/json
+
+{
+    "id": "1",
+    "token": "{{token}}"
+}
+
+# ==================USER=========================
+
+###  User List
+GET {{url}}/user
+Authorization: Beaer {{token}}
+Content-Type: application/json
+
+###  User Create
+POST {{url}}/user/create
+Authorization: Beaer {{token}}
+Content-Type: application/json
+
+{
+    "user_name": "tungson",
+    "full_name": "tung son",
+    "email": "huykhoa630@gmail.com",
+    "password": "1",
+    "identity_number": "2006444928",
+    "phone": "0977425396",
+    "role": "1"
+}
+
+###  User Update
+PUT {{url}}/user/update
+Authorization: Beaer {{token}}
+Content-Type: application/json
+
+{
+    "id": "7",
+    "user_name": "be anh",
+    "full_name": "a",
+    "email": "huykhoa630@gmail.com",
+    "password": "1",
+    "identity_number": "2006444928",
+    "phone": "0977425396",
+    "role": "1"
+}
+
+### Migration USer
+GET {{url}}/migration/user
+
+### Drop USer
+GET {{url}}/drop/user
+
+### Seeder USer
+GET {{url}}/seeder/user
+
+
