@@ -1,8 +1,9 @@
 import jwt from "jsonwebtoken";
+import { IUser } from "../types";
 
-const createToken = (user: any) => {
+const createToken = (user: IUser) => {
   const JWT_SECRET = process.env.JWT_SECRET || "";
-  const payload = { id: user.id, username: user.username };
+  const payload = { id: user.id, user_name: user.user_name };
   let token = null;
   try {
     token = jwt.sign(payload, JWT_SECRET, { expiresIn: "120s" });
@@ -13,9 +14,9 @@ const createToken = (user: any) => {
   return token;
 };
 
-const refreshToken = (data: any, token: string) => {
+const refreshToken = (user: IUser, token: string) => {
   const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || "";
-  let payload = { username: data.username };
+  let payload = { user_name: user.user_name };
   try {
     token = jwt.sign(payload, REFRESH_TOKEN_SECRET);
   } catch (error) {
