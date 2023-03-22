@@ -7,7 +7,7 @@ exports.refreshToken = exports.createToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const createToken = (user) => {
     const JWT_SECRET = process.env.JWT_SECRET || "";
-    const payload = { id: user.id, user_name: user.user_name };
+    const payload = { id: user.id, user_name: user.user_name, email: user.email };
     let token = null;
     try {
         token = jsonwebtoken_1.default.sign(payload, JWT_SECRET, { expiresIn: "120s" });
@@ -20,9 +20,9 @@ const createToken = (user) => {
 exports.createToken = createToken;
 const refreshToken = (user, token) => {
     const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || "";
-    let payload = { user_name: user.user_name };
+    let payload = { id: user.id, user_name: user.user_name, email: user.email };
     try {
-        token = jsonwebtoken_1.default.sign(payload, REFRESH_TOKEN_SECRET);
+        token = jsonwebtoken_1.default.sign(payload, REFRESH_TOKEN_SECRET, { expiresIn: "3600s" });
     }
     catch (error) {
         console.log(error);

@@ -29,10 +29,7 @@ axiosInstance.interceptors.request.use(
     config.withCredentials = true;
     const token = sessionStorage.getItem("token") || "";
     if (token !== "") {
-      config.headers = {
-        ...config.headers,
-        Authorization: `Bearer ${token}`,
-      };
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
   },
