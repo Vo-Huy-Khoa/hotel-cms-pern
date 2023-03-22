@@ -6,7 +6,7 @@ const createToken = (user: IUser) => {
   const payload = { id: user.id, user_name: user.user_name, email: user.email };
   let token = null;
   try {
-    token = jwt.sign(payload, JWT_SECRET, { expiresIn: "120s" });
+    token = jwt.sign(payload, JWT_SECRET, { expiresIn: "20s" });
   } catch (error) {
     console.error(error);
   }
