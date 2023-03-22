@@ -4,8 +4,8 @@ import axios from "axios";
  * URL of the API server.
  * Change this to the production URL when deploying to production.
  */
-// const apiUrl = "http://localhost:3001/api";
-const apiUrl = "https://cmshotel.onrender.com/api";
+const apiUrl = "http://localhost:3001/api";
+// const apiUrl = "https://cmshotel.onrender.com/api";
 /**
  * Axios instance with custom configuration.
  */
@@ -46,27 +46,30 @@ axiosInstance.interceptors.response.use(
   function (response) {
     return response;
   },
-  function (error) {
+  async function (error) {
     const originalRequest = error.config;
     if (error.response.status === 403 && !originalRequest._retry) {
       originalRequest._retry = true;
-
-      /**
-       * Get a new access token using the refresh token.
-       */
       const id = JSON.parse(sessionStorage.getItem("user") || "")?.id;
-      const refresh_token = sessionStorage.getItem("refresh_token") || "";
-      const body = { id, refresh_token };
-      axiosInstance
-        .post("auth/refreshtoken", JSON.stringify(body))
-        .then((response) => {
-          localStorage.removeItem("token");
-          localStorage.removeItem("refresh_token");
-          sessionStorage.setItem("token", response.data.refresh_token);
-          axiosInstance.defaults.headers.common["Authorization"] =
-            "Bearer " + response.data.refresh_token;
-          return axiosInstance(originalRequest);
-        });
+      const refresh_token = sessionStorage.getItem("refresh_token");
+
+      const body = {
+        id: id,
+        refresh_token: refresh_token,
+      };
+
+      const response = await axiosInstance.post(
+        `auth/refreshtoken`,
+        JSON.stringify(body)
+      );
+      sessionStorage.removeItem("refresh_token");
+      sessionStorage.setItem("refresh_token", response.data.refresh_token);
+      const access_token = response.data.refresh_token;
+      console.log(access_token);
+
+      axiosInstance.defaults.headers.common["Authorization"] =
+        "Bearer " + access_token;
+      return axiosInstance(originalRequest);
     }
     return Promise.reject(error);
   }
