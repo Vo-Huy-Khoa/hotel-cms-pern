@@ -1,9 +1,9 @@
 
 @url  = http://localhost:3001/api
 # @url  = https://chat-backend-7jgs.onrender.com/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTQ2MDI3OSwiZXhwIjoxNjc5NDYwMzk5fQ.WJNX1bK3htRBHNQ3NI7rzV6e7yroC7UBCWFUSdi9Eso
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTUwMDQwMSwiZXhwIjoxNjc5NTA0MDAxfQ.VTFFGXZ-Wm11gKnwgkMYIjEfRW5qtBn1_4ec--J9tzs
 
-@refresh_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTQ2MDI3OSwiZXhwIjoxNjc5NDYzODc5fQ.cXbrSsVWhvtYTbZx_4ByhOdUrMD8RpdZvMxGzxK0mis
+@refresh_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTUwMDM3MywiZXhwIjoxNjc5NTAzOTczfQ.EEVdGPk3DMtIJNsycfgfW4GsIAX0aIgU4Qm5z7Ll_cY
 
 # =============AUTH================== 
 
@@ -39,7 +39,7 @@ POST {{url}}/auth/refreshtoken
 Content-Type: application/json
 
 {
-    "id": 6,
+    "id": 2,
     "refresh_token": "{{refresh_token}}"
 }
 
