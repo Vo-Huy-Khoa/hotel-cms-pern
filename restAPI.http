@@ -1,9 +1,9 @@
 
 @url  = http://localhost:3001/api
 # @url  = https://chat-backend-7jgs.onrender.com/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwidXNlcl9uYW1lIjoidHVuZ3NvbiIsImlhdCI6MTY3OTM5MzE0OSwiZXhwIjoxNjc5MzkzMjY5fQ.L2M9w9KAChl5YQN91u85SpXae0GYtquhNNyUc7yx6Qk
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTQ2MDI3OSwiZXhwIjoxNjc5NDYwMzk5fQ.WJNX1bK3htRBHNQ3NI7rzV6e7yroC7UBCWFUSdi9Eso
 
-@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoYW5odGh1eSIsImlhdCI6MTY3NDcyNTI2MX0.WttXYRfnVlQuZTPqlE9JSdpwsu91t_xYvdYOyQzI7wo
+@refresh_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTQ2MDI3OSwiZXhwIjoxNjc5NDYzODc5fQ.cXbrSsVWhvtYTbZx_4ByhOdUrMD8RpdZvMxGzxK0mis
 
 # =============AUTH================== 
 
@@ -22,7 +22,7 @@ POST {{url}}/auth/login
 Content-Type: application/json
 
 {
-    "user_name": "tungson",
+    "user_name": "khoavh",
     "password": "1"
 }
 
@@ -35,12 +35,12 @@ Content-Type: application/json
 }
 
 ### refreshToken
-POST {{url}}/auth/refreshToken
+POST {{url}}/auth/refreshtoken
 Content-Type: application/json
 
 {
-    "id": "1",
-    "token": "{{token}}"
+    "id": 6,
+    "refresh_token": "{{refresh_token}}"
 }
 
 # ==================USER=========================

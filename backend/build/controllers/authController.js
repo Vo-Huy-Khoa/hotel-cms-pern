@@ -38,36 +38,30 @@ class authController {
         return __awaiter(this, void 0, void 0, function* () {
             const { user_name, password } = req.body;
             try {
-                const { rows } = yield configs_1.default.query("SELECT * FROM users WHERE user_name = $1", [user_name]);
+                const { rows } = yield configs_1.default.query("SELECT *  FROM users WHERE user_name = $1", [user_name]);
                 if (!rows[0] || !bcrypt_1.default.compareSync(password, rows[0].password)) {
-                    return res.status(400).json("Login Fail!");
+                    res.json({ message: "Invalid user_name or password" });
                 }
-                else if (rows[0]) {
-                    const token = (0, token_1.createToken)(rows[0]) || "";
-                    const RefreshToken = (0, token_1.refreshToken)(rows[0], token);
-                    yield configs_1.default.query("UPDATE users SET refresh_token = $2 WHERE id = $1 ", [
-                        rows[0].id,
-                        RefreshToken,
-                    ]);
-                    return res.status(200).json({
-                        user: rows[0],
-                        token,
-                        RefreshToken,
-                    });
-                }
-                else {
-                    res.json({ message: "Invalid username or password" });
-                }
+                const token = (0, token_1.createToken)(rows[0]) || "";
+                const RefreshToken = (0, token_1.refreshToken)(rows[0], token);
+                yield configs_1.default.query("UPDATE users SET refresh_token = $2 WHERE id = $1 ", [
+                    rows[0].id,
+                    RefreshToken,
+                ]);
+                res.status(200).json({
+                    user: rows[0],
+                    token,
+                    refresh_token: RefreshToken,
+                });
             }
             catch (err) {
-                console.error(err);
                 res.status(500).json({ message: "Internal server error" });
             }
         });
     }
     refreshToken(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { token, id } = req.body;
+            const { refresh_token, id } = req.body;
             try {
                 const { rows } = yield configs_1.default.query("SELECT * FROM users WHERE id = $1", [
                     id,
@@ -75,16 +69,18 @@ class authController {
                 if (!rows || rows.length === 0) {
                     res.status(404).json({ error: "User not found" });
                 }
-                if (rows[0].rowCount === 1) {
-                    const RefreshToken = (0, token_1.refreshToken)(rows[0], token);
-                    return res.status(201).json({ RefreshToken: RefreshToken });
+                const user = rows[0];
+                if (user.refresh_token !== refresh_token) {
+                    return res.status(400).json({ message: "Invalid refresh token" });
                 }
-                else {
-                    res.status(500).json({ message: "Invalid username or password" });
-                }
+                const RefreshToken = (0, token_1.refreshToken)(rows[0], refresh_token);
+                yield configs_1.default.query("UPDATE users SET refresh_token = $2 WHERE id = $1 ", [
+                    rows[0].id,
+                    RefreshToken,
+                ]);
+                return res.status(201).json({ refresh_token: RefreshToken });
             }
             catch (error) {
-                console.error(error);
                 return res.sendStatus(500);
             }
         });
