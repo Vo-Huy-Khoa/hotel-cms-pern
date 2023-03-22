@@ -12,9 +12,9 @@ POST {{url}}/auth/register
 Content-Type: application/json
 
 {
-    "user_name": "khoavh2",
+    "user_name": "khoavh",
     "email" : "huykhoa630@gmail.com",
-    "password": "1"
+    "password": "1",
 }
 
 ### Login

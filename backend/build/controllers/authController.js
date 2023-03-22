@@ -39,17 +39,18 @@ class authController {
             const { user_name, password } = req.body;
             try {
                 const { rows } = yield configs_1.default.query("SELECT *  FROM users WHERE user_name = $1", [user_name]);
-                if (!rows[0] || !bcrypt_1.default.compareSync(password, rows[0].password)) {
+                const user = rows[0];
+                if (!user || !bcrypt_1.default.compareSync(password, user.password)) {
                     res.json({ message: "Invalid user_name or password" });
                 }
-                const token = (0, token_1.createToken)(rows[0]) || "";
-                const RefreshToken = (0, token_1.refreshToken)(rows[0], token);
+                const token = (0, token_1.createToken)(user) || "";
+                const RefreshToken = (0, token_1.refreshToken)(user, token);
                 yield configs_1.default.query("UPDATE users SET refresh_token = $2 WHERE id = $1 ", [
-                    rows[0].id,
+                    user.id,
                     RefreshToken,
                 ]);
                 res.status(200).json({
-                    user: rows[0],
+                    user: user,
                     token,
                     refresh_token: RefreshToken,
                 });

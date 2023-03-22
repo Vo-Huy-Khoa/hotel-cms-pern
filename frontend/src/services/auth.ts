@@ -24,10 +24,8 @@ const handleRegister = async (body: object) => {
 
 const handleLogin = async (body: object) => {
   const response = await axiosInstance.post(`auth/login`, JSON.stringify(body));
-  console.log(response.data);
-
   sessionStorage.setItem("token", response.data.token);
-  sessionStorage.setItem("refresh_token", response.data.user.refresh_token);
+  sessionStorage.setItem("refresh_token", response.data.refresh_token);
   sessionStorage.setItem("user", JSON.stringify(response.data.user));
   return response;
 };

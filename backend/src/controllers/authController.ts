@@ -30,21 +30,22 @@ class authController {
         "SELECT *  FROM users WHERE user_name = $1",
         [user_name]
       );
+      const user = rows[0];
 
-      if (!rows[0] || !bcrypt.compareSync(password, rows[0].password)) {
+      if (!user || !bcrypt.compareSync(password, user.password)) {
         res.json({ message: "Invalid user_name or password" });
       }
 
-      const token = createToken(rows[0]) || "";
-      const RefreshToken = refreshToken(rows[0], token);
+      const token = createToken(user) || "";
+      const RefreshToken = refreshToken(user, token);
 
       await pool.query("UPDATE users SET refresh_token = $2 WHERE id = $1 ", [
-        rows[0].id,
+        user.id,
         RefreshToken,
       ]);
 
       res.status(200).json({
-        user: rows[0],
+        user: user,
         token,
         refresh_token: RefreshToken,
       });
@@ -64,9 +65,11 @@ class authController {
         res.status(404).json({ error: "User not found" });
       }
       const user = rows[0];
+
       if (user.refresh_token !== refresh_token) {
         return res.status(400).json({ message: "Invalid refresh token" });
       }
+
       const RefreshToken = refreshToken(rows[0], refresh_token);
       await pool.query("UPDATE users SET refresh_token = $2 WHERE id = $1 ", [
         rows[0].id,
