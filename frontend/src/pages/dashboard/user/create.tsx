@@ -33,47 +33,31 @@ export const UserCreate = () => {
         <form action="" method="post" className="flex flex-col gap-4 p-5">
           <div className="flex flex-row gap-6">
             <Typography className="w-32">User name</Typography>
-            <Input name="user_name" label="User Name" ref={userNameRef}></Input>
+            <Input label="User Name" ref={userNameRef}></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Full name</Typography>
-            <Input name="full_name" label="Full Name" ref={userNameRef}></Input>
+            <Input label="Full Name" ref={userNameRef}></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Email</Typography>
-            <Input
-              type="email"
-              name="email"
-              label="Email"
-              ref={emailRef}
-            ></Input>
+            <Input type="email" label="Email" ref={emailRef}></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Password</Typography>
-            <Input
-              type="password"
-              name="email"
-              label="Password"
-              ref={passwordRef}
-            ></Input>
+            <Input type="password" label="Password" ref={passwordRef}></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Identity Number</Typography>
             <Input
               type="text"
-              name="identity_number"
               label="Identity number"
               ref={indentifyRef}
             ></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Phone</Typography>
-            <Input
-              type="text"
-              name="phone"
-              label="Phone"
-              ref={phoneRef}
-            ></Input>
+            <Input type="text" label="Phone" ref={phoneRef}></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Role</Typography>
@@ -84,7 +68,7 @@ export const UserCreate = () => {
           </div>
         </form>
       </div>
-      <div className=" fixed left-0 bottom-0 w-full h-14 bg-gray-900  flex flex-row justify-end gap-6 items-center px-16 ">
+      <div className=" fixed left-0 bottom-0 w-full h-14 bg-gray-900  flex flex-row justify-end gap-6 items-center px-10 ">
         <Button onClick={handleOpen} className="h-10">
           Submit
         </Button>

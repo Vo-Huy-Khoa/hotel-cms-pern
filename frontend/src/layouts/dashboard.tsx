@@ -6,7 +6,7 @@ export function Dashboard() {
   return (
     <div className="w-full min-h-screen bg-blue-gray-50/50 ">
       <Sidenav routes={routes} />
-      <div className="p-4 xl:ml-80">
+      <div className="p-4 xl:ml-72">
         <Navbar />
         <Routes>
           {routes.map(({ layout, pages }) => {

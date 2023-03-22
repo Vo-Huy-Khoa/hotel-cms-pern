@@ -1,7 +1,7 @@
-import axios from "axios";
-const url = "https://cmshotel.onrender.com/api";
+import { axiosInstance } from "./instance";
+
 const getUsers = async () => {
-  const response = await axios.get(`${url}/users`);
+  const response = await axiosInstance.get(`user`);
   return response.data;
 };
 
