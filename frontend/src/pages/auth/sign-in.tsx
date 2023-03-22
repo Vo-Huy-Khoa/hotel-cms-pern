@@ -1,9 +1,25 @@
-import { Button, Checkbox, Input, Typography } from "@material-tailwind/react";
+import { Button, Input, Typography } from "@material-tailwind/react";
+import { useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { handleLogin } from "../../services";
 export function SignIn() {
   const navigate = useNavigate();
-  const handleLogin = () => {
-    navigate("/dashboard/home");
+  const userNameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
+  const handleSignIn = async () => {
+    const user_name = userNameRef.current?.querySelector("input")?.value || "";
+    const password = passwordRef.current?.querySelector("input")?.value || "";
+    const body = {
+      user_name: user_name,
+      password: password,
+    };
+    try {
+      await handleLogin(body);
+      navigate("/dashboard/home");
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <section className="bg-white w-96 flex flex-col gap-4 p-10 rounded-xl">
@@ -15,18 +31,13 @@ export function SignIn() {
       <form className="flex flex-col gap-4" action="">
         <div className="flex flex-col gap-1">
           <Typography>User Name</Typography>
-          <Input name="username" label="Username" value="khoavh" />
+          <Input label="Username" value="khoavh" ref={userNameRef} />
         </div>
         <div className="flex flex-col gap-1">
           <Typography>Password</Typography>
-          <Input
-            type="password"
-            name="password"
-            label="Password"
-            value="123456"
-          />
+          <Input type="password" label="Password" value="1" ref={passwordRef} />
         </div>
-        <Button onClick={handleLogin} color="blue">
+        <Button onClick={handleSignIn} color="blue">
           Sign In
         </Button>
         <Typography color="gray" className="mt-4 text-center">
