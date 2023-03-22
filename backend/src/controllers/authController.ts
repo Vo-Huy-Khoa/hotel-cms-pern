@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import pool from "../configs";
 import { createToken, refreshToken } from "../middleware/token";
+import jwt from "jsonwebtoken";
 
 class authController {
   async register(req: Request, res: Response) {
@@ -54,6 +55,9 @@ class authController {
     }
   }
   async refreshToken(req: Request, res: Response) {
+    const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || "";
+    const JWT_SECRET = process.env.JWT_SECRET || "";
+
     const { refresh_token, id } = req.body;
 
     try {
@@ -70,12 +74,23 @@ class authController {
         return res.status(400).json({ message: "Invalid refresh token" });
       }
 
-      const RefreshToken = refreshToken(rows[0], refresh_token);
-      await pool.query("UPDATE users SET refresh_token = $2 WHERE id = $1 ", [
-        rows[0].id,
-        RefreshToken,
-      ]);
-      return res.status(201).json({ refresh_token: RefreshToken });
+      jwt.verify(
+        refresh_token,
+        REFRESH_TOKEN_SECRET,
+        async (err: any, data: any) => {
+          if (err) res.sendStatus(403);
+          const accessToken = jwt.sign(
+            { id: data.id, user_name: data.user_name, email: data.email },
+            JWT_SECRET,
+            { expiresIn: "3600s" }
+          );
+          await pool.query(
+            "UPDATE users SET refresh_token = $2 WHERE id = $1 ",
+            [user.id, accessToken]
+          );
+          return res.status(201).json({ refresh_token: accessToken });
+        }
+      );
     } catch (error) {
       return res.sendStatus(500);
     }

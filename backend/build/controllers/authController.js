@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const configs_1 = __importDefault(require("../configs"));
 const token_1 = require("../middleware/token");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 class authController {
     register(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -62,6 +63,8 @@ class authController {
     }
     refreshToken(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || "";
+            const JWT_SECRET = process.env.JWT_SECRET || "";
             const { refresh_token, id } = req.body;
             try {
                 const { rows } = yield configs_1.default.query("SELECT * FROM users WHERE id = $1", [
@@ -74,12 +77,13 @@ class authController {
                 if (user.refresh_token !== refresh_token) {
                     return res.status(400).json({ message: "Invalid refresh token" });
                 }
-                const RefreshToken = (0, token_1.refreshToken)(rows[0], refresh_token);
-                yield configs_1.default.query("UPDATE users SET refresh_token = $2 WHERE id = $1 ", [
-                    rows[0].id,
-                    RefreshToken,
-                ]);
-                return res.status(201).json({ refresh_token: RefreshToken });
+                jsonwebtoken_1.default.verify(refresh_token, REFRESH_TOKEN_SECRET, (err, data) => __awaiter(this, void 0, void 0, function* () {
+                    if (err)
+                        res.sendStatus(403);
+                    const accessToken = jsonwebtoken_1.default.sign({ id: data.id, user_name: data.user_name, email: data.email }, JWT_SECRET, { expiresIn: "3600s" });
+                    yield configs_1.default.query("UPDATE users SET refresh_token = $2 WHERE id = $1 ", [user.id, accessToken]);
+                    return res.status(201).json({ refresh_token: accessToken });
+                }));
             }
             catch (error) {
                 return res.sendStatus(500);

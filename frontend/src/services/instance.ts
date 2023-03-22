@@ -4,8 +4,8 @@ import axios from "axios";
  * URL of the API server.
  * Change this to the production URL when deploying to production.
  */
-const apiUrl = "http://localhost:3001/api";
-// const apiUrl = "https://cmshotel.onrender.com/api";
+// const apiUrl = "http://localhost:3001/api";
+const apiUrl = "https://cmshotel.onrender.com/api";
 /**
  * Axios instance with custom configuration.
  */
