@@ -1,6 +1,6 @@
 
-@url  = http://localhost:3001/api
-# @url  = https://chat-backend-7jgs.onrender.com/api
+# @url  = http://localhost:3001/api
+@url  = https://cmshotel.onrender.com/api
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTUzOTAyNiwiZXhwIjoxNjc5NTQyNjI2fQ.QmQQ5bRtQKIcgk1X671eJnl1H_u0aRxeqAr7zCl_4R0s
 
 @refresh_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTUzODgwOCwiZXhwIjoxNjc5NTQyNDA4fQ.UjHK0rDUCTRnbk6m6aBMF0N1VDNVWfOAV6OD5q0URVE

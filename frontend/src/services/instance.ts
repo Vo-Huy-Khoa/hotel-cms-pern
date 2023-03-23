@@ -32,7 +32,10 @@ axiosInstance.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config;
-    if (error.response.status === 403 && !originalRequest._retry) {
+    if (
+      (error.response.status === 403 && !originalRequest._retry) ||
+      (error.response.status === 401 && !originalRequest._retry)
+    ) {
       originalRequest._retry = true;
       const id = JSON.parse(sessionStorage.getItem("user") || "")?.id;
       const refresh_token = sessionStorage.getItem("refresh_token");
@@ -55,9 +58,6 @@ axiosInstance.interceptors.response.use(
         ] = `Bearer ${access_token}`;
         return axiosInstance(originalRequest);
       } catch (err) {
-        // Handle refresh token failure
-        sessionStorage.removeItem("token");
-        sessionStorage.removeItem("user");
         return Promise.reject(err);
       }
     }
