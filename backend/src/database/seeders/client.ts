@@ -3,40 +3,32 @@ import { Request, Response } from "express";
 
 const users = [
   {
-    user_name: "khoavh",
-    full_name: "vo huy khoa",
+    name: "vo huy khoa",
     email: "huykhoa630@gmail.com",
-    password: "1",
-    status: "0",
-    refresh_token: "",
+    identity_number: "206444928",
+    phone: "0977425396",
   },
   {
-    user_name: "anhthy",
-    full_name: "Anh Thy",
+    name: "anhthy",
     email: "anhthy@gmail.com",
-    password: "1",
-    status: "0",
-    refresh_token: "",
+    identity_number: "206444928",
+    phone: "0796565798",
   },
   {
-    user_name: "ngockhue",
     full_name: "Ngoc Khue",
     email: "ngockhue0@gmail.com",
-    password: "1",
-    status: "1",
-    refresh_token: "",
+    identity_number: "206444928",
+    phone: "0977425396",
   },
   {
-    user_name: "jennie",
     full_name: "Jennie",
     email: "jennie@gmail.com",
-    password: "1",
-    status: "1",
-    refresh_token: "",
+    identity_number: "206444928",
+    phone: "0977425396",
   },
 ];
 
-const seederUser = async (req: Request, res: Response) => {
+const seederClient = async (req: Request, res: Response) => {
   try {
     // Start a transaction
     await pool.query("BEGIN");
@@ -45,14 +37,12 @@ const seederUser = async (req: Request, res: Response) => {
     await Promise.all(
       users.map(async (user) => {
         const insertQuery =
-          "INSERT INTO users(user_name, full_name, email, password, status, refresh_token) VALUES($1, $2, $3, $4, $5, $6)";
+          "INSERT INTO clients(name, email, identity_number, phone) VALUES($1, $2, $3, $4)";
         const insertValues = [
-          user.user_name,
-          user.full_name,
+          user.name,
           user.email,
-          user.password,
-          user.status,
-          user.refresh_token,
+          user.identity_number,
+          user.phone,
         ];
         await pool.query(insertQuery, insertValues);
       })
@@ -69,4 +59,4 @@ const seederUser = async (req: Request, res: Response) => {
   }
 };
 
-export { seederUser };
+export { seederClient };

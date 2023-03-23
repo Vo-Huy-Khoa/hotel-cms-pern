@@ -12,56 +12,44 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.seederUser = void 0;
+exports.seederBooking = void 0;
 const configs_1 = __importDefault(require("../../configs"));
-const users = [
+const bookings = [
     {
-        user_name: "khoavh",
-        full_name: "vo huy khoa",
-        email: "huykhoa630@gmail.com",
-        password: "1",
-        status: "0",
-        refresh_token: "",
+        room_id: 1,
+        user_id: 1,
+        check_in: "15/03/2023",
+        check_out: "20/03/2023",
+        total_price: "2500000",
     },
     {
-        user_name: "anhthy",
-        full_name: "Anh Thy",
-        email: "anhthy@gmail.com",
-        password: "1",
-        status: "0",
-        refresh_token: "",
+        room_id: 1,
+        user_id: 1,
+        check_in: "15/03/2023",
+        check_out: "20/03/2023",
+        total_price: "2500000",
     },
     {
-        user_name: "ngockhue",
-        full_name: "Ngoc Khue",
-        email: "ngockhue0@gmail.com",
-        password: "1",
-        status: "1",
-        refresh_token: "",
-    },
-    {
-        user_name: "jennie",
-        full_name: "Jennie",
-        email: "jennie@gmail.com",
-        password: "1",
-        status: "1",
-        refresh_token: "",
+        room_id: 1,
+        user_id: 1,
+        check_in: "15/03/2023",
+        check_out: "20/03/2023",
+        total_price: "2500000",
     },
 ];
-const seederUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const seederBooking = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Start a transaction
         yield configs_1.default.query("BEGIN");
         // Insert each user in parallel
-        yield Promise.all(users.map((user) => __awaiter(void 0, void 0, void 0, function* () {
-            const insertQuery = "INSERT INTO users(user_name, full_name, email, password, status, refresh_token) VALUES($1, $2, $3, $4, $5, $6)";
+        yield Promise.all(bookings.map((booking) => __awaiter(void 0, void 0, void 0, function* () {
+            const insertQuery = "INSERT INTO bookings(room_id, user_id, check_in, check_out, total_price ) VALUES($1, $2, $3, $4, $5)";
             const insertValues = [
-                user.user_name,
-                user.full_name,
-                user.email,
-                user.password,
-                user.status,
-                user.refresh_token,
+                booking.room_id,
+                booking.user_id,
+                booking.check_in,
+                booking.check_out,
+                booking.total_price,
             ];
             yield configs_1.default.query(insertQuery, insertValues);
         })));
@@ -76,4 +64,4 @@ const seederUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(500).json({ error: "Data seeding error" });
     }
 });
-exports.seederUser = seederUser;
+exports.seederBooking = seederBooking;

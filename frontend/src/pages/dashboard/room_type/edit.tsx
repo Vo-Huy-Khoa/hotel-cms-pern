@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 
-export const UserEdit = () => {
+export const RoomEdit = () => {
   return (
     <aside className="min-h-screen w-full">
       <div className="bg-white rounded-lg">
@@ -28,10 +28,18 @@ export const UserEdit = () => {
             <Input type="password" label="password"></Input>
           </div>
           <div className="flex flex-row gap-6">
-            <Typography className="w-32">Status</Typography>
+            <Typography className="w-32">Identity Number</Typography>
+            <Input type="text" label="identity number"></Input>
+          </div>
+          <div className="flex flex-row gap-6">
+            <Typography className="w-32">Phone</Typography>
+            <Input type="text" label="phone"></Input>
+          </div>
+          <div className="flex flex-row gap-6">
+            <Typography className="w-32">Role</Typography>
             <Select label="Role">
-              <Option value="0">Disable</Option>
-              <Option value="1">Enable</Option>
+              <Option>Admin</Option>
+              <Option>User</Option>
             </Select>
           </div>
         </form>
@@ -44,4 +52,4 @@ export const UserEdit = () => {
   );
 };
 
-export default UserEdit;
+export default RoomEdit;

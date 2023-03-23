@@ -4,15 +4,13 @@ import { Request, Response } from "express";
 const migrationQuery = `
   CREATE TABLE IF NOT EXISTS rooms (
     id SERIAL PRIMARY KEY,
-    hotel_id SERIAL NOT NULL,
+    room_type_id SERIAL NOT NULL,
     name VARCHAR(255) NOT NULL,
-    price VARCHAR(255) NOT NULL,
-    capacity NUMBER NOT NULL,
-    description NVARCHAR(12) NOT NULL,
-    image VARCHAR(100) NOT NULL,
+    description NVARCHAR(255),
+    image VARCHAR(100),
     status boolean,
-    FOREIGN KEY(hotel_id) 
-	  REFERENCES hotels(id)
+    FOREIGN KEY(room_type_id) 
+	  REFERENCES room_types(id)
   );
 `;
 

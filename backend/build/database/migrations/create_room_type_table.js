@@ -12,38 +12,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.HotelDown = exports.HotelUp = void 0;
+exports.RoomTypeDown = exports.RoomTypeUp = void 0;
 const configs_1 = __importDefault(require("../../configs"));
 const migrationQuery = `
-  CREATE TABLE IF NOT EXISTS hotels (
+  CREATE TABLE IF NOT EXISTS room_types (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    address VARCHAR(255) NOT NULL,
-    phone VARCHAR(12) NOT NULL,
-    description NVARCHAR
+    limit SERIAL,
+    price VARCHAR(255) NOT NULL,
   );
 `;
-function HotelUp(req, res) {
+function RoomTypeUp(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield configs_1.default.query(migrationQuery);
-            res.status(201).json("Migration hotels successful");
+            res.status(201).json("Migration room_types successful");
         }
         catch (error) {
             res.status(500).json({ error: "Internal server error" });
         }
     });
 }
-exports.HotelUp = HotelUp;
-function HotelDown(req, res) {
+exports.RoomTypeUp = RoomTypeUp;
+function RoomTypeDown(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            yield configs_1.default.query("DROP TABLE hotels");
-            res.status(201).json("DROP hotels successful");
+            yield configs_1.default.query("DROP TABLE room_types");
+            res.status(201).json("DROP room_types successful");
         }
         catch (error) {
             res.status(500).json({ error: "Internal server error" });
         }
     });
 }
-exports.HotelDown = HotelDown;
+exports.RoomTypeDown = RoomTypeDown;

@@ -21,9 +21,7 @@ const migrationQuery = `
     full_name VARCHAR(60),
     email VARCHAR(100),
     password VARCHAR(255) NOT NULL,
-    identity_number VARCHAR(15),
-    phone VARCHAR(12),
-    role SERIAL,
+    status SERIAL,
     refresh_token VARCHAR(255),
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
