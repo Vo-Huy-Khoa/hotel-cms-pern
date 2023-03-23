@@ -20,12 +20,11 @@ class authController {
     register(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const user_name = req.body.user_name;
-                const email = req.body.email;
+                const { full_name, user_name, email } = req.body;
                 const oldPassword = req.body.password;
                 const password = yield bcrypt_1.default.hash(oldPassword, 10);
-                const initValue = [user_name, email, password];
-                const insertQuery = "INSERT INTO users(user_name, email, password) VALUES($1, $2, $3)";
+                const initValue = [full_name, user_name, email, password];
+                const insertQuery = "INSERT INTO users(full_name, user_name, email, password) VALUES($1, $2, $3, $4)";
                 yield configs_1.default.query(insertQuery, initValue);
                 res.status(201).json("Register done!");
             }

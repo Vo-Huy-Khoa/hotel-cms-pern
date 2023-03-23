@@ -7,15 +7,12 @@ import jwt from "jsonwebtoken";
 class authController {
   async register(req: Request, res: Response) {
     try {
-      const user_name = req.body.user_name;
-      const email = req.body.email;
+      const { full_name, user_name, email } = req.body;
       const oldPassword = req.body.password;
       const password = await bcrypt.hash(oldPassword, 10);
-
-      const initValue = [user_name, email, password];
-
+      const initValue = [full_name, user_name, email, password];
       const insertQuery =
-        "INSERT INTO users(user_name, email, password) VALUES($1, $2, $3)";
+        "INSERT INTO users(full_name, user_name, email, password) VALUES($1, $2, $3, $4)";
       await pool.query(insertQuery, initValue);
       res.status(201).json("Register done!");
     } catch (err) {

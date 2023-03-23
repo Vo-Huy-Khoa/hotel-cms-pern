@@ -1,14 +1,8 @@
 import axios from "axios";
 
-/**
- * URL of the API server.
- * Change this to the production URL when deploying to production.
- */
-// const apiUrl = "http://localhost:3001/api";
-const apiUrl = "https://cmshotel.onrender.com/api";
-/**
- * Axios instance with custom configuration.
- */
+const apiUrl = "http://localhost:3001/api";
+// const apiUrl = "https://cmshotel.onrender.com/api";
+
 const axiosInstance = axios.create({
   baseURL: apiUrl,
   headers: {
@@ -17,15 +11,8 @@ const axiosInstance = axios.create({
   },
 });
 
-/**
- * Request interceptor that adds the authentication token to the request headers.
- */
 axiosInstance.interceptors.request.use(
   function (config) {
-    /**
-     * Modify the request config before sending the request.
-     * The `config` parameter is an Axios request config object.
-     */
     config.withCredentials = true;
     const token = sessionStorage.getItem("token") || "";
     if (token !== "") {
@@ -39,9 +26,6 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-/**
- * Response interceptor that refreshes the access token if the response status is 403 (Forbidden).
- */
 axiosInstance.interceptors.response.use(
   function (response) {
     return response;
@@ -54,22 +38,28 @@ axiosInstance.interceptors.response.use(
       const refresh_token = sessionStorage.getItem("refresh_token");
 
       const body = {
-        id: id,
-        refresh_token: refresh_token,
+        id,
+        refresh_token,
       };
-
-      const response = await axiosInstance.post(
-        `auth/refreshtoken`,
-        JSON.stringify(body)
-      );
       sessionStorage.removeItem("refresh_token");
-      sessionStorage.setItem("refresh_token", response.data.refresh_token);
-      const access_token = response.data.refresh_token;
-      console.log(access_token);
 
-      axiosInstance.defaults.headers.common["Authorization"] =
-        "Bearer " + access_token;
-      return axiosInstance(originalRequest);
+      try {
+        const response = await axiosInstance.post(
+          `auth/refreshtoken`,
+          JSON.stringify(body)
+        );
+        const access_token = response.data.refresh_token;
+        sessionStorage.setItem("token", access_token);
+        axiosInstance.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${access_token}`;
+        return axiosInstance(originalRequest);
+      } catch (err) {
+        // Handle refresh token failure
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("user");
+        return Promise.reject(err);
+      }
     }
     return Promise.reject(error);
   }
