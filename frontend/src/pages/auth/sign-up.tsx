@@ -5,15 +5,18 @@ import { handleRegister } from "../../services";
 
 export function SignUp() {
   const navigate = useNavigate();
+  const fullNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const userNameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const handleSignUp = async () => {
+    const full_name = fullNameRef.current?.querySelector("input")?.value || "";
     const email = emailRef.current?.querySelector("input")?.value || "";
     const user_name = userNameRef.current?.querySelector("input")?.value || "";
     const password = passwordRef.current?.querySelector("input")?.value || "";
     const body = {
+      full_name: full_name,
       email: email,
       user_name: user_name,
       password: password,
@@ -33,6 +36,10 @@ export function SignUp() {
         </Typography>
       </h1>
       <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1">
+          <Typography>Full Name</Typography>
+          <Input label="Full Name" ref={fullNameRef} />
+        </div>
         <div className="flex flex-col gap-1">
           <Typography>Email</Typography>
           <Input label="Email" ref={emailRef} />
