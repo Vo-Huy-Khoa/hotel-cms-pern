@@ -1,12 +1,18 @@
 import {
   ArrowRightOnRectangleIcon,
   BellIcon,
+  EllipsisHorizontalCircleIcon,
   HomeIcon,
+  RocketLaunchIcon,
   UserCircleIcon,
   UserPlusIcon,
 } from "@heroicons/react/24/solid";
 import { SignIn, SignUp } from "./pages/auth";
-import { Home, UserList } from "./pages/dashboard";
+import { BookingList, Home, RoomList, UserList } from "./pages/dashboard";
+import BookingCreate from "./pages/dashboard/booking/create";
+import BookingEdit from "./pages/dashboard/booking/edit";
+import RoomCreate from "./pages/dashboard/room/create";
+import RoomEdit from "./pages/dashboard/room/edit";
 import UserCreate from "./pages/dashboard/user/create";
 import UserEdit from "./pages/dashboard/user/edit";
 
@@ -36,28 +42,54 @@ const routes = [
     layout: "dashboard",
     pages: [
       {
-        icon: <HomeIcon {...icon} />,
         name: "dashboard",
         path: "home",
         element: <Home />,
       },
       {
-        icon: <UserCircleIcon {...icon} />,
         name: "user list",
         path: "user/list",
         element: <UserList />,
       },
       {
-        icon: <UserCircleIcon {...icon} />,
         name: "user create",
         path: "user/create",
         element: <UserCreate />,
       },
       {
-        icon: <UserCircleIcon {...icon} />,
         name: "user edit",
         path: "user/edit",
         element: <UserEdit />,
+      },
+      {
+        name: "Room list",
+        path: "room/list",
+        element: <RoomList />,
+      },
+      {
+        name: "Room create",
+        path: "room/create",
+        element: <RoomCreate />,
+      },
+      {
+        name: "Room edit",
+        path: "room/edit",
+        element: <RoomEdit />,
+      },
+      {
+        name: "Booking list",
+        path: "booking/list",
+        element: <BookingList />,
+      },
+      {
+        name: "Room create",
+        path: "booking/create",
+        element: <BookingCreate />,
+      },
+      {
+        name: "Room edit",
+        path: "booking/edit",
+        element: <BookingEdit />,
       },
     ],
   },
@@ -73,9 +105,21 @@ const routes = [
       },
       {
         icon: <UserCircleIcon {...icon} />,
-        name: "user list",
+        name: "User",
         path: "user/list",
         element: <UserList />,
+      },
+      {
+        icon: <RocketLaunchIcon {...icon} />,
+        name: "Room",
+        path: "room/list",
+        element: <RoomList />,
+      },
+      {
+        icon: <EllipsisHorizontalCircleIcon {...icon} />,
+        name: "Booking",
+        path: "booking/list",
+        element: <BookingList />,
       },
     ],
   },

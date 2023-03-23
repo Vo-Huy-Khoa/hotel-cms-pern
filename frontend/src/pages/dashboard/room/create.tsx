@@ -8,7 +8,7 @@ import {
 import { useRef, useState } from "react";
 import { PopupCreate } from "../../../components";
 
-export const UserCreate = () => {
+export const RoomCreate = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
   const userNameRef = useRef<HTMLInputElement>(null);
@@ -79,4 +79,4 @@ export const UserCreate = () => {
   );
 };
 
-export default UserCreate;
+export default RoomCreate;

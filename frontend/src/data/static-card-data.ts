@@ -3,13 +3,14 @@ import {
   UserPlusIcon,
   UserIcon,
   ChartBarIcon,
+  UserMinusIcon,
 } from "@heroicons/react/24/solid";
 
 export const statisticsCardsData = [
   {
     color: "blue",
     icon: BanknotesIcon,
-    title: "Today's Money",
+    title: "Total Money",
     value: "$53k",
     footer: {
       color: "text-green-500",
@@ -18,21 +19,21 @@ export const statisticsCardsData = [
     },
   },
   {
-    color: "pink",
-    icon: UserIcon,
-    title: "Today's Users",
-    value: "2,300",
+    color: "green",
+    icon: UserPlusIcon,
+    title: "Check In",
+    value: "62",
     footer: {
-      color: "text-green-500",
-      value: "+3%",
-      label: "than last month",
+      color: "text-red-500",
+      value: "-2%",
+      label: "than yesterday",
     },
   },
   {
-    color: "green",
-    icon: UserPlusIcon,
-    title: "New Clients",
-    value: "62",
+    color: "red",
+    icon: UserMinusIcon,
+    title: "Check Out",
+    value: "30",
     footer: {
       color: "text-red-500",
       value: "-2%",
