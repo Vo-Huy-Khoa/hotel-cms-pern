@@ -8,7 +8,7 @@ import {
 import { useRef, useState } from "react";
 import { PopupCreate } from "../../../components";
 
-export const UserCreate = () => {
+export const RoomCreate = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
   const userNameRef = useRef<HTMLInputElement>(null);
@@ -17,12 +17,13 @@ export const UserCreate = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const indentifyRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
+  const roleRef = useRef<HTMLInputElement>(null);
   const statusRef = useRef<HTMLInputElement>(null);
   const handleCreateUser = () => {
     const user_name = userNameRef.current?.querySelector("input")?.value || "";
     const full_name = fullNameRef.current?.querySelector("input")?.value || "";
     const email = emailRef.current?.querySelector("input")?.value || "";
-    const role = statusRef.current?.querySelector("input")?.value || "0";
+    const role = roleRef.current?.querySelector("input")?.value || "0";
     const status = statusRef.current?.querySelector("input")?.value || "0";
   };
 
@@ -47,10 +48,22 @@ export const UserCreate = () => {
             <Input type="password" label="Password" ref={passwordRef}></Input>
           </div>
           <div className="flex flex-row gap-6">
-            <Typography className="w-32">Status</Typography>
-            <Select label="Role" ref={statusRef}>
-              <Option value="0">Disable</Option>
-              <Option value="1">Enable</Option>
+            <Typography className="w-32">Identity Number</Typography>
+            <Input
+              type="text"
+              label="Identity number"
+              ref={indentifyRef}
+            ></Input>
+          </div>
+          <div className="flex flex-row gap-6">
+            <Typography className="w-32">Phone</Typography>
+            <Input type="text" label="Phone" ref={phoneRef}></Input>
+          </div>
+          <div className="flex flex-row gap-6">
+            <Typography className="w-32">Role</Typography>
+            <Select label="Role" ref={userNameRef}>
+              <Option>Admin</Option>
+              <Option>User</Option>
             </Select>
           </div>
         </form>
@@ -66,4 +79,4 @@ export const UserCreate = () => {
   );
 };
 
-export default UserCreate;
+export default RoomCreate;

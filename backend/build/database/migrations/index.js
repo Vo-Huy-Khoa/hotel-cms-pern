@@ -15,8 +15,8 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./create_booking_table"), exports);
-__exportStar(require("./create_hotel_table"), exports);
 __exportStar(require("./create_payment_table"), exports);
 __exportStar(require("./create_room_table"), exports);
-__exportStar(require("./create_room_user_table"), exports);
 __exportStar(require("./create_user_table"), exports);
+__exportStar(require("./create_client_table"), exports);
+__exportStar(require("./create_room_type_table"), exports);

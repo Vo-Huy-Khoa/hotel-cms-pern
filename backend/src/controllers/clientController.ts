@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import pool from "../configs";
 import { Request, Response } from "express";
 
-class userController {
+class clientController {
   async create(req: Request, res: Response) {
     try {
       const user_name = req.body.user_name;
@@ -64,4 +64,4 @@ class userController {
   }
 }
 
-export default new userController();
+export default new clientController();

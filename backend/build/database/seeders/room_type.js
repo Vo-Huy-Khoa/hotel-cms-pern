@@ -12,57 +12,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.seederUser = void 0;
+exports.seederRoomType = void 0;
 const configs_1 = __importDefault(require("../../configs"));
-const users = [
+const room_type = [
     {
-        user_name: "khoavh",
-        full_name: "vo huy khoa",
-        email: "huykhoa630@gmail.com",
-        password: "1",
-        status: "0",
-        refresh_token: "",
+        name: "Phong 2 nguoi",
+        limit: 2,
+        price: "500000",
     },
     {
-        user_name: "anhthy",
-        full_name: "Anh Thy",
-        email: "anhthy@gmail.com",
-        password: "1",
-        status: "0",
-        refresh_token: "",
+        name: "Phong 3 nguoi",
+        limit: 3,
+        price: "700000",
     },
     {
-        user_name: "ngockhue",
-        full_name: "Ngoc Khue",
-        email: "ngockhue0@gmail.com",
-        password: "1",
-        status: "1",
-        refresh_token: "",
-    },
-    {
-        user_name: "jennie",
-        full_name: "Jennie",
-        email: "jennie@gmail.com",
-        password: "1",
-        status: "1",
-        refresh_token: "",
+        name: "Phong 4 nguoi",
+        limit: 4,
+        price: "1000000",
     },
 ];
-const seederUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const seederRoomType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Start a transaction
         yield configs_1.default.query("BEGIN");
         // Insert each user in parallel
-        yield Promise.all(users.map((user) => __awaiter(void 0, void 0, void 0, function* () {
-            const insertQuery = "INSERT INTO users(user_name, full_name, email, password, status, refresh_token) VALUES($1, $2, $3, $4, $5, $6)";
-            const insertValues = [
-                user.user_name,
-                user.full_name,
-                user.email,
-                user.password,
-                user.status,
-                user.refresh_token,
-            ];
+        yield Promise.all(room_type.map((room) => __awaiter(void 0, void 0, void 0, function* () {
+            const insertQuery = "INSERT INTO room_types(name, limit, price) VALUES($1, $2, $3)";
+            const insertValues = [room.name, room.limit, room.price];
             yield configs_1.default.query(insertQuery, insertValues);
         })));
         // Commit the transaction
@@ -76,4 +52,4 @@ const seederUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(500).json({ error: "Data seeding error" });
     }
 });
-exports.seederUser = seederUser;
+exports.seederRoomType = seederRoomType;

@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const configs_1 = __importDefault(require("../configs"));
-class userController {
+class bookingController {
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -81,4 +81,4 @@ class userController {
         });
     }
 }
-exports.default = new userController();
+exports.default = new bookingController();

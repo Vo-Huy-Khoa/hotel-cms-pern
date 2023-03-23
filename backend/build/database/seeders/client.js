@@ -12,56 +12,46 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.seederUser = void 0;
+exports.seederClient = void 0;
 const configs_1 = __importDefault(require("../../configs"));
 const users = [
     {
-        user_name: "khoavh",
-        full_name: "vo huy khoa",
+        name: "vo huy khoa",
         email: "huykhoa630@gmail.com",
-        password: "1",
-        status: "0",
-        refresh_token: "",
+        identity_number: "206444928",
+        phone: "0977425396",
     },
     {
-        user_name: "anhthy",
-        full_name: "Anh Thy",
+        name: "anhthy",
         email: "anhthy@gmail.com",
-        password: "1",
-        status: "0",
-        refresh_token: "",
+        identity_number: "206444928",
+        phone: "0796565798",
     },
     {
-        user_name: "ngockhue",
         full_name: "Ngoc Khue",
         email: "ngockhue0@gmail.com",
-        password: "1",
-        status: "1",
-        refresh_token: "",
+        identity_number: "206444928",
+        phone: "0977425396",
     },
     {
-        user_name: "jennie",
         full_name: "Jennie",
         email: "jennie@gmail.com",
-        password: "1",
-        status: "1",
-        refresh_token: "",
+        identity_number: "206444928",
+        phone: "0977425396",
     },
 ];
-const seederUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const seederClient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Start a transaction
         yield configs_1.default.query("BEGIN");
         // Insert each user in parallel
         yield Promise.all(users.map((user) => __awaiter(void 0, void 0, void 0, function* () {
-            const insertQuery = "INSERT INTO users(user_name, full_name, email, password, status, refresh_token) VALUES($1, $2, $3, $4, $5, $6)";
+            const insertQuery = "INSERT INTO clients(name, email, identity_number, phone) VALUES($1, $2, $3, $4)";
             const insertValues = [
-                user.user_name,
-                user.full_name,
+                user.name,
                 user.email,
-                user.password,
-                user.status,
-                user.refresh_token,
+                user.identity_number,
+                user.phone,
             ];
             yield configs_1.default.query(insertQuery, insertValues);
         })));
@@ -76,4 +66,4 @@ const seederUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(500).json({ error: "Data seeding error" });
     }
 });
-exports.seederUser = seederUser;
+exports.seederClient = seederClient;
