@@ -1,9 +1,13 @@
+import { HashtagIcon } from "@heroicons/react/24/outline";
 import {
   ArrowRightOnRectangleIcon,
-  BellIcon,
+  CalendarDaysIcon,
   EllipsisHorizontalCircleIcon,
   HomeIcon,
+  HomeModernIcon,
   RocketLaunchIcon,
+  TableCellsIcon,
+  TagIcon,
   UserCircleIcon,
   UserPlusIcon,
 } from "@heroicons/react/24/solid";
@@ -13,6 +17,9 @@ import BookingCreate from "./pages/dashboard/booking/create";
 import BookingEdit from "./pages/dashboard/booking/edit";
 import RoomCreate from "./pages/dashboard/room/create";
 import RoomEdit from "./pages/dashboard/room/edit";
+import RoomTypeCreate from "./pages/dashboard/room_type/create";
+import RoomTypeEdit from "./pages/dashboard/room_type/edit";
+import RoomTypeList from "./pages/dashboard/room_type/list";
 import UserCreate from "./pages/dashboard/user/create";
 import UserEdit from "./pages/dashboard/user/edit";
 
@@ -91,6 +98,21 @@ const routes = [
         path: "booking/edit",
         element: <BookingEdit />,
       },
+      {
+        name: "Room Type list",
+        path: "room-type/list",
+        element: <RoomTypeList />,
+      },
+      {
+        name: "Room Type create",
+        path: "room-type/create",
+        element: <RoomTypeCreate />,
+      },
+      {
+        name: "Room Type edit",
+        path: "room-type/edit",
+        element: <RoomTypeEdit />,
+      },
     ],
   },
 
@@ -110,13 +132,19 @@ const routes = [
         element: <UserList />,
       },
       {
-        icon: <RocketLaunchIcon {...icon} />,
+        icon: <TableCellsIcon {...icon} />,
+        name: "Room Type",
+        path: "room-type/list",
+        element: <RoomTypeList />,
+      },
+      {
+        icon: <HomeModernIcon {...icon} />,
         name: "Room",
         path: "room/list",
         element: <RoomList />,
       },
       {
-        icon: <EllipsisHorizontalCircleIcon {...icon} />,
+        icon: <CalendarDaysIcon {...icon} />,
         name: "Booking",
         path: "booking/list",
         element: <BookingList />,

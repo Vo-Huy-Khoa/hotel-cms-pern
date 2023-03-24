@@ -34,7 +34,7 @@ function filterUsers(
   });
 }
 
-export function RoomList() {
+export function RoomTypeList() {
   const [isVisibleSearch, setVisibleSearch] = useState(false);
   const [listUser, setListUser] = useState<IUser[]>([]);
   const totalRow: number = listUser.length;
@@ -87,9 +87,9 @@ export function RoomList() {
     <div className="mt-12 mb-8 flex flex-col gap-4">
       <div className="flex flex-row items-center justify-between">
         <Typography variant="h4" className="font-medium capitalize">
-          Room
+          Room Type
         </Typography>
-        <NavLink to="/dashboard/user/create">
+        <NavLink to="/dashboard/room-type/create">
           <Button className="w-24">Create</Button>
         </NavLink>
       </div>
@@ -154,9 +154,9 @@ export function RoomList() {
               <tr>
                 {[
                   "id",
-                  "full name",
-                  "email",
-                  "role",
+                  "name",
+                  "limit",
+                  "price",
                   "date create",
                   "date update",
                 ].map((el) => (
@@ -196,7 +196,7 @@ export function RoomList() {
                             color="blue-gray"
                             className="font-semibold"
                           >
-                            <NavLink to="/dashboard/user/edit">
+                            <NavLink to="/dashboard/room-type/edit">
                               {full_name}
                             </NavLink>
                           </Typography>
@@ -241,4 +241,4 @@ export function RoomList() {
   );
 }
 
-export default RoomList;
+export default RoomTypeList;

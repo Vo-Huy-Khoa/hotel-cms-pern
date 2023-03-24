@@ -4,6 +4,7 @@ import {
   Select,
   Typography,
   Option,
+  Textarea,
 } from "@material-tailwind/react";
 import { useRef, useState } from "react";
 import { PopupCreate } from "../../../components";
@@ -11,19 +12,15 @@ import { PopupCreate } from "../../../components";
 export const RoomCreate = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
-  const userNameRef = useRef<HTMLInputElement>(null);
-  const fullNameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const indentifyRef = useRef<HTMLInputElement>(null);
-  const phoneRef = useRef<HTMLInputElement>(null);
-  const roleRef = useRef<HTMLInputElement>(null);
+  const roomTypeRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const descRef = useRef<HTMLInputElement>(null);
+  const imageRef = useRef<HTMLInputElement>(null);
   const statusRef = useRef<HTMLInputElement>(null);
   const handleCreateUser = () => {
-    const user_name = userNameRef.current?.querySelector("input")?.value || "";
-    const full_name = fullNameRef.current?.querySelector("input")?.value || "";
-    const email = emailRef.current?.querySelector("input")?.value || "";
-    const role = roleRef.current?.querySelector("input")?.value || "0";
+    const roomType = roomTypeRef.current?.querySelector("input")?.value || "";
+    const name = nameRef.current?.querySelector("input")?.value || "";
+    const description = descRef.current?.querySelector("input")?.value || "";
     const status = statusRef.current?.querySelector("input")?.value || "0";
   };
 
@@ -32,36 +29,29 @@ export const RoomCreate = () => {
       <div className="bg-white rounded-lg">
         <form action="" method="post" className="flex flex-col gap-4 p-5">
           <div className="flex flex-row gap-6">
-            <Typography className="w-32">Full name</Typography>
-            <Input label="Full Name" ref={fullNameRef}></Input>
+            <Typography className="w-32">Room Type</Typography>
+            <Select label="Room Type" ref={roomTypeRef}>
+              <Option>1</Option>
+              <Option>2</Option>
+              <Option>3</Option>
+              <Option>4</Option>
+            </Select>
           </div>
           <div className="flex flex-row gap-6">
-            <Typography className="w-32">User name</Typography>
-            <Input label="User Name" ref={userNameRef}></Input>
+            <Typography className="w-32">Name</Typography>
+            <Input label="Name" ref={nameRef}></Input>
           </div>
           <div className="flex flex-row gap-6">
-            <Typography className="w-32">Email</Typography>
-            <Input type="email" label="Email" ref={emailRef}></Input>
+            <Typography className="w-32">Description</Typography>
+            <Textarea label="Description" ref={descRef}></Textarea>
           </div>
           <div className="flex flex-row gap-6">
-            <Typography className="w-32">Password</Typography>
-            <Input type="password" label="Password" ref={passwordRef}></Input>
-          </div>
-          <div className="flex flex-row gap-6">
-            <Typography className="w-32">Identity Number</Typography>
-            <Input
-              type="text"
-              label="Identity number"
-              ref={indentifyRef}
-            ></Input>
-          </div>
-          <div className="flex flex-row gap-6">
-            <Typography className="w-32">Phone</Typography>
-            <Input type="text" label="Phone" ref={phoneRef}></Input>
+            <Typography className="w-32">Image</Typography>
+            <Input type="file" label="Image" ref={imageRef}></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Role</Typography>
-            <Select label="Role" ref={userNameRef}>
+            <Select label="Role" ref={statusRef}>
               <Option>Admin</Option>
               <Option>User</Option>
             </Select>

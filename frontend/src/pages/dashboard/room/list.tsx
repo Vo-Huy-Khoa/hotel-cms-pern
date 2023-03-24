@@ -89,7 +89,7 @@ export function RoomList() {
         <Typography variant="h4" className="font-medium capitalize">
           Room
         </Typography>
-        <NavLink to="/dashboard/user/create">
+        <NavLink to="/dashboard/room/create">
           <Button className="w-24">Create</Button>
         </NavLink>
       </div>
@@ -154,9 +154,10 @@ export function RoomList() {
               <tr>
                 {[
                   "id",
-                  "full name",
-                  "email",
-                  "role",
+                  "Room Type",
+                  "name",
+                  "status",
+                  "price",
                   "date create",
                   "date update",
                 ].map((el) => (
@@ -196,7 +197,7 @@ export function RoomList() {
                             color="blue-gray"
                             className="font-semibold"
                           >
-                            <NavLink to="/dashboard/user/edit">
+                            <NavLink to="/dashboard/room/edit">
                               {full_name}
                             </NavLink>
                           </Typography>
