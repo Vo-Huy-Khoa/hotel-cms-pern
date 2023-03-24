@@ -15,8 +15,6 @@ export const UserCreate = () => {
   const fullNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const indentifyRef = useRef<HTMLInputElement>(null);
-  const phoneRef = useRef<HTMLInputElement>(null);
   const statusRef = useRef<HTMLInputElement>(null);
   const handleCreateUser = () => {
     const user_name = userNameRef.current?.querySelector("input")?.value || "";

@@ -2,42 +2,56 @@ import {
   Button,
   Input,
   Select,
-  Option,
   Typography,
+  Option,
+  Textarea,
 } from "@material-tailwind/react";
+import { useRef, useState } from "react";
+import { PopupCreate } from "../../../components";
 
 export const RoomEdit = () => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(!open);
+  const roomTypeRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const descRef = useRef<HTMLInputElement>(null);
+  const imageRef = useRef<HTMLInputElement>(null);
+  const statusRef = useRef<HTMLInputElement>(null);
+  const handleCreateUser = () => {
+    const roomType = roomTypeRef.current?.querySelector("input")?.value || "";
+    const name = nameRef.current?.querySelector("input")?.value || "";
+    const description = descRef.current?.querySelector("input")?.value || "";
+    const status = statusRef.current?.querySelector("input")?.value || "0";
+  };
+
   return (
     <aside className="min-h-screen w-full">
       <div className="bg-white rounded-lg">
         <form action="" method="post" className="flex flex-col gap-4 p-5">
           <div className="flex flex-row gap-6">
-            <Typography className="w-32">User name</Typography>
-            <Input label="User Name"></Input>
+            <Typography className="w-32">Room Type</Typography>
+            <Select label="Room Type" ref={roomTypeRef}>
+              <Option>1</Option>
+              <Option>2</Option>
+              <Option>3</Option>
+              <Option>4</Option>
+            </Select>
           </div>
           <div className="flex flex-row gap-6">
-            <Typography className="w-32">Full name</Typography>
-            <Input label="Full Name"></Input>
+            <Typography className="w-32">Name</Typography>
+            <Input label="Name" ref={nameRef}></Input>
           </div>
           <div className="flex flex-row gap-6">
-            <Typography className="w-32">Email</Typography>
-            <Input type="email" label="Email"></Input>
+            <Typography className="w-32">Description</Typography>
+            <Textarea label="Description" ref={descRef}></Textarea>
           </div>
           <div className="flex flex-row gap-6">
-            <Typography className="w-32">Password</Typography>
-            <Input type="password" label="password"></Input>
-          </div>
-          <div className="flex flex-row gap-6">
-            <Typography className="w-32">Identity Number</Typography>
-            <Input type="text" label="identity number"></Input>
-          </div>
-          <div className="flex flex-row gap-6">
-            <Typography className="w-32">Phone</Typography>
-            <Input type="text" label="phone"></Input>
+            <Typography className="w-32">Image</Typography>
+            <Input type="file" label="Image" ref={imageRef}></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Role</Typography>
-            <Select label="Role">
+            <Select label="Role" ref={statusRef}>
               <Option>Admin</Option>
               <Option>User</Option>
             </Select>
@@ -45,9 +59,12 @@ export const RoomEdit = () => {
         </form>
       </div>
       <div className=" fixed left-0 bottom-0 w-full h-14 bg-gray-900  flex flex-row justify-end gap-6 items-center px-10 ">
-        <Button className="h-10">Submit</Button>
+        <Button onClick={handleOpen} className="h-10">
+          Submit
+        </Button>
         <Button className="bg-blue-gray-700 h-10">Clear</Button>
       </div>
+      <PopupCreate open={open} onClose={handleOpen} />
     </aside>
   );
 };
