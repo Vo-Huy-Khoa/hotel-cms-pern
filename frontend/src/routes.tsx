@@ -1,13 +1,9 @@
-import { HashtagIcon } from "@heroicons/react/24/outline";
 import {
   ArrowRightOnRectangleIcon,
   CalendarDaysIcon,
-  EllipsisHorizontalCircleIcon,
   HomeIcon,
   HomeModernIcon,
-  RocketLaunchIcon,
   TableCellsIcon,
-  TagIcon,
   UserCircleIcon,
   UserPlusIcon,
 } from "@heroicons/react/24/solid";
