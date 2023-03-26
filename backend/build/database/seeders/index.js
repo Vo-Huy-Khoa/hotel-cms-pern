@@ -19,3 +19,4 @@ __exportStar(require("./hotel"), exports);
 __exportStar(require("./booking"), exports);
 __exportStar(require("./client"), exports);
 __exportStar(require("./room_type"), exports);
+__exportStar(require("./room"), exports);

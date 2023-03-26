@@ -1,9 +1,10 @@
 import { Router } from "express";
-import userController from "../controllers/userController";
+import clientController from "../controllers/clientController";
+
 const router = Router();
 
-router.post("/create", userController.create);
-router.put("/update", userController.update);
-router.get("/", userController.getAll);
+router.post("/create", clientController.create);
+router.put("/update", clientController.update);
+router.get("/", clientController.getAll);
 
 export default router;

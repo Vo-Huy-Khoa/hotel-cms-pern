@@ -1,22 +1,14 @@
 import pool from "../../configs";
 import { Request, Response } from "express";
+import bcrypt from "bcrypt";
 
 const users = [
-  {
-    user_name: "khoavh",
-    full_name: "vo huy khoa",
-    email: "huykhoa630@gmail.com",
-    password: "1",
-    status: "0",
-    refresh_token: "",
-  },
   {
     user_name: "anhthy",
     full_name: "Anh Thy",
     email: "anhthy@gmail.com",
     password: "1",
     status: "0",
-    refresh_token: "",
   },
   {
     user_name: "ngockhue",
@@ -24,7 +16,6 @@ const users = [
     email: "ngockhue0@gmail.com",
     password: "1",
     status: "1",
-    refresh_token: "",
   },
   {
     user_name: "jennie",
@@ -32,7 +23,78 @@ const users = [
     email: "jennie@gmail.com",
     password: "1",
     status: "1",
-    refresh_token: "",
+  },
+  {
+    user_name: "thaodoan",
+    full_name: "Doan Thi Thao",
+    email: "thaodoan@gmail.com",
+    password: "1",
+    status: "1",
+  },
+  {
+    user_name: "trungdien",
+    full_name: "Vo Trung Dien",
+    email: "trungdien@gmail.com",
+    password: "1",
+    status: "0",
+  },
+  {
+    user_name: "ngockhue",
+    full_name: "Ngoc Khue",
+    email: "ngockhue0@gmail.com",
+    password: "1",
+    status: "1",
+  },
+  {
+    user_name: "jennie",
+    full_name: "Jennie",
+    email: "jennie@gmail.com",
+    password: "1",
+    status: "1",
+  },
+
+  {
+    user_name: "anhthy",
+    full_name: "Anh Thy",
+    email: "anhthy@gmail.com",
+    password: "1",
+    status: "0",
+  },
+  {
+    user_name: "ngockhue",
+    full_name: "Ngoc Khue",
+    email: "ngockhue0@gmail.com",
+    password: "1",
+    status: "1",
+  },
+  {
+    user_name: "jennie",
+    full_name: "Jennie",
+    email: "jennie@gmail.com",
+    password: "1",
+    status: "1",
+  },
+
+  {
+    user_name: "anhthy",
+    full_name: "Anh Thy",
+    email: "anhthy@gmail.com",
+    password: "1",
+    status: "0",
+  },
+  {
+    user_name: "ngockhue",
+    full_name: "Ngoc Khue",
+    email: "ngockhue0@gmail.com",
+    password: "1",
+    status: "1",
+  },
+  {
+    user_name: "jennie",
+    full_name: "Jennie",
+    email: "jennie@gmail.com",
+    password: "1",
+    status: "1",
   },
 ];
 
@@ -44,16 +106,16 @@ const seederUser = async (req: Request, res: Response) => {
     // Insert each user in parallel
     await Promise.all(
       users.map(async (user) => {
-        const insertQuery =
-          "INSERT INTO users(user_name, full_name, email, password, status, refresh_token) VALUES($1, $2, $3, $4, $5, $6)";
         const insertValues = [
           user.user_name,
           user.full_name,
           user.email,
-          user.password,
+          bcrypt.hash(user.password, 10),
           user.status,
-          user.refresh_token,
         ];
+        const insertQuery =
+          "INSERT INTO users(user_name, full_name, email, password, status) VALUES($1, $2, $3, $4, $5)";
+
         await pool.query(insertQuery, insertValues);
       })
     );

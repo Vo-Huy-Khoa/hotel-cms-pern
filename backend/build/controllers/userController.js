@@ -18,14 +18,12 @@ class userController {
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const user_name = req.body.user_name;
-                const full_name = req.body.full_name;
-                const email = req.body.email;
+                const { user_name, full_name, email } = req.body;
                 const oldPassword = req.body.password;
                 const password = yield bcrypt_1.default.hash(oldPassword, 10);
                 const status = req.body.status;
                 const initValue = [user_name, full_name, email, password, status];
-                const insertQuery = "INSERT INTO users(user_name, full_name, email, password, status) VALUES($1, $2, $3, $4, $5";
+                const insertQuery = "INSERT INTO users(user_name, full_name, email, password, status) VALUES($1, $2, $3, $4, $5)";
                 const { rows } = yield configs_1.default.query(insertQuery, initValue);
                 res.status(201).json(rows[0]);
             }
@@ -70,9 +68,9 @@ class userController {
                 };
                 const { rowCount } = yield configs_1.default.query(query);
                 if (rowCount === 0) {
-                    return res.status(404).json({ error: "User not found" });
+                    return res.status(404).json({ error: "users not found" });
                 }
-                res.status(202).json({ message: "User updated successfully" });
+                res.status(202).json({ message: "users updated successfully" });
             }
             catch (error) {
                 console.error(error);
