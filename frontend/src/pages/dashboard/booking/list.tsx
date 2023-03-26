@@ -126,7 +126,7 @@ export function BookingList() {
         </div>
       )}
       <div className=" mt-10 w-full h-full grid gap-16 grid-cols-4">
-        {listBooking.map((booking) => {
+        {listBooking.map((booking: any) => {
           return (
             <Card key={1} className="w-96">
               <CardHeader
