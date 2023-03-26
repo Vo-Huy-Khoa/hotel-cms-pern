@@ -14,25 +14,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.seederRoom = void 0;
 const configs_1 = __importDefault(require("../../configs"));
-const room_type = [
+const room = [
     {
-        room_type_id: "Phong 2 nguoi",
-        name: 2,
-        description: "500000",
+        room_type_id: 2,
+        name: "Room 201",
+        description: "Room 201 is the best",
+        image: 2,
+        status: false,
+    },
+    {
+        room_type_id: 2,
+        name: "Room 202",
+        description: "Room 202 is the best",
         image: 2,
         status: true,
     },
     {
-        room_type_id: "Phong 2 nguoi",
-        name: 2,
-        description: "500000",
-        image: 2,
-        status: true,
-    },
-    {
-        room_type_id: "Phong 2 nguoi",
-        name: 2,
-        description: "500000",
+        room_type_id: 3,
+        name: "Room 203",
+        description: "Room 203 is the best",
         image: 2,
         status: true,
     },
@@ -42,8 +42,7 @@ const seederRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         // Start a transaction
         yield configs_1.default.query("BEGIN");
         // Insert each user in parallel
-        yield Promise.all(room_type.map((room) => __awaiter(void 0, void 0, void 0, function* () {
-            const insertQuery = "INSERT INTO rooms(room_type_id, name, description, image , status) VALUES($1, $2, $3, $4, $5)";
+        yield Promise.all(room.map((room) => __awaiter(void 0, void 0, void 0, function* () {
             const insertValues = [
                 room.room_type_id,
                 room.name,
@@ -51,6 +50,7 @@ const seederRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 room.image,
                 room.status,
             ];
+            const insertQuery = "INSERT INTO rooms(room_type_id, name, description, image , status) VALUES($1, $2, $3, $4, $5)";
             yield configs_1.default.query(insertQuery, insertValues);
         })));
         // Commit the transaction

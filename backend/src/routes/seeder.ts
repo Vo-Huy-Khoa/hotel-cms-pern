@@ -2,7 +2,6 @@ import { Router } from "express";
 import {
   seederBooking,
   seederClient,
-  seederHotel,
   seederRoom,
   seederRoomType,
   seederUser,
@@ -11,7 +10,6 @@ import {
 const router = Router();
 
 router.get("/user", seederUser);
-router.get("/hotel", seederHotel);
 router.get("/client", seederClient);
 router.get("/room_type", seederRoomType);
 router.get("/room", seederRoom);

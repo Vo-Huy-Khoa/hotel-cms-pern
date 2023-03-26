@@ -16,19 +16,19 @@ const migrationQuery = `
 async function ClientUp(req: Request, res: Response) {
   try {
     await pool.query(migrationQuery);
-    res.status(201).json("Migration users successful");
+    res.status(201).json("Migration clients successful");
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Migration users error" });
+    res.status(500).json({ error: "Migration clients error" });
   }
 }
 
 async function ClientDown(req: Request, res: Response) {
   try {
-    await pool.query("DROP TABLE users");
-    res.status(201).json("DROP users successful");
+    await pool.query("DROP TABLE clients");
+    res.status(201).json("DROP clients successful");
   } catch (error) {
-    res.status(500).json({ error: "DROP table users error" });
+    res.status(500).json({ error: "DROP table clients error" });
   }
 }
 

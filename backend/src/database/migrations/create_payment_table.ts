@@ -8,6 +8,8 @@ const migrationQuery = `
     method varchar NOT NULL,
     amount float,
     status boolean,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
     FOREIGN KEY(booking_id) 
 	  REFERENCES bookings(id)
 

@@ -133,8 +133,8 @@ export function RoomList() {
                   "id",
                   "Room Type",
                   "name",
+                  "description",
                   "status",
-                  "price",
                   "date create",
                   "date update",
                 ].map((el) => (
@@ -159,9 +159,9 @@ export function RoomList() {
                   (
                     {
                       id,
-                      room_type,
+                      room_type_id,
                       name,
-                      price,
+                      description,
                       status,
                       created_at,
                       updated_at,
@@ -183,7 +183,7 @@ export function RoomList() {
                             className="font-semibold"
                           >
                             <NavLink to="/dashboard/room/edit">
-                              {room_type}
+                              {room_type_id}
                             </NavLink>
                           </Typography>
                         </td>
@@ -194,7 +194,7 @@ export function RoomList() {
                         </td>
                         <td className={className}>
                           <Typography className="text-xs font-normal text-blue-gray-500">
-                            {price}
+                            {description}
                           </Typography>
                         </td>
                         <td className={className}>

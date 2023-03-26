@@ -4,17 +4,17 @@ import { Request, Response } from "express";
 const room_type = [
   {
     name: "Phong 2 nguoi",
-    limit: 2,
+    count: 1,
     price: "500000",
   },
   {
     name: "Phong 3 nguoi",
-    limit: 3,
+    count: 2,
     price: "700000",
   },
   {
     name: "Phong 4 nguoi",
-    limit: 4,
+    count: 3,
     price: "1000000",
   },
 ];
@@ -28,8 +28,8 @@ const seederRoomType = async (req: Request, res: Response) => {
     await Promise.all(
       room_type.map(async (room) => {
         const insertQuery =
-          "INSERT INTO room_types(name, limit, price) VALUES($1, $2, $3)";
-        const insertValues = [room.name, room.limit, room.price];
+          "INSERT INTO room_types(name, count, price) VALUES($1, $2, $3)";
+        const insertValues = [room.name, room.count, room.price];
         await pool.query(insertQuery, insertValues);
       })
     );
