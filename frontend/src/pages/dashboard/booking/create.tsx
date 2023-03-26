@@ -32,39 +32,24 @@ export const BookingCreate = () => {
       <div className="bg-white rounded-lg">
         <form action="" method="post" className="flex flex-col gap-4 p-5">
           <div className="flex flex-row gap-6">
-            <Typography className="w-32">Full name</Typography>
-            <Input label="Full Name" ref={fullNameRef}></Input>
-          </div>
-          <div className="flex flex-row gap-6">
-            <Typography className="w-32">User name</Typography>
-            <Input label="User Name" ref={userNameRef}></Input>
-          </div>
-          <div className="flex flex-row gap-6">
-            <Typography className="w-32">Email</Typography>
-            <Input type="email" label="Email" ref={emailRef}></Input>
-          </div>
-          <div className="flex flex-row gap-6">
-            <Typography className="w-32">Password</Typography>
-            <Input type="password" label="Password" ref={passwordRef}></Input>
-          </div>
-          <div className="flex flex-row gap-6">
-            <Typography className="w-32">Identity Number</Typography>
-            <Input
-              type="text"
-              label="Identity number"
-              ref={indentifyRef}
-            ></Input>
-          </div>
-          <div className="flex flex-row gap-6">
-            <Typography className="w-32">Phone</Typography>
-            <Input type="text" label="Phone" ref={phoneRef}></Input>
-          </div>
-          <div className="flex flex-row gap-6">
-            <Typography className="w-32">Role</Typography>
-            <Select label="Role" ref={userNameRef}>
+            <Typography className="w-32">User</Typography>
+            <Select label="User" ref={userNameRef}>
               <Option>Admin</Option>
-              <Option>User</Option>
             </Select>
+          </div>
+          <div className="flex flex-row gap-6">
+            <Typography className="w-32">Room</Typography>
+            <Select label="Room" ref={userNameRef}>
+              <Option>Admin</Option>
+            </Select>
+          </div>
+          <div className="flex flex-row gap-6">
+            <Typography className="w-32">Check In</Typography>
+            <Input type="date" label="Check In" ref={emailRef}></Input>
+          </div>
+          <div className="flex flex-row gap-6">
+            <Typography className="w-32">Check Out</Typography>
+            <Input type="date" label="Check out" ref={passwordRef}></Input>
           </div>
         </form>
       </div>

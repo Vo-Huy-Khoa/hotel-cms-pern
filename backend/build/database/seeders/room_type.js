@@ -17,17 +17,17 @@ const configs_1 = __importDefault(require("../../configs"));
 const room_type = [
     {
         name: "Phong 2 nguoi",
-        limit: 2,
+        count: 1,
         price: "500000",
     },
     {
         name: "Phong 3 nguoi",
-        limit: 3,
+        count: 2,
         price: "700000",
     },
     {
         name: "Phong 4 nguoi",
-        limit: 4,
+        count: 3,
         price: "1000000",
     },
 ];
@@ -37,8 +37,8 @@ const seederRoomType = (req, res) => __awaiter(void 0, void 0, void 0, function*
         yield configs_1.default.query("BEGIN");
         // Insert each user in parallel
         yield Promise.all(room_type.map((room) => __awaiter(void 0, void 0, void 0, function* () {
-            const insertQuery = "INSERT INTO room_types(name, limit, price) VALUES($1, $2, $3)";
-            const insertValues = [room.name, room.limit, room.price];
+            const insertQuery = "INSERT INTO room_types(name, count, price) VALUES($1, $2, $3)";
+            const insertValues = [room.name, room.count, room.price];
             yield configs_1.default.query(insertQuery, insertValues);
         })));
         // Commit the transaction

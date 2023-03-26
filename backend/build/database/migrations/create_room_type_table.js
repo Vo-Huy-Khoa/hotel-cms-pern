@@ -18,8 +18,10 @@ const migrationQuery = `
   CREATE TABLE IF NOT EXISTS room_types (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    limit SERIAL,
-    price VARCHAR(255) NOT NULL,
+    count decimal,
+    price decimal,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
   );
 `;
 function RoomTypeUp(req, res) {
@@ -29,7 +31,7 @@ function RoomTypeUp(req, res) {
             res.status(201).json("Migration room_types successful");
         }
         catch (error) {
-            res.status(500).json({ error: "Internal server error" });
+            res.status(500).json({ error: "Migration room_types error" });
         }
     });
 }
@@ -41,7 +43,7 @@ function RoomTypeDown(req, res) {
             res.status(201).json("DROP room_types successful");
         }
         catch (error) {
-            res.status(500).json({ error: "Internal server error" });
+            res.status(500).json({ error: "DROP room_types error" });
         }
     });
 }

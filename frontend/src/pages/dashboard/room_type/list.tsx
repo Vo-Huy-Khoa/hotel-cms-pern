@@ -134,7 +134,7 @@ export function RoomTypeList() {
                 {[
                   "id",
                   "name",
-                  "limit",
+                  "count",
                   "price",
                   "date create",
                   "date update",
@@ -157,7 +157,7 @@ export function RoomTypeList() {
               {listRoomType
                 .slice(page * 10 - 10, page * 10)
                 .map(
-                  ({ id, name, limit, price, created_at, updated_at }, key) => {
+                  ({ id, name, count, price, created_at, updated_at }, key) => {
                     const className = "py-3 px-5 border-b border-blue-gray-50";
                     return (
                       <tr key={key}>
@@ -179,7 +179,7 @@ export function RoomTypeList() {
                         </td>
                         <td className={className}>
                           <Typography className="text-xs font-normal text-blue-gray-500">
-                            {limit}
+                            {count}
                           </Typography>
                         </td>
                         <td className={className}>

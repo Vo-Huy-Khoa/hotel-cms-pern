@@ -4,7 +4,6 @@ const express_1 = require("express");
 const seeders_1 = require("../database/seeders");
 const router = (0, express_1.Router)();
 router.get("/user", seeders_1.seederUser);
-router.get("/hotel", seeders_1.seederHotel);
 router.get("/client", seeders_1.seederClient);
 router.get("/room_type", seeders_1.seederRoomType);
 router.get("/room", seeders_1.seederRoom);

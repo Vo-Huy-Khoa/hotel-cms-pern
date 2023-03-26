@@ -9,6 +9,8 @@ const migrationQuery = `
     check_in date NOT NULL,
     check_out date,
     total_price float,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
     FOREIGN KEY(room_id) 
 	  REFERENCES rooms(id),
     FOREIGN KEY(user_id) 
@@ -21,7 +23,7 @@ async function BookingUp(req: Request, res: Response) {
     await pool.query(migrationQuery);
     res.status(201).json("Migration bookings successful");
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Migration bookings error" });
   }
 }
 

@@ -134,12 +134,12 @@ export function BookingList() {
                 className="relative h-16 flex justify-center items-center"
               >
                 <Typography variant="h4" color="black" className="text-center">
-                  Room 3
+                  {booking?.room_id}
                 </Typography>
               </CardHeader>
               <CardBody className="text-center">
                 <Typography variant="h5" className="mb-2">
-                  Update
+                  {booking?.check_in}
                 </Typography>
                 <Typography>
                   The place is close to Barceloneta Beach and bus stop just 2
@@ -151,9 +151,9 @@ export function BookingList() {
                 divider
                 className="flex items-center justify-between py-3"
               >
-                <Button color="gray">
-                  <NavLink to="/dashboard/booking/edit">Update</NavLink>
-                </Button>
+                <NavLink to="/dashboard/booking/edit">
+                  <Button color="gray">Update</Button>
+                </NavLink>
                 <Button className="flex gap-1">Check out</Button>
               </CardFooter>
             </Card>

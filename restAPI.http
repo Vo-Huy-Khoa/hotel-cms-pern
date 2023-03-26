@@ -1,9 +1,10 @@
 
-@url  = http://localhost:3001/api
-# @url  = https://cmshotel.onrender.com/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTc1MDI0NCwiZXhwIjoxNjc5NzUwMjY0fQ.9I_bN8njAmPowudnBnTSluOdJo8nlxkdYU7JrWckf-Q
+# @url  = http://localhost:3001/api
+@url  = https://cmshotel.onrender.com/api
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTgyMDM3MSwiZXhwIjoxNjc5ODIwNDkxfQ.hESriOZi95BVZgTHHDToixOE03WxGXhRKUoz-bjhpCg
 
 @refresh_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTUzODgwOCwiZXhwIjoxNjc5NTQyNDA4fQ.UjHK0rDUCTRnbk6m6aBMF0N1VDNVWfOAV6OD5q0URVE
+
 # =============AUTH================== 
 
 ### Register
@@ -39,7 +40,7 @@ POST {{url}}/auth/refreshtoken
 Content-Type: application/json
 
 {
-    "id": 2,
+    "id": 4,
     "refresh_token": "{{refresh_token}}"
 }
 
@@ -49,6 +50,12 @@ Content-Type: application/json
 GET {{url}}/user
 Authorization: Beaer {{token}}
 Content-Type: application/json
+
+###  User List
+GET {{url}}/room
+Authorization: Beaer {{token}}
+Content-Type: application/json
+
 
 ###  User Create
 POST {{url}}/user/create
@@ -81,13 +88,72 @@ Content-Type: application/json
     "role": "1"
 }
 
-### Migration USer
+
+# ==================Room Type=========================
+
+###  Room Type List
+GET {{url}}/room_type
+Authorization: Beaer {{token}}
+Content-Type: application/json
+
+# =============AUTH================== 
+
+### Migration User
 GET {{url}}/migration/user
 
-### Drop USer
+### Migration Room Type
+
+GET {{url}}/migration/room_type
+
+### Migration Room
+
+GET {{url}}/migration/room
+
+### Migration Client
+
+GET {{url}}/migration/client
+
+### Migration Booking
+
+GET {{url}}/migration/booking
+
+# =============DROP================== 
+
+### Drop User
 GET {{url}}/drop/user
 
-### Seeder USer
+### Migration Room Type
+
+GET {{url}}/drop/room_type
+### Migration Room
+
+GET {{url}}/drop/room
+### Migration Client
+
+GET {{url}}/drop/client
+
+### Migration Booking
+
+GET {{url}}/drop/booking
+
+
+# =============SEEDER================== 
+
+### Seeder User
 GET {{url}}/seeder/user
+
+### Seeder Room Type
+GET {{url}}/seeder/room_type
+
+### Seeder Room
+GET {{url}}/seeder/room
+
+### Seeder Client
+GET {{url}}/seeder/client
+
+### Seeder Booking
+GET {{url}}/seeder/booking
+
+
 
 

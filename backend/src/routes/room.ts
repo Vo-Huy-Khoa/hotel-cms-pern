@@ -1,10 +1,10 @@
 import { Router } from "express";
-import roomTypeController from "../controllers/roomTypeController";
+import roomController from "../controllers/roomController";
 
 const router = Router();
 
-router.post("/create", roomTypeController.create);
-router.put("/update", roomTypeController.update);
-router.get("/", roomTypeController.getAll);
+router.post("/create", roomController.create);
+router.put("/update", roomController.update);
+router.get("/", roomController.getAll);
 
 export default router;

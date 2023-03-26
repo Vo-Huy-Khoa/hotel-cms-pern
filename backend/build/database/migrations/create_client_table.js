@@ -29,11 +29,11 @@ function ClientUp(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield configs_1.default.query(migrationQuery);
-            res.status(201).json("Migration users successful");
+            res.status(201).json("Migration clients successful");
         }
         catch (error) {
             console.log(error);
-            res.status(500).json({ error: "Migration users error" });
+            res.status(500).json({ error: "Migration clients error" });
         }
     });
 }
@@ -41,11 +41,11 @@ exports.ClientUp = ClientUp;
 function ClientDown(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            yield configs_1.default.query("DROP TABLE users");
-            res.status(201).json("DROP users successful");
+            yield configs_1.default.query("DROP TABLE clients");
+            res.status(201).json("DROP clients successful");
         }
         catch (error) {
-            res.status(500).json({ error: "DROP table users error" });
+            res.status(500).json({ error: "DROP table clients error" });
         }
     });
 }

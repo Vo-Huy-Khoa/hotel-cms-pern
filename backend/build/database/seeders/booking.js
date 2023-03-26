@@ -16,24 +16,24 @@ exports.seederBooking = void 0;
 const configs_1 = __importDefault(require("../../configs"));
 const bookings = [
     {
-        room_id: 1,
-        user_id: 1,
-        check_in: "15/03/2023",
-        check_out: "20/03/2023",
+        room_id: 4,
+        user_id: 3,
+        check_in: new Date(2023, 2, 15),
+        check_out: new Date(2023, 2, 15),
         total_price: "2500000",
     },
     {
-        room_id: 1,
-        user_id: 1,
-        check_in: "15/03/2023",
-        check_out: "20/03/2023",
+        room_id: 6,
+        user_id: 3,
+        check_in: new Date(2023, 2, 15),
+        check_out: new Date(2023, 2, 15),
         total_price: "2500000",
     },
     {
-        room_id: 1,
-        user_id: 1,
-        check_in: "15/03/2023",
-        check_out: "20/03/2023",
+        room_id: 4,
+        user_id: 2,
+        check_in: new Date(2023, 2, 15),
+        check_out: new Date(2023, 2, 15),
         total_price: "2500000",
     },
 ];
