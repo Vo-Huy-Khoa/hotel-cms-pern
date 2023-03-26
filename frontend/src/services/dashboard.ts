@@ -1,8 +1,21 @@
 import { axiosInstance } from "./instance";
 
 const getUsers = async () => {
-  const response = await axiosInstance.get(`user`);
-  return response.data;
+  try {
+    const response = await axiosInstance.get(`user`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-export { getUsers };
+const getData = async (url: string) => {
+  try {
+    const response = await axiosInstance.get(`${url}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { getUsers, getData };

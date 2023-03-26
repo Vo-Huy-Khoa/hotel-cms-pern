@@ -2,7 +2,6 @@ import {
   Card,
   CardBody,
   Typography,
-  Avatar,
   Chip,
   Button,
   Input,
@@ -13,31 +12,14 @@ import { NavLink } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { getUsers } from "../../../services";
+import { getData, getUsers } from "../../../services";
 import Pagination from "../../../widgets/layout/panigation";
 import { IUser } from "../../../types";
 
-function filterUsers(
-  users: IUser[],
-  full_name: string,
-  email: string,
-  role: string,
-  status: string
-) {
-  return users.filter((user) => {
-    return (
-      user.full_name.includes(full_name) ||
-      user.email.includes(email) ||
-      user.role.includes(role) ||
-      user.status.includes(status)
-    );
-  });
-}
-
 export function RoomTypeList() {
   const [isVisibleSearch, setVisibleSearch] = useState(false);
-  const [listUser, setListUser] = useState<IUser[]>([]);
-  const totalRow: number = listUser.length;
+  const [listRoomType, setlistRoomType] = useState([]);
+  const totalRow: number = listRoomType.length;
   const [page, setPage] = useState(1);
   const userNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -56,9 +38,6 @@ export function RoomTypeList() {
     const email = emailRef.current?.querySelector("input")?.value || "";
     const role = roleRef.current?.querySelector("input")?.value || "0";
     const status = statusRef.current?.querySelector("input")?.value || "0";
-
-    const fillUser = filterUsers(listUser, full_name, email, role, status);
-    setListUser(fillUser);
   };
 
   const handleClearSearch = async () => {
@@ -67,20 +46,20 @@ export function RoomTypeList() {
     roleRef.current?.querySelector("input")?.onreset;
     statusRef.current?.querySelector("input")?.onreset;
     const listUser = await getUsers();
-    setListUser(listUser);
+    setlistRoomType(listUser);
   };
 
   useEffect(() => {
-    async function fetchGetListUser() {
+    async function fetchGetRoomType() {
       try {
-        const listUser = await getUsers();
-        setListUser(listUser);
+        const listUser = await getData("room_type");
+        setlistRoomType(listUser);
       } catch (error) {
         // Handle errors
       }
     }
 
-    fetchGetListUser();
+    fetchGetRoomType();
   }, []);
 
   return (
@@ -175,13 +154,10 @@ export function RoomTypeList() {
               </tr>
             </thead>
             <tbody>
-              {listUser
+              {listRoomType
                 .slice(page * 10 - 10, page * 10)
                 .map(
-                  (
-                    { id, full_name, email, role, created_at, updated_at },
-                    key
-                  ) => {
+                  ({ id, name, limit, price, created_at, updated_at }, key) => {
                     const className = "py-3 px-5 border-b border-blue-gray-50";
                     return (
                       <tr key={key}>
@@ -197,22 +173,19 @@ export function RoomTypeList() {
                             className="font-semibold"
                           >
                             <NavLink to="/dashboard/room-type/edit">
-                              {full_name}
+                              {name}
                             </NavLink>
                           </Typography>
                         </td>
                         <td className={className}>
                           <Typography className="text-xs font-normal text-blue-gray-500">
-                            {email}
+                            {limit}
                           </Typography>
                         </td>
                         <td className={className}>
-                          <Chip
-                            variant="gradient"
-                            color={role == "1" ? "green" : "blue-gray"}
-                            value={role == "1" ? "admin" : "user"}
-                            className="py-0.5 px-2 text-[11px] font-medium"
-                          />
+                          <Typography className="text-xs font-normal text-blue-gray-500">
+                            {price}
+                          </Typography>
                         </td>
                         <td className={className}>
                           <Typography className="text-xs font-semibold text-blue-gray-600">

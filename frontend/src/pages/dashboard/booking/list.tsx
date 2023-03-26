@@ -2,44 +2,26 @@ import {
   Card,
   CardBody,
   Typography,
-  Avatar,
-  Chip,
   Button,
   Input,
   Select,
   Option,
+  CardHeader,
+  CardFooter,
 } from "@material-tailwind/react";
 import { NavLink } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { getUsers } from "../../../services";
+import { getData } from "../../../services";
 import Pagination from "../../../widgets/layout/panigation";
-import { IUser } from "../../../types";
-
-function filterUsers(
-  users: IUser[],
-  full_name: string,
-  email: string,
-  role: string,
-  status: string
-) {
-  return users.filter((user) => {
-    return (
-      user.full_name.includes(full_name) ||
-      user.email.includes(email) ||
-      user.role.includes(role) ||
-      user.status.includes(status)
-    );
-  });
-}
 
 export function BookingList() {
   const [isVisibleSearch, setVisibleSearch] = useState(false);
-  const [listUser, setListUser] = useState<IUser[]>([]);
-  const totalRow: number = listUser.length;
+  const [listBooking, setListBooking] = useState([]);
+  const totalRow: number = listBooking.length;
   const [page, setPage] = useState(1);
-  const userNameRef = useRef<HTMLInputElement>(null);
+  const bookingNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const roleRef = useRef<HTMLInputElement>(null);
   const statusRef = useRef<HTMLInputElement>(null);
@@ -52,35 +34,31 @@ export function BookingList() {
   };
 
   const handleSearch = () => {
-    const full_name = userNameRef.current?.querySelector("input")?.value || "";
+    const full_name =
+      bookingNameRef.current?.querySelector("input")?.value || "";
     const email = emailRef.current?.querySelector("input")?.value || "";
     const role = roleRef.current?.querySelector("input")?.value || "0";
     const status = statusRef.current?.querySelector("input")?.value || "0";
-
-    const fillUser = filterUsers(listUser, full_name, email, role, status);
-    setListUser(fillUser);
   };
 
   const handleClearSearch = async () => {
-    userNameRef.current?.onreset;
+    bookingNameRef.current?.onreset;
     emailRef.current?.onreset;
     roleRef.current?.querySelector("input")?.onreset;
     statusRef.current?.querySelector("input")?.onreset;
-    const listUser = await getUsers();
-    setListUser(listUser);
   };
 
   useEffect(() => {
-    async function fetchGetListUser() {
+    async function fetchGetlistBooking() {
       try {
-        const listUser = await getUsers();
-        setListUser(listUser);
+        const listBooking = await getData("booking");
+        setListBooking(listBooking);
       } catch (error) {
         // Handle errors
       }
     }
 
-    fetchGetListUser();
+    fetchGetlistBooking();
   }, []);
 
   return (
@@ -89,7 +67,7 @@ export function BookingList() {
         <Typography variant="h4" className="font-medium capitalize">
           Booking
         </Typography>
-        <NavLink to="/dashboard/user/create">
+        <NavLink to="/dashboard/booking/create">
           <Button className="w-24">Create</Button>
         </NavLink>
       </div>
@@ -118,7 +96,7 @@ export function BookingList() {
           <div className="grid grid-cols-4 gap-4">
             <div className="flex flex-col gap-2">
               <Typography className="font-small capitalize">Name</Typography>
-              <Input ref={userNameRef} />
+              <Input ref={bookingNameRef} />
             </div>
             <div className="flex flex-col gap-2">
               <Typography className="font-small capitalize">Email</Typography>
@@ -147,96 +125,41 @@ export function BookingList() {
           </div>
         </div>
       )}
-      <Card>
-        <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
-          <table className="w-full min-w-[640px] table-auto">
-            <thead>
-              <tr>
-                {[
-                  "id",
-                  "full name",
-                  "email",
-                  "role",
-                  "date create",
-                  "date update",
-                ].map((el) => (
-                  <th
-                    key={el}
-                    className="border-b border-blue-gray-50 py-3 px-5 text-left"
-                  >
-                    <Typography
-                      variant="small"
-                      className="text-[11px] font-bold uppercase text-blue-gray-400"
-                    >
-                      {el}
-                    </Typography>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {listUser
-                .slice(page * 10 - 10, page * 10)
-                .map(
-                  (
-                    { id, full_name, email, role, created_at, updated_at },
-                    key
-                  ) => {
-                    const className = "py-3 px-5 border-b border-blue-gray-50";
-                    return (
-                      <tr key={key}>
-                        <td className={className}>
-                          <Typography className="text-xs font-normal text-blue-gray-500">
-                            {id}
-                          </Typography>
-                        </td>
-                        <td className={className}>
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-semibold"
-                          >
-                            <NavLink to="/dashboard/user/edit">
-                              {full_name}
-                            </NavLink>
-                          </Typography>
-                        </td>
-                        <td className={className}>
-                          <Typography className="text-xs font-normal text-blue-gray-500">
-                            {email}
-                          </Typography>
-                        </td>
-                        <td className={className}>
-                          <Chip
-                            variant="gradient"
-                            color={role == "1" ? "green" : "blue-gray"}
-                            value={role == "1" ? "admin" : "user"}
-                            className="py-0.5 px-2 text-[11px] font-medium"
-                          />
-                        </td>
-                        <td className={className}>
-                          <Typography className="text-xs font-semibold text-blue-gray-600">
-                            {created_at}
-                          </Typography>
-                        </td>
-                        <td className={className}>
-                          <Typography className="text-xs font-semibold text-blue-gray-600">
-                            {updated_at}
-                          </Typography>
-                        </td>
-                      </tr>
-                    );
-                  }
-                )}
-            </tbody>
-          </table>
-        </CardBody>
-        <Pagination
-          page={page}
-          totalRow={totalRow}
-          onPageChange={handlePageChange}
-        />
-      </Card>
+      <div className=" mt-10 w-full h-full grid gap-16 grid-cols-4">
+        {listBooking.map((booking) => {
+          return (
+            <Card key={1} className="w-96">
+              <CardHeader
+                color="blue"
+                className="relative h-16 flex justify-center items-center"
+              >
+                <Typography variant="h4" color="black" className="text-center">
+                  Room 3
+                </Typography>
+              </CardHeader>
+              <CardBody className="text-center">
+                <Typography variant="h5" className="mb-2">
+                  Update
+                </Typography>
+                <Typography>
+                  The place is close to Barceloneta Beach and bus stop just 2
+                  min by walk and near to where you can enjoy the main night
+                  life in Barcelona.
+                </Typography>
+              </CardBody>
+              <CardFooter
+                divider
+                className="flex items-center justify-between py-3"
+              >
+                <Button color="gray">
+                  <NavLink to="/dashboard/booking/edit">Update</NavLink>
+                </Button>
+                <Button className="flex gap-1">Check out</Button>
+              </CardFooter>
+            </Card>
+          );
+        })}
+      </div>
     </div>
   );
 }

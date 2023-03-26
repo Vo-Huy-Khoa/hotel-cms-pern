@@ -1,9 +1,9 @@
 import { Router } from "express";
-import userController from "../controllers/userController";
+import bookingController from "../controllers/bookingController";
 const router = Router();
 
-router.post("/create", userController.create);
-router.put("/update", userController.update);
-router.get("/", userController.getAll);
+router.post("/create", bookingController.create);
+router.put("/update", bookingController.update);
+router.get("/", bookingController.getAll);
 
 export default router;

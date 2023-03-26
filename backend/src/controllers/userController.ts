@@ -5,16 +5,14 @@ import { Request, Response } from "express";
 class userController {
   async create(req: Request, res: Response) {
     try {
-      const user_name = req.body.user_name;
-      const full_name = req.body.full_name;
-      const email = req.body.email;
+      const { user_name, full_name, email } = req.body;
       const oldPassword = req.body.password;
       const password = await bcrypt.hash(oldPassword, 10);
       const status = req.body.status;
       const initValue = [user_name, full_name, email, password, status];
 
       const insertQuery =
-        "INSERT INTO users(user_name, full_name, email, password, status) VALUES($1, $2, $3, $4, $5";
+        "INSERT INTO users(user_name, full_name, email, password, status) VALUES($1, $2, $3, $4, $5)";
       const { rows } = await pool.query(insertQuery, initValue);
       res.status(201).json(rows[0]);
     } catch (err) {
@@ -54,9 +52,9 @@ class userController {
       };
       const { rowCount } = await pool.query(query);
       if (rowCount === 0) {
-        return res.status(404).json({ error: "User not found" });
+        return res.status(404).json({ error: "users not found" });
       }
-      res.status(202).json({ message: "User updated successfully" });
+      res.status(202).json({ message: "users updated successfully" });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Internal server error" });

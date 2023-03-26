@@ -2,7 +2,6 @@ import {
   Card,
   CardBody,
   Typography,
-  Avatar,
   Chip,
   Button,
   Input,
@@ -13,35 +12,18 @@ import { NavLink } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { getUsers } from "../../../services";
+import { getData, getUsers } from "../../../services";
 import Pagination from "../../../widgets/layout/panigation";
 import { IUser } from "../../../types";
 
-function filterUsers(
-  users: IUser[],
-  full_name: string,
-  email: string,
-  role: string,
-  status: string
-) {
-  return users.filter((user) => {
-    return (
-      user.full_name.includes(full_name) ||
-      user.email.includes(email) ||
-      user.role.includes(role) ||
-      user.status.includes(status)
-    );
-  });
-}
-
 export function RoomList() {
   const [isVisibleSearch, setVisibleSearch] = useState(false);
-  const [listUser, setListUser] = useState<IUser[]>([]);
-  const totalRow: number = listUser.length;
+  const [listRoom, setListRoom] = useState([]);
+  const totalRow: number = listRoom.length;
   const [page, setPage] = useState(1);
   const userNameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const roleRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const priceRef = useRef<HTMLInputElement>(null);
   const statusRef = useRef<HTMLInputElement>(null);
 
   function handlePageChange(newPage: number) {
@@ -52,35 +34,30 @@ export function RoomList() {
   };
 
   const handleSearch = () => {
-    const full_name = userNameRef.current?.querySelector("input")?.value || "";
-    const email = emailRef.current?.querySelector("input")?.value || "";
-    const role = roleRef.current?.querySelector("input")?.value || "0";
+    const room_type = userNameRef.current?.querySelector("input")?.value || "";
+    const name = nameRef.current?.querySelector("input")?.value || "";
+    const price = priceRef.current?.querySelector("input")?.value || "0";
     const status = statusRef.current?.querySelector("input")?.value || "0";
-
-    const fillUser = filterUsers(listUser, full_name, email, role, status);
-    setListUser(fillUser);
   };
 
   const handleClearSearch = async () => {
     userNameRef.current?.onreset;
-    emailRef.current?.onreset;
-    roleRef.current?.querySelector("input")?.onreset;
+    nameRef.current?.onreset;
+    priceRef.current?.querySelector("input")?.onreset;
     statusRef.current?.querySelector("input")?.onreset;
-    const listUser = await getUsers();
-    setListUser(listUser);
   };
 
   useEffect(() => {
-    async function fetchGetListUser() {
+    async function fetchGetListRoom() {
       try {
-        const listUser = await getUsers();
-        setListUser(listUser);
+        const listUser = await getData("room");
+        setListRoom(listUser);
       } catch (error) {
         // Handle errors
       }
     }
 
-    fetchGetListUser();
+    fetchGetListRoom();
   }, []);
 
   return (
@@ -121,12 +98,12 @@ export function RoomList() {
               <Input ref={userNameRef} />
             </div>
             <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">Email</Typography>
-              <Input ref={emailRef} />
+              <Typography className="font-small capitalize">name</Typography>
+              <Input ref={nameRef} />
             </div>
             <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">Role</Typography>
-              <Select ref={roleRef}>
+              <Typography className="font-small capitalize">price</Typography>
+              <Select ref={priceRef}>
                 <Option>0</Option>
                 <Option>1</Option>
               </Select>
@@ -176,11 +153,19 @@ export function RoomList() {
               </tr>
             </thead>
             <tbody>
-              {listUser
+              {listRoom
                 .slice(page * 10 - 10, page * 10)
                 .map(
                   (
-                    { id, full_name, email, role, created_at, updated_at },
+                    {
+                      id,
+                      room_type,
+                      name,
+                      price,
+                      status,
+                      created_at,
+                      updated_at,
+                    },
                     key
                   ) => {
                     const className = "py-3 px-5 border-b border-blue-gray-50";
@@ -198,22 +183,24 @@ export function RoomList() {
                             className="font-semibold"
                           >
                             <NavLink to="/dashboard/room/edit">
-                              {full_name}
+                              {room_type}
                             </NavLink>
                           </Typography>
                         </td>
                         <td className={className}>
                           <Typography className="text-xs font-normal text-blue-gray-500">
-                            {email}
+                            {name}
                           </Typography>
                         </td>
                         <td className={className}>
-                          <Chip
-                            variant="gradient"
-                            color={role == "1" ? "green" : "blue-gray"}
-                            value={role == "1" ? "admin" : "user"}
-                            className="py-0.5 px-2 text-[11px] font-medium"
-                          />
+                          <Typography className="text-xs font-normal text-blue-gray-500">
+                            {price}
+                          </Typography>
+                        </td>
+                        <td className={className}>
+                          <Typography className="text-xs font-normal text-blue-gray-500">
+                            {status}
+                          </Typography>
                         </td>
                         <td className={className}>
                           <Typography className="text-xs font-semibold text-blue-gray-600">

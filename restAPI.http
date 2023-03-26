@@ -1,7 +1,7 @@
 
-# @url  = http://localhost:3001/api
-@url  = https://cmshotel.onrender.com/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTUzOTAyNiwiZXhwIjoxNjc5NTQyNjI2fQ.QmQQ5bRtQKIcgk1X671eJnl1H_u0aRxeqAr7zCl_4R0s
+@url  = http://localhost:3001/api
+# @url  = https://cmshotel.onrender.com/api
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTc1MDI0NCwiZXhwIjoxNjc5NzUwMjY0fQ.9I_bN8njAmPowudnBnTSluOdJo8nlxkdYU7JrWckf-Q
 
 @refresh_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTUzODgwOCwiZXhwIjoxNjc5NTQyNDA4fQ.UjHK0rDUCTRnbk6m6aBMF0N1VDNVWfOAV6OD5q0URVE
 # =============AUTH================== 
@@ -11,9 +11,10 @@ POST {{url}}/auth/register
 Content-Type: application/json
 
 {
+    "full_name": "vo huy khoa",
     "user_name": "khoavh",
     "email" : "huykhoa630@gmail.com",
-    "password": "1",
+    "password": "1"
 }
 
 ### Login

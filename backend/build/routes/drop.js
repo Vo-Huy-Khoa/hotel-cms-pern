@@ -4,4 +4,8 @@ const express_1 = require("express");
 const migrations_1 = require("../database/migrations");
 const router = (0, express_1.Router)();
 router.get("/user", migrations_1.UserDown);
+router.get("/client", migrations_1.ClientDown);
+router.get("/room_type", migrations_1.RoomTypeDown);
+router.get("/room", migrations_1.RoomDown);
+router.get("/booking", migrations_1.BookingDown);
 exports.default = router;
