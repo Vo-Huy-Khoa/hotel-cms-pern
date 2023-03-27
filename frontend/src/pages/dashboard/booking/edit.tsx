@@ -5,8 +5,48 @@ import {
   Option,
   Typography,
 } from "@material-tailwind/react";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Popup } from "../../../components";
+import { handleEit, handleGetItem } from "../../../services";
+import { IUser } from "../../../types";
 
 export const BookingEdit = () => {
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(!open);
+  const { id } = useParams();
+  const [user, setUser] = useState<IUser>();
+
+  const userNameRef = useRef<HTMLInputElement>(null);
+  const fullNameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const statusRef = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = async () => {
+    const user_name = userNameRef.current?.querySelector("input")?.value || "";
+    const full_name = fullNameRef.current?.querySelector("input")?.value || "";
+    const email = emailRef.current?.querySelector("input")?.value || "";
+    const status = statusRef.current?.querySelector("input")?.value || "1";
+
+    const body = {
+      user_name,
+      full_name,
+      email,
+      status,
+    };
+
+    await handleEit("update", body);
+    navigate("/dashboard/booking/list");
+  };
+
+  useEffect(() => {
+    async function getUser() {
+      const user = await handleGetItem(`booking/edit/${id}`);
+      setUser(user);
+    }
+    getUser();
+  }, [id]);
   return (
     <aside className="min-h-screen w-full">
       <div className="bg-white rounded-lg">
@@ -37,6 +77,12 @@ export const BookingEdit = () => {
         <Button className="h-10">Submit</Button>
         <Button className="bg-blue-gray-700 h-10">Clear</Button>
       </div>
+      <Popup
+        desc="User Create"
+        open={open}
+        onClose={handleOpen}
+        submit={handleSubmit}
+      />
     </aside>
   );
 };

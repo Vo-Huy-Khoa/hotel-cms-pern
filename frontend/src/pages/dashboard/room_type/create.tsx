@@ -6,19 +6,32 @@ import {
   Option,
 } from "@material-tailwind/react";
 import { useRef, useState } from "react";
-import { PopupCreate } from "../../../components";
+import { useNavigate } from "react-router-dom";
+import { Popup } from "../../../components";
+import { handleEit } from "../../../services";
 
 export const RoomTypeCreate = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
+
   const nameRef = useRef<HTMLInputElement>(null);
-  const limitRef = useRef<HTMLInputElement>(null);
+  const countRef = useRef<HTMLInputElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
 
-  const handleCreateUser = () => {
-    const full_name = nameRef.current?.querySelector("input")?.value || "";
-    const limit = limitRef.current?.querySelector("input")?.value || "";
+  const handleSubmit = async () => {
+    const name = nameRef.current?.querySelector("input")?.value || "";
+    const count = countRef.current?.querySelector("input")?.value || "";
     const price = priceRef.current?.querySelector("input")?.value || "";
+
+    const body = {
+      name,
+      count,
+      price,
+    };
+
+    await handleEit("room_type/create", body);
+    navigate("/dashboard/room_type/list");
   };
 
   return (
@@ -31,7 +44,7 @@ export const RoomTypeCreate = () => {
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Limit</Typography>
-            <Select label="Limit" ref={limitRef}>
+            <Select label="Limit" ref={countRef}>
               <Option>1</Option>
               <Option>2</Option>
               <Option>3</Option>
@@ -50,7 +63,12 @@ export const RoomTypeCreate = () => {
         </Button>
         <Button className="bg-blue-gray-700 h-10">Clear</Button>
       </div>
-      <PopupCreate open={open} onClose={handleOpen} />
+      <Popup
+        desc="User Create"
+        open={open}
+        onClose={handleOpen}
+        submit={handleSubmit}
+      />
     </aside>
   );
 };

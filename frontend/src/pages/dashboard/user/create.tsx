@@ -6,28 +6,43 @@ import {
   Option,
 } from "@material-tailwind/react";
 import { useRef, useState } from "react";
-import { PopupCreate } from "../../../components";
+import { useNavigate } from "react-router-dom";
+import { Popup } from "../../../components";
+import { handleCreate } from "../../../services";
 
 export const UserCreate = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
+
   const userNameRef = useRef<HTMLInputElement>(null);
   const fullNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const statusRef = useRef<HTMLInputElement>(null);
-  const handleCreateUser = () => {
+
+  const handleSubmit = async () => {
     const user_name = userNameRef.current?.querySelector("input")?.value || "";
     const full_name = fullNameRef.current?.querySelector("input")?.value || "";
+    const password = passwordRef.current?.querySelector("input")?.value || "";
     const email = emailRef.current?.querySelector("input")?.value || "";
-    const role = statusRef.current?.querySelector("input")?.value || "0";
-    const status = statusRef.current?.querySelector("input")?.value || "0";
+    const status = statusRef.current?.value || "1";
+    const body = {
+      user_name,
+      full_name,
+      email,
+      password,
+      status,
+    };
+
+    await handleCreate("user/create", body);
+    navigate("/dashboard/user/list");
   };
 
   return (
     <aside className="min-h-screen w-full">
       <div className="bg-white rounded-lg">
-        <form action="" method="post" className="flex flex-col gap-4 p-5">
+        <div className="flex flex-col gap-4 p-5">
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Full name</Typography>
             <Input label="Full Name" ref={fullNameRef}></Input>
@@ -44,14 +59,14 @@ export const UserCreate = () => {
             <Typography className="w-32">Password</Typography>
             <Input type="password" label="Password" ref={passwordRef}></Input>
           </div>
-          <div className="flex flex-row gap-6">
+          {/* <div className="flex flex-row gap-6">
             <Typography className="w-32">Status</Typography>
             <Select label="Role" ref={statusRef}>
-              <Option value="0">Disable</Option>
-              <Option value="1">Enable</Option>
+              <Option value="true">Disable</Option>
+              <Option value="false">Enable</Option>
             </Select>
-          </div>
-        </form>
+          </div> */}
+        </div>
       </div>
       <div className=" fixed left-0 bottom-0 w-full h-14 bg-gray-900  flex flex-row justify-end gap-6 items-center px-10 ">
         <Button onClick={handleOpen} className="h-10">
@@ -59,7 +74,12 @@ export const UserCreate = () => {
         </Button>
         <Button className="bg-blue-gray-700 h-10">Clear</Button>
       </div>
-      <PopupCreate open={open} onClose={handleOpen} />
+      <Popup
+        desc="User Create"
+        open={open}
+        onClose={handleOpen}
+        submit={handleSubmit}
+      />
     </aside>
   );
 };

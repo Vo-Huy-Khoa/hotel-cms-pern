@@ -15,6 +15,8 @@ import { useEffect, useRef, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { getData } from "../../../services";
 import Pagination from "../../../widgets/layout/panigation";
+import { IBooking } from "../../../types";
+import moment from "moment";
 
 export function BookingList() {
   const [isVisibleSearch, setVisibleSearch] = useState(false);
@@ -62,7 +64,7 @@ export function BookingList() {
   }, []);
 
   return (
-    <div className="mt-12 mb-8 flex flex-col gap-4">
+    <div className=" h-full mt-12 mb-8 flex flex-col gap-4">
       <div className="flex flex-row items-center justify-between">
         <Typography variant="h4" className="font-medium capitalize">
           Booking
@@ -82,7 +84,7 @@ export function BookingList() {
         <Typography className="font-medium capitalize">Search</Typography>
       </div>
       {isVisibleSearch && (
-        <div className="h-60 bg-white rounded-lg p-6 flex flex-col justify-between">
+        <div className="bg-white rounded-lg p-6 flex flex-col justify-between gap-6">
           <div className="flex flex-row items-center gap-1">
             <XMarkIcon
               strokeWidth={3}
@@ -93,7 +95,7 @@ export function BookingList() {
               Handle search
             </Typography>
           </div>
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid md:grid-cols-4 sm:grid-cols-1 gap-4">
             <div className="flex flex-col gap-2">
               <Typography className="font-small capitalize">Name</Typography>
               <Input ref={bookingNameRef} />
@@ -125,10 +127,10 @@ export function BookingList() {
           </div>
         </div>
       )}
-      <div className=" mt-10 w-full h-full grid gap-16 grid-cols-4">
-        {listBooking.map((booking: any) => {
+      <div className=" mt-10 w-full h-full grid gap-16 md:grid-cols-4 sm:grid-cols-1 justify-center">
+        {listBooking.map((booking: IBooking, index: number) => {
           return (
-            <Card key={1} className="w-96">
+            <Card key={index} className="w-96">
               <CardHeader
                 color="blue"
                 className="relative h-16 flex justify-center items-center"
@@ -139,7 +141,7 @@ export function BookingList() {
               </CardHeader>
               <CardBody className="text-center">
                 <Typography variant="h5" className="mb-2">
-                  {booking?.check_in}
+                  {moment(booking?.check_in).format("YYYY-MM-DD HH:mm")}
                 </Typography>
                 <Typography>
                   The place is close to Barceloneta Beach and bus stop just 2

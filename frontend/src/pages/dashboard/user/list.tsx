@@ -2,7 +2,6 @@ import {
   Card,
   CardBody,
   Typography,
-  Avatar,
   Chip,
   Button,
   Input,
@@ -28,7 +27,6 @@ function filterUsers(
     return (
       user.full_name.includes(full_name) ||
       user.email.includes(email) ||
-      user.role.includes(role) ||
       user.status.includes(status)
     );
   });
@@ -156,7 +154,7 @@ export function UserList() {
                   "id",
                   "full name",
                   "email",
-                  "role",
+                  "status",
                   "date create",
                   "date update",
                 ].map((el) => (
@@ -179,7 +177,7 @@ export function UserList() {
                 .slice(page * 10 - 10, page * 10)
                 .map(
                   (
-                    { id, full_name, email, role, created_at, updated_at },
+                    { id, full_name, email, status, created_at, updated_at },
                     key
                   ) => {
                     const className = "py-3 px-5 border-b border-blue-gray-50";
@@ -196,7 +194,7 @@ export function UserList() {
                             color="blue-gray"
                             className="font-semibold"
                           >
-                            <NavLink to="/dashboard/user/edit">
+                            <NavLink to={`/dashboard/user/edit/${id}`}>
                               {full_name}
                             </NavLink>
                           </Typography>
@@ -209,8 +207,8 @@ export function UserList() {
                         <td className={className}>
                           <Chip
                             variant="gradient"
-                            color={role == "1" ? "green" : "blue-gray"}
-                            value={role == "1" ? "admin" : "user"}
+                            color={status == "1" ? "green" : "blue-gray"}
+                            value={status == "1" ? "yes" : "no"}
                             className="py-0.5 px-2 text-[11px] font-medium"
                           />
                         </td>

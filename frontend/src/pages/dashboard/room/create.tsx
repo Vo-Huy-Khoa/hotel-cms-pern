@@ -7,9 +7,12 @@ import {
   Textarea,
 } from "@material-tailwind/react";
 import { useRef, useState } from "react";
-import { PopupCreate } from "../../../components";
+import { useNavigate } from "react-router-dom";
+import { Popup } from "../../../components";
+import { handleCreate } from "../../../services";
 
 export const RoomCreate = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
   const roomTypeRef = useRef<HTMLInputElement>(null);
@@ -17,11 +20,22 @@ export const RoomCreate = () => {
   const descRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
   const statusRef = useRef<HTMLInputElement>(null);
-  const handleCreateUser = () => {
-    const roomType = roomTypeRef.current?.querySelector("input")?.value || "";
+
+  const handleSubmit = async () => {
+    const room_type = roomTypeRef.current?.querySelector("input")?.value || "";
     const name = nameRef.current?.querySelector("input")?.value || "";
     const description = descRef.current?.querySelector("input")?.value || "";
-    const status = statusRef.current?.querySelector("input")?.value || "0";
+    const image = imageRef.current?.querySelector("input")?.value || "1";
+
+    const body = {
+      room_type,
+      name,
+      description,
+      image,
+    };
+
+    await handleCreate("room/create", body);
+    navigate("/dashboard/room/list");
   };
 
   return (
@@ -64,7 +78,12 @@ export const RoomCreate = () => {
         </Button>
         <Button className="bg-blue-gray-700 h-10">Clear</Button>
       </div>
-      <PopupCreate open={open} onClose={handleOpen} />
+      <Popup
+        desc="User Create"
+        open={open}
+        onClose={handleOpen}
+        submit={handleSubmit}
+      />{" "}
     </aside>
   );
 };
