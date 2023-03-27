@@ -9,10 +9,10 @@ class userController {
       const oldPassword = req.body.password;
       const password = await bcrypt.hash(oldPassword, 10);
       const status = req.body.status;
-      const initValue = [user_name, full_name, email, password, status];
+      const initValue = [user_name, full_name, email, status];
 
       const insertQuery =
-        "INSERT INTO users(user_name, full_name, email, password, status) VALUES($1, $2, $3, $4, $5)";
+        "INSERT INTO users(user_name, full_name, email, status) VALUES($1, $2, $3, $4, $5)";
       const { rows } = await pool.query(insertQuery, initValue);
       res.status(201).json(rows[0]);
     } catch (err) {
@@ -31,24 +31,21 @@ class userController {
     }
   }
 
-  async find(req: Request, res: Response) {
+  async edit(req: Request, res: Response) {
     try {
-      const username = req.body.username;
-      const { rows } = await pool.query(
-        "SELECT * FROM users WHERE username = $1",
-        [username]
-      );
-      res.status(202).json(rows);
+      const { id } = req.params;
+      const { rows } = await pool.query(`SELECT * FROM users WHERE id = ${id}`);
+      res.status(202).json(rows[0]);
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
     }
   }
   async update(req: Request, res: Response) {
     try {
-      const { id, user_name, full_name, email, password, status } = req.body;
+      const { id, user_name, full_name, email, status } = req.body;
       const query = {
-        text: "UPDATE users SET user_name = $2, full_name = $3, email = $4, password = $5, status = $8 WHERE id = $1",
-        values: [id, user_name, full_name, email, password, status],
+        text: "UPDATE users SET user_name = $2, full_name = $3, email = $4, status = $6 WHERE id = $1",
+        values: [id, user_name, full_name, email, status],
       };
       const { rowCount } = await pool.query(query);
       if (rowCount === 0) {

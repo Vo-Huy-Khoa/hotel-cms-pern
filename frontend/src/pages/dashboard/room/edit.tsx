@@ -6,23 +6,48 @@ import {
   Option,
   Textarea,
 } from "@material-tailwind/react";
-import { useRef, useState } from "react";
-import { PopupCreate } from "../../../components";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Popup } from "../../../components";
+import { handleEit, handleGetItem } from "../../../services";
+import { IUser } from "../../../types";
 
 export const RoomEdit = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
+  const { id } = useParams();
+  const [user, setUser] = useState<IUser>();
   const roomTypeRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const descRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
   const statusRef = useRef<HTMLInputElement>(null);
-  const handleCreateUser = () => {
-    const roomType = roomTypeRef.current?.querySelector("input")?.value || "";
+
+  const handleSubmit = async () => {
+    const room_type = roomTypeRef.current?.querySelector("input")?.value || "";
     const name = nameRef.current?.querySelector("input")?.value || "";
     const description = descRef.current?.querySelector("input")?.value || "";
-    const status = statusRef.current?.querySelector("input")?.value || "0";
+    const image = imageRef.current?.querySelector("input")?.value || "1";
+
+    const body = {
+      room_type,
+      name,
+      description,
+      image,
+    };
+
+    await handleEit("room/update", body);
+    navigate("/dashboard/room/list");
   };
+
+  useEffect(() => {
+    async function getUser() {
+      const user = await handleGetItem(`room/edit/${id}`);
+      setUser(user);
+    }
+    getUser();
+  }, [id]);
 
   return (
     <aside className="min-h-screen w-full">
@@ -64,7 +89,12 @@ export const RoomEdit = () => {
         </Button>
         <Button className="bg-blue-gray-700 h-10">Clear</Button>
       </div>
-      <PopupCreate open={open} onClose={handleOpen} />
+      <Popup
+        desc="User Create"
+        open={open}
+        onClose={handleOpen}
+        submit={handleSubmit}
+      />
     </aside>
   );
 };

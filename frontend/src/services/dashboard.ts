@@ -11,11 +11,38 @@ const getUsers = async () => {
 
 const getData = async (url: string) => {
   try {
-    const response = await axiosInstance.get(`${url}`);
+    const response = await axiosInstance.get(url);
     return response.data;
   } catch (error) {
     console.log(error);
   }
 };
 
-export { getUsers, getData };
+const handleCreate = async (url: string, body: object) => {
+  try {
+    const response = await axiosInstance.post(url, JSON.stringify(body));
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const handleGetItem = async (url: string) => {
+  try {
+    const response = await axiosInstance.get(url);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const handleEit = async (url: string, body: object) => {
+  try {
+    const response = await axiosInstance.post(url, JSON.stringify(body));
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { getUsers, getData, handleCreate, handleGetItem, handleEit };
