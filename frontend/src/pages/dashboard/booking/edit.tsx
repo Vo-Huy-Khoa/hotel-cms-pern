@@ -8,7 +8,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Popup } from "../../../components";
-import { handleEit, handleGetItem } from "../../../services";
+import { handleEdit, handleGetItem } from "../../../services";
 import { IUser } from "../../../types";
 
 export const BookingEdit = () => {
@@ -36,7 +36,7 @@ export const BookingEdit = () => {
       status,
     };
 
-    await handleEit("update", body);
+    await handleEdit("update", body);
     navigate("/dashboard/booking/list");
   };
 

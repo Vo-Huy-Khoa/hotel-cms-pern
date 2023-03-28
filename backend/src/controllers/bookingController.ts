@@ -6,7 +6,7 @@ class bookingController {
   // Retrieve all users from the database
   async getAll(req: Request, res: Response) {
     try {
-      const query = "SELECT * FROM bookings";
+      const query = "SELECT * FROM bookings ORDER BY id DESC";
       const { rows } = await pool.query(query);
       res.status(200).json(rows);
     } catch (error) {

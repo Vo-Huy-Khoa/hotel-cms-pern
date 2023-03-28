@@ -9,7 +9,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Popup } from "../../../components";
-import { handleEit, handleGetItem } from "../../../services";
+import { handleEdit, handleGetItem } from "../../../services";
 import { IUser } from "../../../types";
 
 export const RoomEdit = () => {
@@ -37,7 +37,7 @@ export const RoomEdit = () => {
       image,
     };
 
-    await handleEit("room/update", body);
+    await handleEdit("room/update", body);
     navigate("/dashboard/room/list");
   };
 

@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { Navbar, Sidenav } from "../widgets/layout";
 import routes from "../routes";
+import { Props } from "react-apexcharts";
 
 export function Dashboard() {
   return (
@@ -12,7 +13,7 @@ export function Dashboard() {
           {routes.map(({ layout, pages }) => {
             return (
               layout === "dashboard" &&
-              pages.map(({ path, element }) => {
+              pages.map(({ path, element }: Props) => {
                 return <Route key={1} path={path} element={element} />;
               })
             );

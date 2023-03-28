@@ -15,6 +15,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const configs_1 = __importDefault(require("../configs"));
 class userController {
+    // Retrieve all users from the database
+    getAll(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const query = "select * from users ORDER BY id DESC";
+                const { rows } = yield configs_1.default.query(query);
+                res.status(200).json(rows);
+            }
+            catch (error) {
+                res.status(500).json({ error: "Internal server error" });
+            }
+        });
+    }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -22,26 +35,13 @@ class userController {
                 const oldPassword = req.body.password;
                 const password = yield bcrypt_1.default.hash(oldPassword, 10);
                 const status = req.body.status;
-                const initValue = [user_name, full_name, email, status];
-                const insertQuery = "INSERT INTO users(user_name, full_name, email, status) VALUES($1, $2, $3, $4, $5)";
+                const initValue = [user_name, full_name, email, status, password];
+                const insertQuery = "INSERT INTO users(user_name, full_name, email, status, password) VALUES($1, $2, $3, $4, $5)";
                 const { rows } = yield configs_1.default.query(insertQuery, initValue);
                 res.status(201).json(rows[0]);
             }
             catch (err) {
                 console.error(err);
-                res.status(500).json({ error: "Internal server error" });
-            }
-        });
-    }
-    // Retrieve all users from the database
-    getAll(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const query = "SELECT * FROM users";
-                const { rows } = yield configs_1.default.query(query);
-                res.status(200).json(rows);
-            }
-            catch (error) {
                 res.status(500).json({ error: "Internal server error" });
             }
         });

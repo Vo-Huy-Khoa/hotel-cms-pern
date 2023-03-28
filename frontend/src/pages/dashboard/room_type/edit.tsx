@@ -8,15 +8,15 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Popup } from "../../../components";
-import { handleEit, handleGetItem } from "../../../services";
-import { IUser } from "../../../types";
+import { handleEdit, handleGetItem } from "../../../services";
+import { IRoomType } from "../../../types";
 
 export const RoomTypeEdit = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
   const { id } = useParams();
-  const [user, setUser] = useState<IUser>();
+  const [roomType, setRoomType] = useState<IRoomType>();
 
   const nameRef = useRef<HTMLInputElement>(null);
   const countRef = useRef<HTMLInputElement>(null);
@@ -33,14 +33,14 @@ export const RoomTypeEdit = () => {
       price,
     };
 
-    await handleEit("room_type/update", body);
+    await handleEdit("room_type/update", body);
     navigate("/dashboard/room_type/list");
   };
 
   useEffect(() => {
     async function getUser() {
-      const user = await handleGetItem(`room/edit/${id}`);
-      setUser(user);
+      const getRoomRype = await handleGetItem(`room/edit/${id}`);
+      setRoomType(getRoomRype);
     }
     getUser();
   }, [id]);

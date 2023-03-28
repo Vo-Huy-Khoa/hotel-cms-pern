@@ -22,10 +22,13 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setVisibility } from "../../redux/actions";
 import { RootState } from "../../redux/reducers/rootReducer";
+import { IUser } from "../../types";
+import { Logout } from "@mui/icons-material";
 
 export function Navbar() {
   const { pathname } = useLocation();
-  const [layout, page] = pathname.split("/").filter((el) => el !== "");
+  const user: IUser = JSON.parse(sessionStorage.getItem("user") || "");
+  const [layout, page, actions] = pathname.split("/").filter((el) => el !== "");
   const dispatch = useDispatch();
   const isVisible = useSelector((state: RootState) => state.currentVisibility);
 
@@ -55,9 +58,16 @@ export function Navbar() {
             <Typography
               variant="small"
               color="blue-gray"
-              className="font-normal"
+              className="font-normal opacity-50 transition-all hover:text-blue-500 hover:opacity-100"
             >
               {page}
+            </Typography>
+            <Typography
+              variant="small"
+              color="blue-gray"
+              className="font-normal"
+            >
+              {actions}
             </Typography>
           </Breadcrumbs>
         </div>
@@ -73,26 +83,51 @@ export function Navbar() {
               className="h-6 w-6 text-blue-gray-500"
             />
           </IconButton>
-          <Link to="/auth/sign-in">
-            <Button
-              variant="text"
-              color="blue-gray"
-              className="hidden items-center gap-1 px-4 xl:flex"
-            >
-              <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
-              Sign In
-            </Button>
-            <IconButton
-              variant="text"
-              color="blue-gray"
-              className="grid xl:hidden"
-            >
-              <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
-            </IconButton>
-          </Link>
-          <IconButton variant="text" color="blue-gray">
-            <Cog6ToothIcon className="h-5 w-5 text-blue-gray-500" />
-          </IconButton>
+          <Button
+            variant="text"
+            color="blue-gray"
+            className="hidden items-center gap-1 px-4 xl:flex"
+          >
+            <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
+            {user?.full_name}
+          </Button>
+          {/* <IconButton
+            variant="text"
+            color="blue-gray"
+            className="grid xl:hidden"
+          >
+            <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
+          </IconButton> */}
+
+          <Menu>
+            <MenuHandler>
+              <IconButton variant="text" color="blue-gray">
+                <Cog6ToothIcon className="h-5 w-5 text-blue-gray-500" />
+              </IconButton>
+            </MenuHandler>
+            <MenuList className="w-max border-0">
+              <MenuItem className="flex items-center gap-3">
+                <Cog6ToothIcon className="h-5 w-5 text-blue-gray-500" />
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="mb-1 font-normal"
+                >
+                  Settings
+                </Typography>
+              </MenuItem>
+              <MenuItem className="flex items-center gap-3">
+                <Logout className="h-5 w-5 text-blue-gray-500" />
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="mb-1 font-normal"
+                >
+                  Logout
+                </Typography>
+              </MenuItem>
+            </MenuList>
+          </Menu>
           <Menu>
             <MenuHandler>
               <IconButton variant="text" color="blue-gray">

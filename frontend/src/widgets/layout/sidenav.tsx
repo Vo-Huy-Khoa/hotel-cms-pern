@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
   Avatar,
@@ -10,8 +10,13 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers/rootReducer";
 import { setVisibility } from "../../redux/actions";
+import { Props } from "react-apexcharts";
 
-export function Sidenav({ brandImg, brandName, routes }: any) {
+export function Sidenav({ brandImg, brandName, routes }: Props) {
+  const { pathname } = useLocation();
+  const [layout, page, actions] = pathname.split("/").filter((el) => el !== "");
+
+  const currentURL = `${page}/${actions}`;
   const isVisible = useSelector((state: RootState) => state.currentVisibility);
   const dispatch = useDispatch();
 
@@ -45,26 +50,26 @@ export function Sidenav({ brandImg, brandName, routes }: any) {
         </IconButton>
       </div>
       <div className="m-4">
-        {routes.map(({ layout, pages }: any) => {
+        {routes.map(({ layout, pages }: Props) => {
           return (
             layout === "sidebar" &&
-            pages.map((route: any, key: number) => {
+            pages.map((route: Props, key: number) => {
               return (
                 <ul key={key} className="mb-4 flex flex-col gap-1">
                   <li key={route.name}>
                     <NavLink to={`/dashboard/${route.path}`}>
-                      {({ isActive }) => (
-                        <Button
-                          variant={isActive ? "gradient" : "text"}
-                          className="flex items-center gap-4 px-4 capitalize text-white"
-                          fullWidth
-                        >
-                          {route.icon}
-                          <Typography className="font-medium capitalize">
-                            {route.name}
-                          </Typography>
-                        </Button>
-                      )}
+                      <Button
+                        variant={
+                          route.path.includes(`${page}/`) ? "gradient" : "text"
+                        }
+                        className="flex items-center gap-4 px-4 capitalize text-white"
+                        fullWidth
+                      >
+                        {route.icon}
+                        <Typography className="font-medium capitalize">
+                          {route.name}
+                        </Typography>
+                      </Button>
                     </NavLink>
                   </li>
                 </ul>

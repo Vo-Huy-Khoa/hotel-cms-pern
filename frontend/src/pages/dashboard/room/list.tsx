@@ -15,6 +15,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { getData, getUsers } from "../../../services";
 import Pagination from "../../../widgets/layout/panigation";
 import { IUser } from "../../../types";
+import moment from "moment";
 
 export function RoomList() {
   const [isVisibleSearch, setVisibleSearch] = useState(false);
@@ -180,17 +181,17 @@ export function RoomList() {
                           <Typography
                             variant="small"
                             color="blue-gray"
-                            className="font-semibold"
+                            className="text-xs font-normal text-blue-gray-500"
                           >
-                            <NavLink to="/dashboard/room/edit">
-                              {room_type_id}
-                            </NavLink>
+                            {room_type_id}
                           </Typography>
                         </td>
                         <td className={className}>
-                          <Typography className="text-xs font-normal text-blue-gray-500">
-                            {name}
-                          </Typography>
+                          <NavLink to={`/dashboard/room/edit/${id}/`}>
+                            <Typography className=" font-semibold">
+                              {name}
+                            </Typography>
+                          </NavLink>
                         </td>
                         <td className={className}>
                           <Typography className="text-xs font-normal text-blue-gray-500">
@@ -204,12 +205,12 @@ export function RoomList() {
                         </td>
                         <td className={className}>
                           <Typography className="text-xs font-semibold text-blue-gray-600">
-                            {created_at}
+                            {moment(created_at).format("YYYY-MM-DD")}
                           </Typography>
                         </td>
                         <td className={className}>
                           <Typography className="text-xs font-semibold text-blue-gray-600">
-                            {updated_at}
+                            {moment(updated_at).format("YYYY-MM-DD")}
                           </Typography>
                         </td>
                       </tr>

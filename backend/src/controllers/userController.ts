@@ -3,30 +3,30 @@ import pool from "../configs";
 import { Request, Response } from "express";
 
 class userController {
+  // Retrieve all users from the database
+  async getAll(req: Request, res: Response) {
+    try {
+      const query = "select * from users ORDER BY id DESC";
+      const { rows } = await pool.query(query);
+      res.status(200).json(rows);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
   async create(req: Request, res: Response) {
     try {
       const { user_name, full_name, email } = req.body;
       const oldPassword = req.body.password;
       const password = await bcrypt.hash(oldPassword, 10);
       const status = req.body.status;
-      const initValue = [user_name, full_name, email, status];
+      const initValue = [user_name, full_name, email, status, password];
 
       const insertQuery =
-        "INSERT INTO users(user_name, full_name, email, status) VALUES($1, $2, $3, $4, $5)";
+        "INSERT INTO users(user_name, full_name, email, status, password) VALUES($1, $2, $3, $4, $5)";
       const { rows } = await pool.query(insertQuery, initValue);
       res.status(201).json(rows[0]);
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  }
-  // Retrieve all users from the database
-  async getAll(req: Request, res: Response) {
-    try {
-      const query = "SELECT * FROM users";
-      const { rows } = await pool.query(query);
-      res.status(200).json(rows);
-    } catch (error) {
       res.status(500).json({ error: "Internal server error" });
     }
   }

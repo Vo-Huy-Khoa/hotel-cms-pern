@@ -8,7 +8,7 @@ import {
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Popup } from "../../../components";
-import { handleEit } from "../../../services";
+import { handleCreate } from "../../../services";
 
 export const RoomTypeCreate = () => {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ export const RoomTypeCreate = () => {
       price,
     };
 
-    await handleEit("room_type/create", body);
+    await handleCreate("room_type/create", body);
     navigate("/dashboard/room_type/list");
   };
 
@@ -45,10 +45,10 @@ export const RoomTypeCreate = () => {
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Limit</Typography>
             <Select label="Limit" ref={countRef}>
-              <Option>1</Option>
-              <Option>2</Option>
-              <Option>3</Option>
-              <Option>4</Option>
+              <Option value="1">1</Option>
+              <Option value="2">2</Option>
+              <Option value="3">3</Option>
+              <Option value="4">4</Option>
             </Select>
           </div>
           <div className="flex flex-row gap-6">

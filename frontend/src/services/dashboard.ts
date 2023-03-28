@@ -36,7 +36,7 @@ const handleGetItem = async (url: string) => {
   }
 };
 
-const handleEit = async (url: string, body: object) => {
+const handleEdit = async (url: string, body: object) => {
   try {
     const response = await axiosInstance.post(url, JSON.stringify(body));
     return response.data;
@@ -45,4 +45,4 @@ const handleEit = async (url: string, body: object) => {
   }
 };
 
-export { getUsers, getData, handleCreate, handleGetItem, handleEit };
+export { getUsers, getData, handleCreate, handleGetItem, handleEdit };

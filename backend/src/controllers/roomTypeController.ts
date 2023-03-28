@@ -6,7 +6,7 @@ class roomTypeController {
   // Retrieve all users from the database
   async getAll(req: Request, res: Response) {
     try {
-      const query = "SELECT * FROM room_types";
+      const query = "SELECT * FROM room_types ORDER BY id DESC";
       const { rows } = await pool.query(query);
       res.status(200).json(rows);
     } catch (error) {

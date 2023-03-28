@@ -8,7 +8,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Popup } from "../../../components";
-import { handleEit, handleGetItem } from "../../../services";
+import { handleEdit, handleGetItem } from "../../../services";
 import { IUser } from "../../../types";
 
 export const UserEdit = () => {
@@ -22,21 +22,24 @@ export const UserEdit = () => {
   const fullNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const statusRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async () => {
     const user_name = userNameRef.current?.querySelector("input")?.value || "";
     const full_name = fullNameRef.current?.querySelector("input")?.value || "";
     const email = emailRef.current?.querySelector("input")?.value || "";
     const status = statusRef.current?.querySelector("input")?.value || "1";
+    const password = passwordRef.current?.querySelector("input")?.value || "";
 
     const body = {
       user_name,
       full_name,
       email,
       status,
+      password,
     };
 
-    await handleEit("update", body);
+    await handleEdit("update", body);
     navigate("/dashboard/user/list");
   };
 
@@ -75,6 +78,15 @@ export const UserEdit = () => {
               label="Email"
               value={user?.email}
               ref={emailRef}
+            ></Input>
+          </div>
+          <div className="flex flex-row gap-6">
+            <Typography className="w-32">Password</Typography>
+            <Input
+              type="password"
+              label="Email"
+              value={user?.password}
+              ref={passwordRef}
             ></Input>
           </div>
           {/* <div className="flex flex-row gap-6">

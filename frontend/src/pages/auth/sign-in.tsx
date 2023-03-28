@@ -21,6 +21,7 @@ export function SignIn() {
       console.log(error);
     }
   };
+
   return (
     <section className="bg-white w-96 flex flex-col gap-4 p-10 rounded-xl">
       <div className="text-center">

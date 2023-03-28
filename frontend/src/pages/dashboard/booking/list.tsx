@@ -17,6 +17,7 @@ import { getData } from "../../../services";
 import Pagination from "../../../widgets/layout/panigation";
 import { IBooking } from "../../../types";
 import moment from "moment";
+import { BookingCard } from "../../../widgets/cards";
 
 export function BookingList() {
   const [isVisibleSearch, setVisibleSearch] = useState(false);
@@ -127,39 +128,10 @@ export function BookingList() {
           </div>
         </div>
       )}
-      <div className=" mt-10 w-full h-full grid gap-16 md:grid-cols-4 sm:grid-cols-1 justify-center">
+      <div className=" mt-10 w-full h-full grid gap-10 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 justify-center">
         {listBooking.map((booking: IBooking, index: number) => {
-          return (
-            <Card key={index} className="w-96">
-              <CardHeader
-                color="blue"
-                className="relative h-16 flex justify-center items-center"
-              >
-                <Typography variant="h4" color="black" className="text-center">
-                  {booking?.room_id}
-                </Typography>
-              </CardHeader>
-              <CardBody className="text-center">
-                <Typography variant="h5" className="mb-2">
-                  {moment(booking?.check_in).format("YYYY-MM-DD HH:mm")}
-                </Typography>
-                <Typography>
-                  The place is close to Barceloneta Beach and bus stop just 2
-                  min by walk and near to where you can enjoy the main night
-                  life in Barcelona.
-                </Typography>
-              </CardBody>
-              <CardFooter
-                divider
-                className="flex items-center justify-between py-3"
-              >
-                <NavLink to="/dashboard/booking/edit">
-                  <Button color="gray">Update</Button>
-                </NavLink>
-                <Button className="flex gap-1">Check out</Button>
-              </CardFooter>
-            </Card>
-          );
+          // eslint-disable-next-line react/jsx-key
+          return <BookingCard booking={booking} index={index} />;
         })}
       </div>
     </div>

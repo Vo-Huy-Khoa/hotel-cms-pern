@@ -15,6 +15,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { getUsers } from "../../../services";
 import Pagination from "../../../widgets/layout/panigation";
 import { IUser } from "../../../types";
+import moment from "moment";
 
 function filterUsers(
   users: IUser[],
@@ -194,7 +195,7 @@ export function UserList() {
                             color="blue-gray"
                             className="font-semibold"
                           >
-                            <NavLink to={`/dashboard/user/edit/${id}`}>
+                            <NavLink to={`/dashboard/user/edit/${id}/`}>
                               {full_name}
                             </NavLink>
                           </Typography>
@@ -214,12 +215,12 @@ export function UserList() {
                         </td>
                         <td className={className}>
                           <Typography className="text-xs font-semibold text-blue-gray-600">
-                            {created_at}
+                            {moment(created_at).format("YYYY-MM-DD")}
                           </Typography>
                         </td>
                         <td className={className}>
                           <Typography className="text-xs font-semibold text-blue-gray-600">
-                            {updated_at}
+                            {moment(updated_at).format("YYYY-MM-DD")}
                           </Typography>
                         </td>
                       </tr>

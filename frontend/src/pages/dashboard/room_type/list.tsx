@@ -15,6 +15,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { getData, getUsers } from "../../../services";
 import Pagination from "../../../widgets/layout/panigation";
 import { IUser } from "../../../types";
+import moment from "moment";
 
 export function RoomTypeList() {
   const [isVisibleSearch, setVisibleSearch] = useState(false);
@@ -172,7 +173,7 @@ export function RoomTypeList() {
                             color="blue-gray"
                             className="font-semibold"
                           >
-                            <NavLink to="/dashboard/room-type/edit">
+                            <NavLink to={`/dashboard/room-type/edit/${id}/`}>
                               {name}
                             </NavLink>
                           </Typography>
@@ -189,12 +190,12 @@ export function RoomTypeList() {
                         </td>
                         <td className={className}>
                           <Typography className="text-xs font-semibold text-blue-gray-600">
-                            {created_at}
+                            {moment(created_at).format("YYYY-MM-DD")}
                           </Typography>
                         </td>
                         <td className={className}>
                           <Typography className="text-xs font-semibold text-blue-gray-600">
-                            {updated_at}
+                            {moment(updated_at).format("YYYY-MM-DD")}
                           </Typography>
                         </td>
                       </tr>

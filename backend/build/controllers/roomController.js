@@ -18,7 +18,7 @@ class roomController {
     getAll(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const query = "SELECT * FROM rooms";
+                const query = "SELECT * FROM rooms ORDER BY id DESC";
                 const { rows } = yield configs_1.default.query(query);
                 res.status(200).json(rows);
             }
