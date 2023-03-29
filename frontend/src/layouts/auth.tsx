@@ -1,3 +1,4 @@
+import { Props } from "react-apexcharts";
 import { Routes, Route } from "react-router-dom";
 import routes from "../routes";
 
@@ -8,7 +9,7 @@ export const Auth = () => {
         {routes.map(({ layout, pages }) => {
           return (
             layout === "auth" &&
-            pages.map(({ path, element }) => {
+            pages.map(({ path, element }: Props) => {
               return <Route key={1} path={path} element={element} />;
             })
           );
