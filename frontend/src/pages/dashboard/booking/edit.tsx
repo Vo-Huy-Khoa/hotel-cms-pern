@@ -8,15 +8,15 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Popup } from "../../../components";
-import { handleEdit, handleGetItem } from "../../../services";
-import { IUser } from "../../../types";
+import { handleApiEdit, handleApiGetItem } from "../../../services";
+import { IBooking } from "../../../types";
 
 export const BookingEdit = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
   const { id } = useParams();
-  const [user, setUser] = useState<IUser>();
+  const [booking, setBooking] = useState<IBooking>();
 
   const userNameRef = useRef<HTMLInputElement>(null);
   const fullNameRef = useRef<HTMLInputElement>(null);
@@ -36,16 +36,16 @@ export const BookingEdit = () => {
       status,
     };
 
-    await handleEdit("update", body);
+    await handleApiEdit("update", body);
     navigate("/dashboard/booking/list");
   };
 
   useEffect(() => {
-    async function getUser() {
-      const user = await handleGetItem(`booking/edit/${id}`);
-      setUser(user);
+    async function getItem() {
+      const booking = await handleApiGetItem(`booking/edit/${id}`);
+      setBooking(booking);
     }
-    getUser();
+    getItem();
   }, [id]);
   return (
     <aside className="min-h-screen w-full">
@@ -65,11 +65,19 @@ export const BookingEdit = () => {
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Check In</Typography>
-            <Input type="date" label="Check In"></Input>
+            <Input
+              type="date"
+              label="Check In"
+              defaultValue={booking?.check_in}
+            ></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Check Out</Typography>
-            <Input type="date" label="Check out"></Input>
+            <Input
+              type="date"
+              label="Check out"
+              defaultValue={booking?.check_out}
+            ></Input>
           </div>
         </form>
       </div>

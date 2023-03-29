@@ -8,7 +8,7 @@ import {
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Popup } from "../../../components";
-import { handleCreate } from "../../../services";
+import { handleApiCreate } from "../../../services";
 
 export const RoomTypeCreate = () => {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ export const RoomTypeCreate = () => {
       price,
     };
 
-    await handleCreate("room_type/create", body);
+    await handleApiCreate("room_type/create", body);
     navigate("/dashboard/room_type/list");
   };
 

@@ -9,7 +9,7 @@ import {
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Popup } from "../../../components";
-import { handleCreate } from "../../../services";
+import { handleApiCreate } from "../../../services";
 
 export const RoomCreate = () => {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ export const RoomCreate = () => {
       image,
     };
 
-    await handleCreate("room/create", body);
+    await handleApiCreate("room/create", body);
     navigate("/dashboard/room/list");
   };
 

@@ -8,7 +8,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Popup } from "../../../components";
-import { handleEdit, handleGetItem } from "../../../services";
+import { handleApiEdit, handleApiGetItem } from "../../../services";
 import { IUser } from "../../../types";
 
 export const UserEdit = () => {
@@ -39,13 +39,13 @@ export const UserEdit = () => {
       password,
     };
 
-    await handleEdit("update", body);
+    await handleApiEdit("update", body);
     navigate("/dashboard/user/list");
   };
 
   useEffect(() => {
     async function getUser() {
-      const user = await handleGetItem(`user/edit/${id}`);
+      const user = await handleApiGetItem(`user/edit/${id}`);
       setUser(user);
     }
     getUser();
@@ -59,7 +59,7 @@ export const UserEdit = () => {
             <Typography className="w-32">Full name</Typography>
             <Input
               label="Full Name"
-              value={user?.full_name}
+              defaultValue={user?.full_name}
               ref={fullNameRef}
             ></Input>
           </div>
@@ -67,7 +67,7 @@ export const UserEdit = () => {
             <Typography className="w-32">User name</Typography>
             <Input
               label="User Name"
-              value={user?.user_name}
+              defaultValue={user?.user_name}
               ref={userNameRef}
             ></Input>
           </div>
@@ -76,7 +76,7 @@ export const UserEdit = () => {
             <Input
               type="email"
               label="Email"
-              value={user?.email}
+              defaultValue={user?.email}
               ref={emailRef}
             ></Input>
           </div>
@@ -85,7 +85,7 @@ export const UserEdit = () => {
             <Input
               type="password"
               label="Email"
-              value={user?.password}
+              defaultValue={user?.password}
               ref={passwordRef}
             ></Input>
           </div>

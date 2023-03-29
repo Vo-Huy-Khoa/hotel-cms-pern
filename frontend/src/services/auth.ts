@@ -18,7 +18,7 @@ const refresh_token = () => {
   }
 };
 
-const handleRegister = async (body: object) => {
+const handleApiRegister = async (body: object) => {
   try {
     const response = await axiosInstance.post(
       `auth/register`,
@@ -30,7 +30,7 @@ const handleRegister = async (body: object) => {
   }
 };
 
-const handleLogin = async (body: object) => {
+const handleApiLogin = async (body: object) => {
   try {
     const response = await axiosInstance.post(
       `auth/login`,
@@ -45,18 +45,26 @@ const handleLogin = async (body: object) => {
   }
 };
 
-const handleLogout = async () => {
+const handleApiLogout = async () => {
   try {
     const userID = JSON.parse(sessionStorage.getItem("user") || "")?.id;
     const body = {
       id: userID,
     };
-
     const response = axiosInstance.post("auth/logout", JSON.stringify(body));
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("token");
+
     return response;
   } catch (error) {
     console.log(error);
   }
 };
 
-export { getToken, refresh_token, handleLogout, handleLogin, handleRegister };
+export {
+  getToken,
+  refresh_token,
+  handleApiLogout,
+  handleApiLogin,
+  handleApiRegister,
+};

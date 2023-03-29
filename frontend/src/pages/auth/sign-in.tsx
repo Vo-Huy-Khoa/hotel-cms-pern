@@ -1,7 +1,7 @@
 import { Button, Input, Typography } from "@material-tailwind/react";
 import { useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { handleLogin } from "../../services";
+import { handleApiLogin } from "../../services";
 export function SignIn() {
   const navigate = useNavigate();
   const userNameRef = useRef<HTMLInputElement>(null);
@@ -15,7 +15,7 @@ export function SignIn() {
       password: password,
     };
     try {
-      await handleLogin(body);
+      await handleApiLogin(body);
       navigate("/dashboard/home");
     } catch (error) {
       console.log(error);

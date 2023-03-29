@@ -1,7 +1,7 @@
 import { Button, Input, Typography } from "@material-tailwind/react";
 import { useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { handleRegister } from "../../services";
+import { handleApiRegister } from "../../services";
 
 export function SignUp() {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ export function SignUp() {
       password: password,
     };
     try {
-      await handleRegister(body);
+      await handleApiRegister(body);
       navigate("/auth/sign-in");
     } catch (error) {
       console.log(error);

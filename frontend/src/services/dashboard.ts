@@ -18,7 +18,7 @@ const getData = async (url: string) => {
   }
 };
 
-const handleCreate = async (url: string, body: object) => {
+const handleApiCreate = async (url: string, body: object) => {
   try {
     const response = await axiosInstance.post(url, JSON.stringify(body));
     return response.data;
@@ -27,7 +27,7 @@ const handleCreate = async (url: string, body: object) => {
   }
 };
 
-const handleGetItem = async (url: string) => {
+const handleApiGetItem = async (url: string) => {
   try {
     const response = await axiosInstance.get(url);
     return response.data;
@@ -36,7 +36,7 @@ const handleGetItem = async (url: string) => {
   }
 };
 
-const handleEdit = async (url: string, body: object) => {
+const handleApiEdit = async (url: string, body: object) => {
   try {
     const response = await axiosInstance.post(url, JSON.stringify(body));
     return response.data;
@@ -45,4 +45,4 @@ const handleEdit = async (url: string, body: object) => {
   }
 };
 
-export { getUsers, getData, handleCreate, handleGetItem, handleEdit };
+export { getUsers, getData, handleApiCreate, handleApiGetItem, handleApiEdit };

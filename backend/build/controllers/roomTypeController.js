@@ -42,6 +42,18 @@ class roomTypeController {
             }
         });
     }
+    find(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const { rows } = yield configs_1.default.query(`SELECT * FROM room_types WHERE id = ${id}`);
+                res.status(202).json(rows[0]);
+            }
+            catch (error) {
+                res.status(500).json({ error: "Internal server error" });
+            }
+        });
+    }
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

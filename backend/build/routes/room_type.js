@@ -7,6 +7,7 @@ const express_1 = require("express");
 const roomTypeController_1 = __importDefault(require("../controllers/roomTypeController"));
 const router = (0, express_1.Router)();
 router.post("/create", roomTypeController_1.default.create);
+router.get("/edit/:id", roomTypeController_1.default.find);
 router.put("/update", roomTypeController_1.default.update);
 router.get("/", roomTypeController_1.default.getAll);
 exports.default = router;
