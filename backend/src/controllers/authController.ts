@@ -94,6 +94,25 @@ class authController {
   }
   async logout(req: Request, res: Response) {
     const id = req.body.id;
+    try {
+      const { rows } = await pool.query("SELECT *  FROM users WHERE id = $1", [
+        id,
+      ]);
+      const user = rows[0];
+
+      if (!user) {
+        res.json({ message: "Invalid user_name or password" });
+      }
+
+      const RefreshToken = "";
+      await pool.query("UPDATE users SET refresh_token = $2 WHERE id = $1 ", [
+        user.id,
+        RefreshToken,
+      ]);
+      return res.status(201).json({ message: "Logout successfully!" });
+    } catch (err) {
+      return res.status(201).json({ message: "Logout error!" });
+    }
   }
 }
 export default new authController();

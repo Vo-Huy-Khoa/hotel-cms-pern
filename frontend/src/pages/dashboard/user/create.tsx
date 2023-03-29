@@ -8,7 +8,7 @@ import {
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Popup } from "../../../components";
-import { handleCreate } from "../../../services";
+import { handleApiCreate } from "../../../services";
 
 export const UserCreate = () => {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ export const UserCreate = () => {
       status,
     };
 
-    await handleCreate("user/create", body);
+    await handleApiCreate("user/create", body);
     navigate("/dashboard/user/list");
   };
 

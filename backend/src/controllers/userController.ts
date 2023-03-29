@@ -31,7 +31,7 @@ class userController {
     }
   }
 
-  async edit(req: Request, res: Response) {
+  async find(req: Request, res: Response) {
     try {
       const { id } = req.params;
       const { rows } = await pool.query(`SELECT * FROM users WHERE id = ${id}`);

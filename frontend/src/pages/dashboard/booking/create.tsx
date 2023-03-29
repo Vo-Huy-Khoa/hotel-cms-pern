@@ -8,7 +8,7 @@ import {
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Popup } from "../../../components";
-import { handleCreate } from "../../../services";
+import { handleApiCreate } from "../../../services";
 
 export const BookingCreate = () => {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ export const BookingCreate = () => {
       status,
     };
 
-    await handleCreate("booking/create", body);
+    await handleApiCreate("booking/create", body);
     navigate("/dashboard/booking/list");
   };
 

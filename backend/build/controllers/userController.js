@@ -46,7 +46,7 @@ class userController {
             }
         });
     }
-    edit(req, res) {
+    find(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { id } = req.params;

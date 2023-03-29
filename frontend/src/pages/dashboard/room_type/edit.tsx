@@ -8,7 +8,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Popup } from "../../../components";
-import { handleEdit, handleGetItem } from "../../../services";
+import { handleApiEdit, handleApiGetItem } from "../../../services";
 import { IRoomType } from "../../../types";
 
 export const RoomTypeEdit = () => {
@@ -33,16 +33,16 @@ export const RoomTypeEdit = () => {
       price,
     };
 
-    await handleEdit("room_type/update", body);
+    await handleApiEdit("room_type/update", body);
     navigate("/dashboard/room_type/list");
   };
 
   useEffect(() => {
-    async function getUser() {
-      const getRoomRype = await handleGetItem(`room/edit/${id}`);
-      setRoomType(getRoomRype);
+    async function getItem() {
+      const getRoomType = await handleApiGetItem(`room/edit/${id}`);
+      setRoomType(getRoomType);
     }
-    getUser();
+    getItem();
   }, [id]);
 
   return (
@@ -51,7 +51,11 @@ export const RoomTypeEdit = () => {
         <div className="flex flex-col gap-4 p-5">
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Name</Typography>
-            <Input label="Name" ref={nameRef}></Input>
+            <Input
+              label="Name"
+              ref={nameRef}
+              defaultValue={roomType?.name}
+            ></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Limit</Typography>
@@ -64,7 +68,12 @@ export const RoomTypeEdit = () => {
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Price</Typography>
-            <Input type="text" label="Price" ref={priceRef}></Input>
+            <Input
+              type="text"
+              label="Price"
+              ref={priceRef}
+              defaultValue={roomType?.price}
+            ></Input>
           </div>
         </div>
       </div>

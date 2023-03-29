@@ -1,4 +1,4 @@
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import {
   Navbar as MTNavbar,
   Typography,
@@ -24,9 +24,11 @@ import { setVisibility } from "../../redux/actions";
 import { RootState } from "../../redux/reducers/rootReducer";
 import { IUser } from "../../types";
 import { Logout } from "@mui/icons-material";
+import { handleApiLogout } from "../../services";
 
 export function Navbar() {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const user: IUser = JSON.parse(sessionStorage.getItem("user") || "");
   const [layout, page, actions] = pathname.split("/").filter((el) => el !== "");
   const dispatch = useDispatch();
@@ -34,6 +36,11 @@ export function Navbar() {
 
   const handleSideBar = () => {
     dispatch(setVisibility(!isVisible));
+  };
+
+  const handleLogout = async () => {
+    await handleApiLogout();
+    navigate("/auth/sign-in");
   };
   return (
     <MTNavbar
@@ -116,7 +123,10 @@ export function Navbar() {
                   Settings
                 </Typography>
               </MenuItem>
-              <MenuItem className="flex items-center gap-3">
+              <MenuItem
+                onClick={handleLogout}
+                className="flex items-center gap-3"
+              >
                 <Logout className="h-5 w-5 text-blue-gray-500" />
                 <Typography
                   variant="small"

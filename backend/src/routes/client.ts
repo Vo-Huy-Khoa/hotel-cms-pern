@@ -4,6 +4,7 @@ import clientController from "../controllers/clientController";
 const router = Router();
 
 router.post("/create", clientController.create);
+router.get("/edit/:id", clientController.find);
 router.put("/update", clientController.update);
 router.get("/", clientController.getAll);
 

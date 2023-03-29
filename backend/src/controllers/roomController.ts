@@ -29,6 +29,16 @@ class roomController {
     }
   }
 
+  async find(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const { rows } = await pool.query(`SELECT * FROM rooms WHERE id = ${id}`);
+      res.status(202).json(rows[0]);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+
   async update(req: Request, res: Response) {
     try {
       const { id, user_name, full_name, email, password, status } = req.body;

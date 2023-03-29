@@ -9,15 +9,15 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Popup } from "../../../components";
-import { handleEdit, handleGetItem } from "../../../services";
-import { IUser } from "../../../types";
+import { handleApiEdit, handleApiGetItem } from "../../../services";
+import { IRoom, IUser } from "../../../types";
 
 export const RoomEdit = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
   const { id } = useParams();
-  const [user, setUser] = useState<IUser>();
+  const [room, setRoom] = useState<IRoom>();
   const roomTypeRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const descRef = useRef<HTMLInputElement>(null);
@@ -37,16 +37,16 @@ export const RoomEdit = () => {
       image,
     };
 
-    await handleEdit("room/update", body);
+    await handleApiEdit("room/update", body);
     navigate("/dashboard/room/list");
   };
 
   useEffect(() => {
-    async function getUser() {
-      const user = await handleGetItem(`room/edit/${id}`);
-      setUser(user);
+    async function getItem() {
+      const user = await handleApiGetItem(`room/edit/${id}`);
+      setRoom(user);
     }
-    getUser();
+    getItem();
   }, [id]);
 
   return (
@@ -64,15 +64,24 @@ export const RoomEdit = () => {
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Name</Typography>
-            <Input label="Name" ref={nameRef}></Input>
+            <Input label="Name" ref={nameRef} defaultValue={room?.name}></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Description</Typography>
-            <Textarea label="Description" ref={descRef}></Textarea>
+            <Textarea
+              label="Description"
+              ref={descRef}
+              defaultValue={room?.description}
+            ></Textarea>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Image</Typography>
-            <Input type="file" label="Image" ref={imageRef}></Input>
+            <Input
+              type="file"
+              label="Image"
+              ref={imageRef}
+              defaultValue={room?.image}
+            ></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Role</Typography>

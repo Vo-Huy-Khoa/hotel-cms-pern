@@ -92,6 +92,24 @@ class authController {
     logout(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const id = req.body.id;
+            try {
+                const { rows } = yield configs_1.default.query("SELECT *  FROM users WHERE id = $1", [
+                    id,
+                ]);
+                const user = rows[0];
+                if (!user) {
+                    res.json({ message: "Invalid user_name or password" });
+                }
+                const RefreshToken = "";
+                yield configs_1.default.query("UPDATE users SET refresh_token = $2 WHERE id = $1 ", [
+                    user.id,
+                    RefreshToken,
+                ]);
+                return res.status(201).json({ message: "Logout successfully!" });
+            }
+            catch (err) {
+                return res.status(201).json({ message: "Logout error!" });
+            }
         });
     }
 }
