@@ -79,7 +79,7 @@ class authController {
           const accessToken = jwt.sign(
             { id: data.id, user_name: data.user_name, email: data.email },
             JWT_SECRET,
-            { expiresIn: "3600s" }
+            { expiresIn: "604800000s" }
           );
           await pool.query(
             "UPDATE users SET refresh_token = $2 WHERE id = $1 ",

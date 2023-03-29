@@ -79,7 +79,7 @@ class authController {
                 jsonwebtoken_1.default.verify(refresh_token, REFRESH_TOKEN_SECRET, (err, data) => __awaiter(this, void 0, void 0, function* () {
                     if (err)
                         res.sendStatus(403);
-                    const accessToken = jsonwebtoken_1.default.sign({ id: data.id, user_name: data.user_name, email: data.email }, JWT_SECRET, { expiresIn: "3600s" });
+                    const accessToken = jsonwebtoken_1.default.sign({ id: data.id, user_name: data.user_name, email: data.email }, JWT_SECRET, { expiresIn: "604800000s" });
                     yield configs_1.default.query("UPDATE users SET refresh_token = $2 WHERE id = $1 ", [user.id, accessToken]);
                     return res.status(201).json({ refresh_token: accessToken });
                 }));
