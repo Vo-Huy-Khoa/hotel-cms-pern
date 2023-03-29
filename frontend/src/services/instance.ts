@@ -14,8 +14,8 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   function (config) {
     config.withCredentials = true;
-    const token = sessionStorage.getItem("token") || "";
-    if (token !== "") {
+    const token = sessionStorage.getItem("token");
+    if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
@@ -51,11 +51,8 @@ axiosInstance.interceptors.response.use(
           `auth/refreshtoken`,
           JSON.stringify(body)
         );
-        const access_token = response.data.refresh_token;
-        sessionStorage.setItem("token", access_token);
-        axiosInstance.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${access_token}`;
+        const token = response.data.refresh_token;
+        sessionStorage.setItem("token", token);
         return axiosInstance(originalRequest);
       } catch (err) {
         return Promise.reject(err);
