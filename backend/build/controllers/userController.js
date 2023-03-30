@@ -28,6 +28,18 @@ class userController {
             }
         });
     }
+    count(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const query = "SELECT COUNT(*) FROM users;";
+                const { rows } = yield configs_1.default.query(query);
+                res.status(200).json(rows);
+            }
+            catch (error) {
+                res.status(500).json({ error: "Internal server error" });
+            }
+        });
+    }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -63,7 +75,7 @@ class userController {
             try {
                 const { id, user_name, full_name, email, status } = req.body;
                 const query = {
-                    text: "UPDATE users SET user_name = $2, full_name = $3, email = $4, status = $6 WHERE id = $1",
+                    text: "UPDATE users SET user_name = $2, full_name = $3, email = $4, status = $5 WHERE id = $1",
                     values: [id, user_name, full_name, email, status],
                 };
                 const { rowCount } = yield configs_1.default.query(query);

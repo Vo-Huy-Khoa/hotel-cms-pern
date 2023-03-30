@@ -14,15 +14,14 @@ import { useEffect, useRef, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { getData, getUsers } from "../../../services";
 import Pagination from "../../../widgets/layout/panigation";
-import { IUser } from "../../../types";
 import moment from "moment";
 
 export function RoomTypeList() {
   const [isVisibleSearch, setVisibleSearch] = useState(false);
-  const [listRoomType, setlistRoomType] = useState([]);
+  const [listRoomType, setListRoomType] = useState([]);
   const totalRow: number = listRoomType.length;
   const [page, setPage] = useState(1);
-  const userNameRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const roleRef = useRef<HTMLInputElement>(null);
   const statusRef = useRef<HTMLInputElement>(null);
@@ -35,26 +34,24 @@ export function RoomTypeList() {
   };
 
   const handleSearch = () => {
-    const full_name = userNameRef.current?.querySelector("input")?.value || "";
+    const full_name = nameRef.current?.querySelector("input")?.value || "";
     const email = emailRef.current?.querySelector("input")?.value || "";
     const role = roleRef.current?.querySelector("input")?.value || "0";
     const status = statusRef.current?.querySelector("input")?.value || "0";
   };
 
   const handleClearSearch = async () => {
-    userNameRef.current?.onreset;
+    nameRef.current?.onreset;
     emailRef.current?.onreset;
     roleRef.current?.querySelector("input")?.onreset;
     statusRef.current?.querySelector("input")?.onreset;
-    const listUser = await getUsers();
-    setlistRoomType(listUser);
   };
 
   useEffect(() => {
     async function fetchGetRoomType() {
       try {
-        const listUser = await getData("room_type");
-        setlistRoomType(listUser);
+        const listRoomType = await getData("room_type");
+        setListRoomType(listRoomType);
       } catch (error) {
         // Handle errors
       }
@@ -84,7 +81,7 @@ export function RoomTypeList() {
         <Typography className="font-medium capitalize">Search</Typography>
       </div>
       {isVisibleSearch && (
-        <div className="h-60 bg-white rounded-lg p-6 flex flex-col justify-between">
+        <div className="bg-white rounded-lg p-6 flex flex-col justify-between gap-6">
           <div className="flex flex-row items-center gap-1">
             <XMarkIcon
               strokeWidth={3}
@@ -92,24 +89,21 @@ export function RoomTypeList() {
               onClick={handleVisibleSearch}
             />
             <Typography className="font-medium capitalize">
-              Handle search
+              Search Box
             </Typography>
           </div>
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid md:grid-cols-4 sm:grid-cols-1 gap-4">
             <div className="flex flex-col gap-2">
               <Typography className="font-small capitalize">Name</Typography>
-              <Input ref={userNameRef} />
+              <Input ref={nameRef} />
             </div>
             <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">Email</Typography>
+              <Typography className="font-small capitalize">Count</Typography>
               <Input ref={emailRef} />
             </div>
             <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">Role</Typography>
-              <Select ref={roleRef}>
-                <Option>0</Option>
-                <Option>1</Option>
-              </Select>
+              <Typography className="font-small capitalize">Price</Typography>
+              <Input ref={emailRef} />
             </div>
             <div className="flex flex-col gap-2">
               <Typography className="font-small capitalize">Status</Typography>

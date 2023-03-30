@@ -22,24 +22,25 @@ export const UserEdit = () => {
   const fullNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const statusRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
+  // const passwordRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async () => {
     const user_name = userNameRef.current?.querySelector("input")?.value || "";
     const full_name = fullNameRef.current?.querySelector("input")?.value || "";
     const email = emailRef.current?.querySelector("input")?.value || "";
     const status = statusRef.current?.querySelector("input")?.value || "1";
-    const password = passwordRef.current?.querySelector("input")?.value || "";
+    // const password = passwordRef.current?.querySelector("input")?.value || "";
 
     const body = {
+      id,
       user_name,
       full_name,
       email,
       status,
-      password,
+      // password,
     };
 
-    await handleApiEdit("update", body);
+    await handleApiEdit("user/update", body);
     navigate("/dashboard/user/list");
   };
 
@@ -54,7 +55,7 @@ export const UserEdit = () => {
   return (
     <aside className="min-h-screen w-full">
       <div className="bg-white rounded-lg">
-        <form action="" method="post" className="flex flex-col gap-4 p-5">
+        <div className="flex flex-col gap-4 p-5">
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Full name</Typography>
             <Input
@@ -80,7 +81,7 @@ export const UserEdit = () => {
               ref={emailRef}
             ></Input>
           </div>
-          <div className="flex flex-row gap-6">
+          {/* <div className="flex flex-row gap-6">
             <Typography className="w-32">Password</Typography>
             <Input
               type="password"
@@ -88,7 +89,7 @@ export const UserEdit = () => {
               defaultValue={user?.password}
               ref={passwordRef}
             ></Input>
-          </div>
+          </div> */}
           {/* <div className="flex flex-row gap-6">
             <Typography className="w-32">Status</Typography>
             <Select label="Role">
@@ -96,7 +97,7 @@ export const UserEdit = () => {
               <Option value="1">Enable</Option>
             </Select>
           </div> */}
-        </form>
+        </div>
       </div>
       <div className=" fixed left-0 bottom-0 w-full h-14 bg-gray-900  flex flex-row justify-end gap-6 items-center px-10 ">
         <Button className="h-10" onClick={handleOpen}>

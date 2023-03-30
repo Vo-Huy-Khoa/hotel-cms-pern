@@ -38,7 +38,7 @@ const handleApiGetItem = async (url: string) => {
 
 const handleApiEdit = async (url: string, body: object) => {
   try {
-    const response = await axiosInstance.post(url, JSON.stringify(body));
+    const response = await axiosInstance.put(url, JSON.stringify(body));
     return response.data;
   } catch (error) {
     console.log(error);

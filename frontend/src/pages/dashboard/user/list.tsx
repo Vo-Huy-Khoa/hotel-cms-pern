@@ -103,7 +103,7 @@ export function UserList() {
         <Typography className="font-medium capitalize">Search</Typography>
       </div>
       {isVisibleSearch && (
-        <div className="h-60 bg-white rounded-lg p-6 flex flex-col justify-between">
+        <div className="bg-white rounded-lg p-6 flex flex-col justify-between gap-6">
           <div className="flex flex-row items-center gap-1">
             <XMarkIcon
               strokeWidth={3}
@@ -111,10 +111,10 @@ export function UserList() {
               onClick={handleVisibleSearch}
             />
             <Typography className="font-medium capitalize">
-              Handle search
+              Search Box
             </Typography>
           </div>
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid md:grid-cols-4 sm:grid-cols-1 gap-4">
             <div className="flex flex-col gap-2">
               <Typography className="font-small capitalize">Name</Typography>
               <Input ref={userNameRef} />

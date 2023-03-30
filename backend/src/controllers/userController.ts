@@ -13,6 +13,15 @@ class userController {
       res.status(500).json({ error: "Internal server error" });
     }
   }
+  async count(req: Request, res: Response) {
+    try {
+      const query = "SELECT COUNT(*) FROM users;";
+      const { rows } = await pool.query(query);
+      res.status(200).json(rows);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
   async create(req: Request, res: Response) {
     try {
       const { user_name, full_name, email } = req.body;
@@ -44,7 +53,7 @@ class userController {
     try {
       const { id, user_name, full_name, email, status } = req.body;
       const query = {
-        text: "UPDATE users SET user_name = $2, full_name = $3, email = $4, status = $6 WHERE id = $1",
+        text: "UPDATE users SET user_name = $2, full_name = $3, email = $4, status = $5 WHERE id = $1",
         values: [id, user_name, full_name, email, status],
       };
       const { rowCount } = await pool.query(query);

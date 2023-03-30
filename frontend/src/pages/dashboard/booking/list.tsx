@@ -1,13 +1,9 @@
 import {
-  Card,
-  CardBody,
   Typography,
   Button,
   Input,
   Select,
   Option,
-  CardHeader,
-  CardFooter,
 } from "@material-tailwind/react";
 import { NavLink } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -93,31 +89,29 @@ export function BookingList() {
               onClick={handleVisibleSearch}
             />
             <Typography className="font-medium capitalize">
-              Handle search
+              Search Box
             </Typography>
           </div>
           <div className="grid md:grid-cols-4 sm:grid-cols-1 gap-4">
             <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">Name</Typography>
+              <Typography className="font-small capitalize">Room</Typography>
               <Input ref={bookingNameRef} />
             </div>
             <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">Email</Typography>
+              <Typography className="font-small capitalize">user</Typography>
               <Input ref={emailRef} />
             </div>
             <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">Role</Typography>
-              <Select ref={roleRef}>
-                <Option>0</Option>
-                <Option>1</Option>
-              </Select>
+              <Typography className="font-small capitalize">
+                check in
+              </Typography>
+              <Input type="date" ref={emailRef} />
             </div>
             <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">Status</Typography>
-              <Select ref={statusRef}>
-                <Option>0</Option>
-                <Option>1</Option>
-              </Select>
+              <Typography className="font-small capitalize">
+                check out
+              </Typography>
+              <Input type="date" ref={emailRef} />
             </div>
           </div>
           <div className="w-full flex flex-row justify-between">

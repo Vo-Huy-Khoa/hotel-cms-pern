@@ -13,6 +13,35 @@ class bookingController {
       res.status(500).json({ error: "Internal server error" });
     }
   }
+  async totalMoney(req: Request, res: Response) {
+    try {
+      const query = "SELECT SUM(total_price) FROM bookings;";
+      const { rows } = await pool.query(query);
+      res.status(200).json(rows[0]);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+  async countCheckIn(req: Request, res: Response) {
+    try {
+      const query =
+        "SELECT COUNT(*) as count FROM bookings WHERE check_in = CURRENT_DATE";
+      const { rows } = await pool.query(query);
+      res.status(200).json(rows[0]);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+  async countCheckOut(req: Request, res: Response) {
+    try {
+      const query =
+        "SELECT COUNT(*) as count FROM bookings WHERE check_out = CURRENT_DATE";
+      const { rows } = await pool.query(query);
+      res.status(200).json(rows[0]);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
   async create(req: Request, res: Response) {
     try {
       const { room_id, user_id, check_in, check_out, total_price } = req.body;

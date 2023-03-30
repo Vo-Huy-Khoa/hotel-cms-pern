@@ -41,7 +41,7 @@ export const RoomCreate = () => {
   return (
     <aside className="min-h-screen w-full">
       <div className="bg-white rounded-lg">
-        <form action="" method="post" className="flex flex-col gap-4 p-5">
+        <div className="flex flex-col gap-4 p-5">
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Room Type</Typography>
             <Select label="Room Type" ref={roomTypeRef}>
@@ -70,7 +70,7 @@ export const RoomCreate = () => {
               <Option>User</Option>
             </Select>
           </div>
-        </form>
+        </div>
       </div>
       <div className=" fixed left-0 bottom-0 w-full h-14 bg-gray-900  flex flex-row justify-end gap-6 items-center px-10 ">
         <Button onClick={handleOpen} className="h-10">

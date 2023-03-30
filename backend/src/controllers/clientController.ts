@@ -13,6 +13,15 @@ class clientController {
       res.status(500).json({ error: "Internal server error" });
     }
   }
+  async count(req: Request, res: Response) {
+    try {
+      const query = "SELECT COUNT(*) FROM clients;";
+      const { rows } = await pool.query(query);
+      res.status(200).json(rows);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
   async create(req: Request, res: Response) {
     try {
       const { name, email, identity_number, phone } = req.body;

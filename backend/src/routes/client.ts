@@ -6,6 +6,7 @@ const router = Router();
 router.post("/create", clientController.create);
 router.get("/edit/:id", clientController.find);
 router.put("/update", clientController.update);
+router.get("/count", clientController.count);
 router.get("/", clientController.getAll);
 
 export default router;
