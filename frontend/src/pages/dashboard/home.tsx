@@ -26,6 +26,7 @@ import StatisticsCard from "../../widgets/cards/statistics-card";
 import React from "react";
 import projectsTableData from "../../data/project-table-data";
 import ordersOverviewData from "../../data/orders-overview-data";
+
 export function Home() {
   return (
     <div className="mt-12">

@@ -2,19 +2,18 @@ import {
   Card,
   CardBody,
   Typography,
-  Chip,
   Button,
   Input,
   Select,
   Option,
+  Chip,
 } from "@material-tailwind/react";
 import { NavLink } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { getData, getUsers } from "../../../services";
+import { getData } from "../../../services";
 import Pagination from "../../../widgets/layout/panigation";
-import { IUser } from "../../../types";
 import moment from "moment";
 
 export function RoomList() {
@@ -51,8 +50,8 @@ export function RoomList() {
   useEffect(() => {
     async function fetchGetListRoom() {
       try {
-        const listUser = await getData("room");
-        setListRoom(listUser);
+        const listRoom = await getData("room");
+        setListRoom(listRoom);
       } catch (error) {
         // Handle errors
       }
@@ -90,12 +89,14 @@ export function RoomList() {
               onClick={handleVisibleSearch}
             />
             <Typography className="font-medium capitalize">
-              Handle search
+              Search Box
             </Typography>
           </div>
           <div className="grid grid-cols-4 gap-4">
             <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">Name</Typography>
+              <Typography className="font-small capitalize">
+                Room Type
+              </Typography>
               <Input ref={userNameRef} />
             </div>
             <div className="flex flex-col gap-2">
@@ -103,17 +104,10 @@ export function RoomList() {
               <Input ref={nameRef} />
             </div>
             <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">price</Typography>
-              <Select ref={priceRef}>
-                <Option>0</Option>
-                <Option>1</Option>
-              </Select>
-            </div>
-            <div className="flex flex-col gap-2">
               <Typography className="font-small capitalize">Status</Typography>
               <Select ref={statusRef}>
-                <Option>0</Option>
-                <Option>1</Option>
+                <Option>Yes</Option>
+                <Option>No</Option>
               </Select>
             </div>
           </div>
@@ -199,9 +193,12 @@ export function RoomList() {
                           </Typography>
                         </td>
                         <td className={className}>
-                          <Typography className="text-xs font-normal text-blue-gray-500">
-                            {status}
-                          </Typography>
+                          <Chip
+                            variant="gradient"
+                            color={status ? "green" : "blue-gray"}
+                            value={status ? "yes" : "no"}
+                            className="py-0.5 px-2 text-[11px] font-medium"
+                          />
                         </td>
                         <td className={className}>
                           <Typography className="text-xs font-semibold text-blue-gray-600">

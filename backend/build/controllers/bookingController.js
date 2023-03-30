@@ -27,6 +27,42 @@ class bookingController {
             }
         });
     }
+    totalMoney(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const query = "SELECT SUM(total_price) FROM bookings;";
+                const { rows } = yield configs_1.default.query(query);
+                res.status(200).json(rows[0]);
+            }
+            catch (error) {
+                res.status(500).json({ error: "Internal server error" });
+            }
+        });
+    }
+    countCheckIn(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const query = "SELECT COUNT(*) as count FROM bookings WHERE check_in = CURRENT_DATE";
+                const { rows } = yield configs_1.default.query(query);
+                res.status(200).json(rows[0]);
+            }
+            catch (error) {
+                res.status(500).json({ error: "Internal server error" });
+            }
+        });
+    }
+    countCheckOut(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const query = "SELECT COUNT(*) as count FROM bookings WHERE check_out = CURRENT_DATE";
+                const { rows } = yield configs_1.default.query(query);
+                res.status(200).json(rows[0]);
+            }
+            catch (error) {
+                res.status(500).json({ error: "Internal server error" });
+            }
+        });
+    }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

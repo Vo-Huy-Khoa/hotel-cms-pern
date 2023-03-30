@@ -24,7 +24,7 @@ export interface IClient {
 export interface IRoomType {
   id: number;
   name: string;
-  count: string;
+  count: number;
   price: string;
   created_at: string;
   updated_at: string;

@@ -13,6 +13,16 @@ class roomController {
     }
   }
 
+  async count(req: Request, res: Response) {
+    try {
+      const query = "SELECT COUNT(*) FROM rooms;";
+      const { rows } = await pool.query(query);
+      res.status(200).json(rows);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+
   async create(req: Request, res: Response) {
     try {
       const { room_type_id, name, description, image, status } = req.body;

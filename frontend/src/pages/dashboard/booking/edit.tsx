@@ -50,7 +50,7 @@ export const BookingEdit = () => {
   return (
     <aside className="min-h-screen w-full">
       <div className="bg-white rounded-lg">
-        <form action="" method="post" className="flex flex-col gap-4 p-5">
+        <div className="flex flex-col gap-4 p-5">
           <div className="flex flex-row gap-6">
             <Typography className="w-32">User</Typography>
             <Select label="User">
@@ -79,7 +79,7 @@ export const BookingEdit = () => {
               defaultValue={booking?.check_out}
             ></Input>
           </div>
-        </form>
+        </div>
       </div>
       <div className=" fixed left-0 bottom-0 w-full h-14 bg-gray-900  flex flex-row justify-end gap-6 items-center px-10 ">
         <Button className="h-10">Submit</Button>
