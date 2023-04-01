@@ -7,45 +7,12 @@ import {
 } from "@heroicons/react/24/solid";
 import { getData } from "../services";
 
-const token = sessionStorage.getItem("token");
-let totalPrice = 1;
-let countCheckIn = 1;
-let countCheckOut = 1;
-
-if (token) {
-  const getCount = async () => {
-    const response = await getData("booking/count");
-    const sum = response.sum;
-    return sum;
-  };
-
-  const totalMoney = await getCount();
-  const formattedTotalMoney = totalMoney.toLocaleString("en-US", {
-    style: "currency",
-    currency: "USD",
-  });
-  totalPrice = formattedTotalMoney.replace(/\.00$/, "");
-
-  const getCountCheckIn = async () => {
-    const response = await getData("booking/check_in");
-    return response.count;
-  };
-
-  countCheckIn = await getCountCheckIn();
-  const getCountCheckOut = async () => {
-    const response = await getData("booking/check_out");
-    return response.count;
-  };
-
-  countCheckOut = await getCountCheckOut();
-}
-
 export const statisticsCardsData = [
   {
     color: "blue",
     icon: BanknotesIcon,
     title: "Total Money",
-    value: `${totalPrice}`,
+    value: "Loading...",
     footer: {
       color: "text-green-500",
       value: "+55%",
@@ -56,7 +23,7 @@ export const statisticsCardsData = [
     color: "green",
     icon: UserPlusIcon,
     title: "Check In",
-    value: `${countCheckIn}`,
+    value: "Loading...",
     footer: {
       color: "text-red-500",
       value: "-2%",
@@ -67,7 +34,7 @@ export const statisticsCardsData = [
     color: "red",
     icon: UserMinusIcon,
     title: "Check Out",
-    value: `${countCheckOut}`,
+    value: "Loading...",
     footer: {
       color: "text-red-500",
       value: "-2%",
@@ -86,5 +53,33 @@ export const statisticsCardsData = [
     },
   },
 ];
+
+const updateStatisticsData = async () => {
+  // Create an async function to call the API and update statisticsCardsData
+  const token = sessionStorage.getItem("token");
+
+  if (token) {
+    try {
+      const response1 = await getData("booking/count");
+      const sum = response1.sum;
+      const formattedTotalMoney = sum.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+      });
+      const totalPrice = formattedTotalMoney.replace(/\.00$/, "");
+      statisticsCardsData[0].value = totalPrice;
+
+      const response2 = await getData("booking/check_in");
+      statisticsCardsData[1].value = response2.count;
+
+      const response3 = await getData("booking/check_out");
+      statisticsCardsData[2].value = response3.count;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+};
+
+updateStatisticsData(); // Call the function immediately to update statisticsCardsData
 
 export default statisticsCardsData;
