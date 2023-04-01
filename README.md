@@ -3,8 +3,8 @@
 ![Node.js](https://img.shields.io/badge/node.js-339933.svg?style=for-the-badge&logo=Node%2Ejs&logoColor=white)
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 
-<h1>CMS MERN</h1>
-CMS Application built using Typescript, React, Express.
+<h1>CMS PERN</h1>
+CMS Application built using Typescript, React, Express, PostgreSQL.
 
 ## Index
 
@@ -16,7 +16,7 @@ CMS Application built using Typescript, React, Express.
 
 ## Demo
 
-<h3 name="demo">Live <a href="https://cms-vo-huy-khoa.vercel.app/">CMS</a></h3>
+<h3 name="demo">Live: <a href="https://cms-vo-huy-khoa.vercel.app/">CMS HOTEL</a></h3>
 <!-- https://ezgif.com/ -->
 <br>
 <img src="https://s3.amazonaws.com/creativetim_bucket/products/488/original/material-tailwind-react-dashboard.jpg" alt="cms" />
@@ -26,6 +26,7 @@ CMS Application built using Typescript, React, Express.
 
 - Use Express to build the backend.
 - Use React to build the frontend.
+- Use PostgreSQL to build the database.
 
 ## Special thanks<a name="special"></a>
 
@@ -135,38 +136,3 @@ src
 └── routes.tsx
 
 ```
-
-<!-- Folder structure is based on productivity and some personal preferences:
-
-src
-├── App.css                 * Main app styles.
-├── App.tsx                 * Main app component.
-├── api                     * Abstractions for making API requests
-├── assets                  * Assets that are imported into your components(images, custom svg, etc).
-│   └── ...
-├── components              * Components of the projects that are not the main views.
-│   └── ui                  * Generic and reusable across the whole app. Presentational components eg. Buttons, Inputs, Checkboxes.
-│   └── layout              * Unique and one time use components that will help with app structure.
-│   └── <domain component>  * Belong to a specific domain. Reusable in different pages.
-│   └── ...
-├── plugins                 * Init and config plugins(moment, material-ui, adal, etc).
-│   └── ...
-├── index.tsx               * Entry point of the application.
-├── services                * All the common services. e.g. Authentication, hubs, etc.
-├── store                   * The Redux action types in action-type.ts, reducers, selectors and main store in the sub-folders.
-│   ├── index.ts
-│   └── middlewares         * Store middlewares.
-│   └── sagas               * Saga files in case of redux-saga.
-│   └── modules             * Store modules/ducks structure.
-│       └── smallModule.ts  * Small modules can contain actions, action types, reducers and selectors in the same file.
-│       └── bigModule       * Big modules should be composed by separated files for actions, action types, reducer and selectors.
-│           └── index.ts
-│           └── actions.ts
-│           └── ...
-├── styles/theme            * All common styles (css) or theme (sass, styled-components).
-├── utils                   * Functions (for tests, for regex value testing, constants or filters.)
-│   └── ...
-├── pages                   * Routed components that represents pages(Presentational Components Only).
-│   └── ...
-└── .vscode                 * VS Code workspace settings to work with ESLint rules and formatting
-                              (you can also lint or fix on save 😉). -->

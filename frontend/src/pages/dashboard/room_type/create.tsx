@@ -16,12 +16,11 @@ export const RoomTypeCreate = () => {
   const handleOpen = () => setOpen(!open);
 
   const nameRef = useRef<HTMLInputElement>(null);
-  const countRef = useRef<HTMLInputElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
+  const [count, setCount] = useState<string | undefined>(undefined);
 
   const handleSubmit = async () => {
     const name = nameRef.current?.querySelector("input")?.value || "";
-    const count = countRef.current?.querySelector("input")?.value || "";
     const price = priceRef.current?.querySelector("input")?.value || "";
 
     const body = {
@@ -31,9 +30,8 @@ export const RoomTypeCreate = () => {
     };
 
     await handleApiCreate("room_type/create", body);
-    navigate("/dashboard/room_type/list");
+    navigate("/dashboard/room-type/list");
   };
-
   return (
     <aside className="min-h-screen w-full">
       <div className="bg-white rounded-lg">
@@ -44,7 +42,7 @@ export const RoomTypeCreate = () => {
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Limit</Typography>
-            <Select label="Limit" ref={countRef}>
+            <Select label="Limit" onChange={(value) => setCount(value)}>
               <Option value="1">1</Option>
               <Option value="2">2</Option>
               <Option value="3">3</Option>
@@ -64,7 +62,7 @@ export const RoomTypeCreate = () => {
         <Button className="bg-blue-gray-700 h-10">Clear</Button>
       </div>
       <Popup
-        desc="User Create"
+        desc="Room Type Create"
         open={open}
         onClose={handleOpen}
         submit={handleSubmit}

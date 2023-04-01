@@ -6,7 +6,7 @@ function App() {
   return (
     <Routes>
       <Route
-        path="*"
+        path="/"
         element={
           token ? (
             <Navigate to="/dashboard/home" replace />
@@ -15,8 +15,8 @@ function App() {
           )
         }
       />
-      <Route path="/dashboard/*" element={<Dashboard />} />
       <Route path="/auth/*" element={<Auth />} />
+      <Route path="/dashboard/*" element={<Dashboard />} />
     </Routes>
   );
 }

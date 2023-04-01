@@ -27,9 +27,9 @@ const seederRoomType = async (req: Request, res: Response) => {
     // Insert each user in parallel
     await Promise.all(
       room_type.map(async (room) => {
+        const insertValues = [room.name, room.count, room.price];
         const insertQuery =
           "INSERT INTO room_types(name, count, price) VALUES($1, $2, $3)";
-        const insertValues = [room.name, room.count, room.price];
         await pool.query(insertQuery, insertValues);
       })
     );

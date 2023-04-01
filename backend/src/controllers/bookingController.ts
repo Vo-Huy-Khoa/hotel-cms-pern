@@ -1,4 +1,3 @@
-import bcrypt from "bcrypt";
 import pool from "../configs";
 import { Request, Response } from "express";
 
@@ -6,7 +5,8 @@ class bookingController {
   // Retrieve all users from the database
   async getAll(req: Request, res: Response) {
     try {
-      const query = "SELECT * FROM bookings ORDER BY id DESC";
+      const query =
+        "select bookings.id, bookings.client_id, rooms.name as room, clients.name as client, bookings.check_in, bookings.check_out,bookings.total_price, bookings.created_at, bookings.updated_at from bookings JOIN rooms on bookings.room_id=rooms.id JOIN clients on bookings.client_id= clients.id ORDER BY id DESC";
       const { rows } = await pool.query(query);
       res.status(200).json(rows);
     } catch (error) {

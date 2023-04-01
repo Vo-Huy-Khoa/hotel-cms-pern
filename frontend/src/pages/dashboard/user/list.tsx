@@ -185,7 +185,7 @@ export function UserList() {
                     return (
                       <tr key={key}>
                         <td className={className}>
-                          <Typography className="text-xs font-normal text-blue-gray-500">
+                          <Typography className="text-xs font-semibold text-blue-gray-600">
                             {id}
                           </Typography>
                         </td>
@@ -201,7 +201,7 @@ export function UserList() {
                           </Typography>
                         </td>
                         <td className={className}>
-                          <Typography className="text-xs font-normal text-blue-gray-500">
+                          <Typography className="text-xs font-semibold text-blue-gray-600">
                             {email}
                           </Typography>
                         </td>

@@ -18,7 +18,7 @@ class roomController {
     getAll(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const query = "SELECT * FROM rooms ORDER BY id DESC";
+                const query = "SELECT rooms.id, room_types.name as room_type, rooms.name, rooms.description, rooms.image, rooms.status, rooms.created_at, rooms.updated_at FROM rooms JOIN room_types ON rooms.room_type_id=room_types.id ORDER BY id DESC";
                 const { rows } = yield configs_1.default.query(query);
                 res.status(200).json(rows);
             }
@@ -69,10 +69,10 @@ class roomController {
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { id, user_name, full_name, email, password, status } = req.body;
+                const { id, room_type_id, name, description, image, status } = req.body;
                 const query = {
-                    text: "UPDATE rooms SET user_name = $2, full_name = $3, email = $4, password = $5, status = $8 WHERE id = $1",
-                    values: [id, user_name, full_name, email, password, status],
+                    text: "UPDATE rooms SET room_type_id = $2, name = $3, description = $4, image = $5, status = $6 WHERE id = $1",
+                    values: [id, room_type_id, name, description, image, status],
                 };
                 const { rowCount } = yield configs_1.default.query(query);
                 if (rowCount === 0) {

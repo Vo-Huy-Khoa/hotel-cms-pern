@@ -17,7 +17,6 @@ export const BookingCreate = () => {
   const handleOpen = () => setOpen(!open);
   const [listRoom, setListRoom] = useState([]);
 
-  const roomRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const identityRef = useRef<HTMLInputElement>(null);
@@ -25,8 +24,9 @@ export const BookingCreate = () => {
   const checkInRef = useRef<HTMLInputElement>(null);
   const checkOutRef = useRef<HTMLInputElement>(null);
 
+  const [room_id, setRoom] = useState<string | undefined>();
+
   const handleSubmit = async () => {
-    const room = roomRef.current?.querySelector("input")?.value || "";
     const name = nameRef.current?.querySelector("input")?.value || "";
     const email = emailRef.current?.querySelector("input")?.value || "";
     const identity_number =
@@ -42,9 +42,13 @@ export const BookingCreate = () => {
       phone,
     };
     const response = await handleApiCreate("client/create", bodyClient);
-    const user_id = response.data.id;
+    console.log(response);
+
+    const user_id = response.id;
+    console.log(user_id);
+
     const bodyBooking = {
-      room_id: room,
+      room_id,
       user_id,
       check_in,
       check_out,
@@ -72,9 +76,13 @@ export const BookingCreate = () => {
         <div className="flex flex-col gap-4 p-5">
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Room</Typography>
-            <Select label="Room" ref={roomRef}>
+            <Select label="Room" onChange={(value) => setRoom(value)}>
               {listRoom.map((room: IRoom, index) => {
-                return <Option key={index}>{room?.name}</Option>;
+                return (
+                  <Option key={index} value={room.id.toString()}>
+                    {room?.name}
+                  </Option>
+                );
               })}
             </Select>
           </div>
@@ -115,7 +123,7 @@ export const BookingCreate = () => {
         <Button className="bg-blue-gray-700 h-10">Clear</Button>
       </div>
       <Popup
-        desc="User Create"
+        desc="Booking Create"
         open={open}
         onClose={handleOpen}
         submit={handleSubmit}

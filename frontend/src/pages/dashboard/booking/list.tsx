@@ -11,13 +11,14 @@ import { useEffect, useRef, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { getData } from "../../../services";
 import Pagination from "../../../widgets/layout/panigation";
-import { IBooking } from "../../../types";
+import { IBooking, IClient } from "../../../types";
 import moment from "moment";
 import { BookingCard } from "../../../widgets/cards";
 
 export function BookingList() {
   const [isVisibleSearch, setVisibleSearch] = useState(false);
   const [listBooking, setListBooking] = useState([]);
+
   const totalRow: number = listBooking.length;
   const [page, setPage] = useState(1);
   const bookingNameRef = useRef<HTMLInputElement>(null);

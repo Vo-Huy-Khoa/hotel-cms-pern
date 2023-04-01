@@ -1,11 +1,12 @@
 
-# @url  = http://localhost:3001/api
-@url  = https://cmshotel.onrender.com/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTgyMDM3MSwiZXhwIjoxNjc5ODIwNDkxfQ.hESriOZi95BVZgTHHDToixOE03WxGXhRKUoz-bjhpCg
+#===========================SETTINGS===========================
+@url  = http://localhost:3001/api
+# @url  = https://cmshotel.onrender.com/api
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcl9uYW1lIjoidGh5dHJhbiIsImVtYWlsIjoidGh5dHJhbkBnbWFpbC5jb20iLCJpYXQiOjE2ODAzNDQwODgsImV4cCI6MTY4MDM0NDIwOH0.bxmChiml5kLMVB6WS4fr24QyaaC1LO47XWMXp3rTlac
 
 @refresh_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTUzODgwOCwiZXhwIjoxNjc5NTQyNDA4fQ.UjHK0rDUCTRnbk6m6aBMF0N1VDNVWfOAV6OD5q0URVE
 
-# =============AUTH================== 
+#===========================AUTH===========================
 
 ### Register
 POST {{url}}/auth/register
@@ -23,7 +24,7 @@ POST {{url}}/auth/login
 Content-Type: application/json
 
 {
-    "user_name": "khoavh",
+    "user_name": "thytran",
     "password": "1"
 }
 
@@ -44,20 +45,15 @@ Content-Type: application/json
     "refresh_token": "{{refresh_token}}"
 }
 
-# ==================USER=========================
+#===========================USER===========================
 
-###  User List
+
+### List
 GET {{url}}/user
 Authorization: Beaer {{token}}
 Content-Type: application/json
 
-###  User List
-GET {{url}}/room
-Authorization: Beaer {{token}}
-Content-Type: application/json
-
-
-###  User Create
+### Create
 POST {{url}}/user/create
 Authorization: Beaer {{token}}
 Content-Type: application/json
@@ -72,7 +68,7 @@ Content-Type: application/json
     "role": "1"
 }
 
-###  User Update
+### Update
 PUT {{url}}/user/update
 Authorization: Beaer {{token}}
 Content-Type: application/json
@@ -89,69 +85,176 @@ Content-Type: application/json
 }
 
 
-# ==================Room Type=========================
+#===========================BOOKING===========================
 
-###  Room Type List
+
+### List
+GET {{url}}/booking
+Authorization: Beaer {{token}}
+Content-Type: application/json
+
+### Create
+POST {{url}}/booking/create
+Authorization: Beaer {{token}}
+Content-Type: application/json
+
+{
+    "user_name": "tungson",
+    "full_name": "tung son",
+    "email": "huykhoa630@gmail.com",
+    "password": "1",
+    "identity_number": "2006444928",
+    "phone": "0977425396",
+    "role": "1"
+}
+
+### Update
+PUT {{url}}/booking/update
+Authorization: Beaer {{token}}
+Content-Type: application/json
+
+{
+    "id": "5",
+    "check_in": "new Date(2023, 2, 15)",
+    "check_out": ""
+}
+
+
+#===========================ROOM_TYPE===========================
+
+
+###  List
 GET {{url}}/room_type
 Authorization: Beaer {{token}}
 Content-Type: application/json
 
-# =============AUTH================== 
+###  Create
+POST {{url}}/room_type/create
+Authorization: Beaer {{token}}
+Content-Type: application/json
 
-### Migration User
+{
+    "name": "Phong 2 nguoi",
+    "count": 2,
+    "price": "500000"
+}
+
+
+
+#===========================ROOM===========================
+
+
+###  List
+GET {{url}}/room_type
+Authorization: Beaer {{token}}
+Content-Type: application/json
+
+###  Create
+POST {{url}}/room_type/create
+Authorization: Beaer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Phong 2 nguoi",
+    "count": 2,
+    "price": "500000"
+}
+
+
+
+#===========================BOOKING===========================
+
+
+###  List
+GET {{url}}/booking
+Authorization: Beaer {{token}}
+Content-Type: application/json
+
+###  Create
+POST {{url}}/booking/create
+Authorization: Beaer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Phong 2 nguoi",
+    "count": 2,
+    "price": "500000"
+}
+
+
+#===========================CLIENT===========================
+
+
+###  List
+GET {{url}}/client
+Authorization: Beaer {{token}}
+Content-Type: application/json
+
+###  Create
+POST {{url}}/client/create
+Authorization: Beaer {{token}}
+Content-Type: application/json
+
+{
+    "name": "test 2",
+    "email": "test@gmail.com",
+    "identity_number": "500000",
+    "phone": "500000"
+
+}
+
+
+#===========================MIGRATION===========================
+
+### User
 GET {{url}}/migration/user
 
-### Migration Room Type
-
+### Room Type
 GET {{url}}/migration/room_type
 
-### Migration Room
-
+### Room
 GET {{url}}/migration/room
 
-### Migration Client
-
+### Client
 GET {{url}}/migration/client
 
-### Migration Booking
-
+### Booking
 GET {{url}}/migration/booking
 
-# =============DROP================== 
+#===========================DROP===========================
 
-### Drop User
+
+### User
 GET {{url}}/drop/user
 
-### Migration Room Type
-
+### Room Type
 GET {{url}}/drop/room_type
-### Migration Room
 
+### Room
 GET {{url}}/drop/room
-### Migration Client
 
+### Client
 GET {{url}}/drop/client
 
-### Migration Booking
-
+### Booking
 GET {{url}}/drop/booking
 
 
-# =============SEEDER================== 
+#===========================SEEDER===========================
 
-### Seeder User
+### User
 GET {{url}}/seeder/user
 
-### Seeder Room Type
+### Room Type
 GET {{url}}/seeder/room_type
 
-### Seeder Room
+### Room
 GET {{url}}/seeder/room
 
-### Seeder Client
+### Client
 GET {{url}}/seeder/client
 
-### Seeder Booking
+### Booking
 GET {{url}}/seeder/booking
 
 

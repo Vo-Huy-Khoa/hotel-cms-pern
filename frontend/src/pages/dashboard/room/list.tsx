@@ -154,7 +154,7 @@ export function RoomList() {
                   (
                     {
                       id,
-                      room_type_id,
+                      room_type,
                       name,
                       description,
                       status,
@@ -167,17 +167,16 @@ export function RoomList() {
                     return (
                       <tr key={key}>
                         <td className={className}>
-                          <Typography className="text-xs font-normal text-blue-gray-500">
+                          <Typography className="text-xs font-semibold text-blue-gray-600">
                             {id}
                           </Typography>
                         </td>
                         <td className={className}>
                           <Typography
-                            variant="small"
                             color="blue-gray"
-                            className="text-xs font-normal text-blue-gray-500"
+                            className="text-xs font-semibold text-blue-gray-600"
                           >
-                            {room_type_id}
+                            {room_type}
                           </Typography>
                         </td>
                         <td className={className}>
@@ -188,7 +187,7 @@ export function RoomList() {
                           </NavLink>
                         </td>
                         <td className={className}>
-                          <Typography className="text-xs font-normal text-blue-gray-500">
+                          <Typography className="text-xs font-semibold text-blue-gray-600">
                             {description}
                           </Typography>
                         </td>

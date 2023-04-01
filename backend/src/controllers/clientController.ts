@@ -1,4 +1,3 @@
-import bcrypt from "bcrypt";
 import pool from "../configs";
 import { Request, Response } from "express";
 
