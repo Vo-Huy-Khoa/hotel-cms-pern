@@ -2,7 +2,7 @@
 #===========================SETTINGS===========================
 @url  = http://localhost:3001/api
 # @url  = https://cmshotel.onrender.com/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcl9uYW1lIjoidGh5dHJhbiIsImVtYWlsIjoidGh5dHJhbkBnbWFpbC5jb20iLCJpYXQiOjE2ODAzNDQwODgsImV4cCI6MTY4MDM0NDIwOH0.bxmChiml5kLMVB6WS4fr24QyaaC1LO47XWMXp3rTlac
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcl9uYW1lIjoidGh5dHJhbiIsImVtYWlsIjoidGh5dHJhbkBnbWFpbC5jb20iLCJpYXQiOjE2ODAzNDQzOTAsImV4cCI6MTY4MDM0NDUxMH0.IJtdujXaa9fpwwgN2AiV-5WhxWpW479KwTWmGMIab0k
 
 @refresh_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTUzODgwOCwiZXhwIjoxNjc5NTQyNDA4fQ.UjHK0rDUCTRnbk6m6aBMF0N1VDNVWfOAV6OD5q0URVE
 
