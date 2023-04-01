@@ -18,7 +18,7 @@ class bookingController {
     getAll(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const query = "SELECT * FROM bookings ORDER BY id DESC";
+                const query = "select bookings.id, bookings.client_id, rooms.name as room, clients.name as client, bookings.check_in, bookings.check_out,bookings.total_price, bookings.created_at, bookings.updated_at from bookings JOIN rooms on bookings.room_id=rooms.id JOIN clients on bookings.client_id= clients.id ORDER BY id DESC";
                 const { rows } = yield configs_1.default.query(query);
                 res.status(200).json(rows);
             }

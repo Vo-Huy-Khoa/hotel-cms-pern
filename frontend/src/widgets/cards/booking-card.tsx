@@ -18,16 +18,14 @@ export function BookingCard({ booking, index }: Props) {
         className="relative h-16 flex justify-center items-center"
       >
         <Typography variant="h4" color="black" className="text-center">
-          {booking?.room_id}
+          {booking?.room}
         </Typography>
       </CardHeader>
       <CardBody className="text-center">
         <Typography variant="h5" className="mb-2">
           {moment(booking?.check_in).format("YYYY-MM-DD HH:mm")}
         </Typography>
-        <Typography>
-          The place is close to Barceloneta Beach and bus stop just 2 min by
-        </Typography>
+        <Typography variant="h6">{booking?.client}</Typography>
       </CardBody>
       <CardFooter divider className="flex items-center justify-between py-3">
         <NavLink to={`/dashboard/booking/edit/${booking.id}/`}>

@@ -5,7 +5,8 @@ class roomController {
   // Retrieve all users from the database
   async getAll(req: Request, res: Response) {
     try {
-      const query = "SELECT * FROM rooms ORDER BY id DESC";
+      const query =
+        "SELECT rooms.id, room_types.name as room_type, rooms.name, rooms.description, rooms.image, rooms.status, rooms.created_at, rooms.updated_at FROM rooms JOIN room_types ON rooms.room_type_id=room_types.id ORDER BY id DESC";
       const { rows } = await pool.query(query);
       res.status(200).json(rows);
     } catch (error) {
@@ -51,10 +52,11 @@ class roomController {
 
   async update(req: Request, res: Response) {
     try {
-      const { id, user_name, full_name, email, password, status } = req.body;
+      const { id, room_type_id, name, description, image, status } = req.body;
+
       const query = {
-        text: "UPDATE rooms SET user_name = $2, full_name = $3, email = $4, password = $5, status = $8 WHERE id = $1",
-        values: [id, user_name, full_name, email, password, status],
+        text: "UPDATE rooms SET room_type_id = $2, name = $3, description = $4, image = $5, status = $6 WHERE id = $1",
+        values: [id, room_type_id, name, description, image, status],
       };
       const { rowCount } = await pool.query(query);
       if (rowCount === 0) {

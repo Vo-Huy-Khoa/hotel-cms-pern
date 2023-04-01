@@ -42,9 +42,9 @@ class roomTypeController {
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { name, limit, price } = req.body;
-                const initValue = [name, limit, price];
-                const insertQuery = "INSERT INTO room_types(name, limit, price) VALUES($1, $2, $3";
+                const { name, count, price } = req.body;
+                const initValue = [name, count, price];
+                const insertQuery = "INSERT INTO room_types(name, count, price) VALUES($1, $2, $3)";
                 const { rows } = yield configs_1.default.query(insertQuery, initValue);
                 res.status(201).json(rows[0]);
             }
@@ -69,10 +69,10 @@ class roomTypeController {
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { id, name, limit, price } = req.body;
+                const { id, name, count, price } = req.body;
                 const query = {
-                    text: "UPDATE room_types SET name = $2, limit = $3, price = $4 WHERE id = $1",
-                    values: [id, name, limit, price],
+                    text: "UPDATE room_types SET name = $2, count = $3, price = $4 WHERE id = $1",
+                    values: [id, name, count, price],
                 };
                 const { rowCount } = yield configs_1.default.query(query);
                 if (rowCount === 0) {

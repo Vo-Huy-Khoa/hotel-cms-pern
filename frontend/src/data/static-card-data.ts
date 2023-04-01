@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
   BanknotesIcon,
   UserPlusIcon,
@@ -5,41 +6,46 @@ import {
   UserMinusIcon,
 } from "@heroicons/react/24/solid";
 import { getData } from "../services";
-// const getCount = async () => {
-//   const response = await getData("booking/count");
-//   const sum = response.sum;
-//   return sum;
-// };
 
-// const totalMoney = await getCount();
+const token = sessionStorage.getItem("token");
+let totalPrice = 1;
+let countCheckIn = 1;
+let countCheckOut = 1;
 
-// const getCountCheckIn = async () => {
-//   const response = await getData("booking/check_in");
-//   return response.count;
-// };
+if (token) {
+  const getCount = async () => {
+    const response = await getData("booking/count");
+    const sum = response.sum;
+    return sum;
+  };
 
-// const countCheckIn = await getCountCheckIn();
-// const getCountCheckOut = async () => {
-//   const response = await getData("booking/check_out");
-//   return response.count;
-// };
+  const totalMoney = await getCount();
+  const formattedTotalMoney = totalMoney.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+  totalPrice = formattedTotalMoney.replace(/\.00$/, "");
 
-// const countCheckOut = await getCountCheckOut();
-// const formattedTotalMoney = totalMoney.toLocaleString("en-US", {
-//   style: "currency",
-//   currency: "USD",
-// });
-// const formattedTotalMoneyWithoutDecimal = formattedTotalMoney.replace(
-//   /\.00$/,
-//   ""
-// );
+  const getCountCheckIn = async () => {
+    const response = await getData("booking/check_in");
+    return response.count;
+  };
+
+  countCheckIn = await getCountCheckIn();
+  const getCountCheckOut = async () => {
+    const response = await getData("booking/check_out");
+    return response.count;
+  };
+
+  countCheckOut = await getCountCheckOut();
+}
 
 export const statisticsCardsData = [
   {
     color: "blue",
     icon: BanknotesIcon,
     title: "Total Money",
-    value: `${1}`,
+    value: `${totalPrice}`,
     footer: {
       color: "text-green-500",
       value: "+55%",
@@ -50,7 +56,7 @@ export const statisticsCardsData = [
     color: "green",
     icon: UserPlusIcon,
     title: "Check In",
-    value: `${2}`,
+    value: `${countCheckIn}`,
     footer: {
       color: "text-red-500",
       value: "-2%",
@@ -61,7 +67,7 @@ export const statisticsCardsData = [
     color: "red",
     icon: UserMinusIcon,
     title: "Check Out",
-    value: `${3}`,
+    value: `${countCheckOut}`,
     footer: {
       color: "text-red-500",
       value: "-2%",

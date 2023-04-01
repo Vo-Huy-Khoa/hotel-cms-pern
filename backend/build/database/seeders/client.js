@@ -14,27 +14,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.seederClient = void 0;
 const configs_1 = __importDefault(require("../../configs"));
-const users = [
+const clients = [
     {
-        name: "vo huy khoa",
+        name: "Vo Huy Khoa",
         email: "huykhoa630@gmail.com",
         identity_number: "206444928",
         phone: "0977425396",
     },
     {
-        name: "anhthy",
+        name: "Tran Thi Anh Thy",
         email: "anhthy@gmail.com",
         identity_number: "206444928",
         phone: "0796565798",
     },
     {
-        full_name: "Ngoc Khue",
+        name: "Vo Doan Ngoc Khue",
         email: "ngockhue0@gmail.com",
         identity_number: "206444928",
         phone: "0977425396",
     },
     {
-        full_name: "Jennie",
+        name: "Jennie",
         email: "jennie@gmail.com",
         identity_number: "206444928",
         phone: "0977425396",
@@ -44,15 +44,15 @@ const seederClient = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     try {
         // Start a transaction
         yield configs_1.default.query("BEGIN");
-        // Insert each user in parallel
-        yield Promise.all(users.map((user) => __awaiter(void 0, void 0, void 0, function* () {
-            const insertQuery = "INSERT INTO clients(name, email, identity_number, phone) VALUES($1, $2, $3, $4)";
+        // Insert each client in parallel
+        yield Promise.all(clients.map((client) => __awaiter(void 0, void 0, void 0, function* () {
             const insertValues = [
-                user.name,
-                user.email,
-                user.identity_number,
-                user.phone,
+                client.name,
+                client.email,
+                client.identity_number,
+                client.phone,
             ];
+            const insertQuery = "INSERT INTO clients(name, email, identity_number, phone) VALUES($1, $2, $3, $4)";
             yield configs_1.default.query(insertQuery, insertValues);
         })));
         // Commit the transaction

@@ -13,7 +13,7 @@ export interface IUser {
 
 export interface IClient {
   id: number;
-  full_name: string;
+  name: string;
   email: string;
   identity_number: string;
   phone: string;
@@ -32,17 +32,19 @@ export interface IRoomType {
 
 export interface IRoom {
   id: number;
+  room_type_id: number;
   name: string;
   description: string;
   image: string;
+  status: string;
   created_at: string;
   updated_at: string;
 }
 
 export interface IBooking {
   id: number;
-  user_id: string;
-  room_id: string;
+  room: string;
+  client: string;
   check_in: string;
   check_out: string;
   created_at: string;

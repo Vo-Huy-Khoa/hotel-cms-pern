@@ -17,15 +17,15 @@ const configs_1 = __importDefault(require("../../configs"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const users = [
     {
-        user_name: "anhthy",
-        full_name: "Anh Thy",
-        email: "anhthy@gmail.com",
+        user_name: "khoavh",
+        full_name: "Vo Huy Khoa",
+        email: "khoavh@gmail.com",
         password: "1",
-        status: "0",
+        status: "1",
     },
     {
         user_name: "ngockhue",
-        full_name: "Ngoc Khue",
+        full_name: "Vo Doan Ngoc Khue",
         email: "ngockhue0@gmail.com",
         password: "1",
         status: "1",
@@ -52,60 +52,11 @@ const users = [
         status: "0",
     },
     {
-        user_name: "ngockhue",
-        full_name: "Ngoc Khue",
-        email: "ngockhue0@gmail.com",
-        password: "1",
-        status: "1",
-    },
-    {
-        user_name: "jennie",
-        full_name: "Jennie",
-        email: "jennie@gmail.com",
-        password: "1",
-        status: "1",
-    },
-    {
-        user_name: "anhthy",
-        full_name: "Anh Thy",
-        email: "anhthy@gmail.com",
+        user_name: "thytran",
+        full_name: "Tran Thi Anh Thy",
+        email: "thytran@gmail.com",
         password: "1",
         status: "0",
-    },
-    {
-        user_name: "ngockhue",
-        full_name: "Ngoc Khue",
-        email: "ngockhue0@gmail.com",
-        password: "1",
-        status: "1",
-    },
-    {
-        user_name: "jennie",
-        full_name: "Jennie",
-        email: "jennie@gmail.com",
-        password: "1",
-        status: "1",
-    },
-    {
-        user_name: "anhthy",
-        full_name: "Anh Thy",
-        email: "anhthy@gmail.com",
-        password: "1",
-        status: "0",
-    },
-    {
-        user_name: "ngockhue",
-        full_name: "Ngoc Khue",
-        email: "ngockhue0@gmail.com",
-        password: "1",
-        status: "1",
-    },
-    {
-        user_name: "jennie",
-        full_name: "Jennie",
-        email: "jennie@gmail.com",
-        password: "1",
-        status: "1",
     },
 ];
 const seederUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -118,7 +69,7 @@ const seederUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 user.user_name,
                 user.full_name,
                 user.email,
-                bcrypt_1.default.hash(user.password, 10),
+                yield bcrypt_1.default.hash(user.password, 10),
                 user.status,
             ];
             const insertQuery = "INSERT INTO users(user_name, full_name, email, password, status) VALUES($1, $2, $3, $4, $5)";

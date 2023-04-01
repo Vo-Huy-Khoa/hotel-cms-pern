@@ -3,24 +3,24 @@ import { Request, Response } from "express";
 
 const bookings = [
   {
-    room_id: 4,
-    user_id: 3,
-    check_in: new Date(2023, 2, 15),
-    check_out: new Date(2023, 2, 15),
+    room_id: 2,
+    client_id: 3,
+    check_in: new Date(2023, 3, 15),
+    check_out: new Date(2023, 3, 15),
     total_price: "2500000",
   },
   {
-    room_id: 6,
-    user_id: 3,
-    check_in: new Date(2023, 2, 15),
-    check_out: new Date(2023, 2, 15),
+    room_id: 2,
+    client_id: 3,
+    check_in: new Date(2023, 3, 1),
+    check_out: new Date(2023, 3, 1),
     total_price: "2500000",
   },
   {
-    room_id: 4,
-    user_id: 2,
-    check_in: new Date(2023, 2, 15),
-    check_out: new Date(2023, 2, 15),
+    room_id: 3,
+    client_id: 3,
+    check_in: new Date(2023, 3, 1),
+    check_out: new Date(2023, 3, 1),
     total_price: "2500000",
   },
 ];
@@ -33,15 +33,15 @@ const seederBooking = async (req: Request, res: Response) => {
     // Insert each user in parallel
     await Promise.all(
       bookings.map(async (booking) => {
-        const insertQuery =
-          "INSERT INTO bookings(room_id, user_id, check_in, check_out, total_price ) VALUES($1, $2, $3, $4, $5)";
         const insertValues = [
           booking.room_id,
-          booking.user_id,
+          booking.client_id,
           booking.check_in,
           booking.check_out,
           booking.total_price,
         ];
+        const insertQuery =
+          "INSERT INTO bookings(room_id, client_id, check_in, check_out, total_price ) VALUES($1, $2, $3, $4, $5)";
         await pool.query(insertQuery, insertValues);
       })
     );

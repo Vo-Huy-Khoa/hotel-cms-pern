@@ -32,7 +32,7 @@ export function SignIn() {
       <form className="flex flex-col gap-4" action="">
         <div className="flex flex-col gap-1">
           <Typography>User Name</Typography>
-          <Input label="Username" value="khoavh" ref={userNameRef} />
+          <Input label="Username" value="thytran" ref={userNameRef} />
         </div>
         <div className="flex flex-col gap-1">
           <Typography>Password</Typography>

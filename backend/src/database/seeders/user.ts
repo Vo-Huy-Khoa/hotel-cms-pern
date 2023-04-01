@@ -4,15 +4,15 @@ import bcrypt from "bcrypt";
 
 const users = [
   {
-    user_name: "anhthy",
-    full_name: "Anh Thy",
-    email: "anhthy@gmail.com",
+    user_name: "khoavh",
+    full_name: "Vo Huy Khoa",
+    email: "khoavh@gmail.com",
     password: "1",
-    status: "0",
+    status: "1",
   },
   {
     user_name: "ngockhue",
-    full_name: "Ngoc Khue",
+    full_name: "Vo Doan Ngoc Khue",
     email: "ngockhue0@gmail.com",
     password: "1",
     status: "1",
@@ -39,62 +39,11 @@ const users = [
     status: "0",
   },
   {
-    user_name: "ngockhue",
-    full_name: "Ngoc Khue",
-    email: "ngockhue0@gmail.com",
-    password: "1",
-    status: "1",
-  },
-  {
-    user_name: "jennie",
-    full_name: "Jennie",
-    email: "jennie@gmail.com",
-    password: "1",
-    status: "1",
-  },
-
-  {
-    user_name: "anhthy",
-    full_name: "Anh Thy",
-    email: "anhthy@gmail.com",
+    user_name: "thytran",
+    full_name: "Tran Thi Anh Thy",
+    email: "thytran@gmail.com",
     password: "1",
     status: "0",
-  },
-  {
-    user_name: "ngockhue",
-    full_name: "Ngoc Khue",
-    email: "ngockhue0@gmail.com",
-    password: "1",
-    status: "1",
-  },
-  {
-    user_name: "jennie",
-    full_name: "Jennie",
-    email: "jennie@gmail.com",
-    password: "1",
-    status: "1",
-  },
-
-  {
-    user_name: "anhthy",
-    full_name: "Anh Thy",
-    email: "anhthy@gmail.com",
-    password: "1",
-    status: "0",
-  },
-  {
-    user_name: "ngockhue",
-    full_name: "Ngoc Khue",
-    email: "ngockhue0@gmail.com",
-    password: "1",
-    status: "1",
-  },
-  {
-    user_name: "jennie",
-    full_name: "Jennie",
-    email: "jennie@gmail.com",
-    password: "1",
-    status: "1",
   },
 ];
 
@@ -110,7 +59,7 @@ const seederUser = async (req: Request, res: Response) => {
           user.user_name,
           user.full_name,
           user.email,
-          bcrypt.hash(user.password, 10),
+          await bcrypt.hash(user.password, 10),
           user.status,
         ];
         const insertQuery =

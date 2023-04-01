@@ -1,4 +1,10 @@
-import { Button, Input, Typography } from "@material-tailwind/react";
+import {
+  Button,
+  Input,
+  Select,
+  Typography,
+  Option,
+} from "@material-tailwind/react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Popup } from "../../../components";
@@ -13,22 +19,22 @@ export const RoomTypeEdit = () => {
   const [roomType, setRoomType] = useState<IRoomType>();
 
   const nameRef = useRef<HTMLInputElement>(null);
-  const countRef = useRef<HTMLInputElement>(null);
+  const [count, setCount] = useState<string | undefined>(undefined);
   const priceRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async () => {
     const name = nameRef.current?.querySelector("input")?.value || "";
-    const count = countRef.current?.querySelector("input")?.value || "";
     const price = priceRef.current?.querySelector("input")?.value || "";
 
     const body = {
+      id,
       name,
       count,
       price,
     };
 
     await handleApiEdit("room_type/update", body);
-    navigate("/dashboard/room_type/list");
+    navigate("/dashboard/room-type/list");
   };
 
   useEffect(() => {
@@ -53,12 +59,16 @@ export const RoomTypeEdit = () => {
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Limit</Typography>
-            <Input
-              type="text"
-              label="Count"
-              ref={countRef}
-              defaultValue={roomType?.count}
-            ></Input>
+            <Select
+              label="Limit"
+              onChange={(value) => setCount(value)}
+              value={roomType?.count.toString()}
+            >
+              <Option value="1">1</Option>
+              <Option value="2">2</Option>
+              <Option value="3">3</Option>
+              <Option value="4">4</Option>
+            </Select>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Price</Typography>
@@ -79,7 +89,8 @@ export const RoomTypeEdit = () => {
       </div>
       <Popup open={open} onClose={handleOpen} />
       <Popup
-        desc="User Create"
+        title="Popup Edit"
+        desc="Room Type Edit"
         open={open}
         onClose={handleOpen}
         submit={handleSubmit}

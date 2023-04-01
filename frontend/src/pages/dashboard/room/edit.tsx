@@ -9,8 +9,8 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Popup } from "../../../components";
-import { handleApiEdit, handleApiGetItem } from "../../../services";
-import { IRoom } from "../../../types";
+import { getData, handleApiEdit, handleApiGetItem } from "../../../services";
+import { IRoom, IRoomType } from "../../../types";
 
 export const RoomEdit = () => {
   const navigate = useNavigate();
@@ -18,23 +18,31 @@ export const RoomEdit = () => {
   const handleOpen = () => setOpen(!open);
   const { id } = useParams();
   const [room, setRoom] = useState<IRoom>();
-  const roomTypeRef = useRef<HTMLInputElement>(null);
+
+  const [listRoomType, setListRoomType] = useState([]);
+  const [room_type_id, setRoomType] = useState<string | undefined>(undefined);
+  const [status, setStatus] = useState<string | undefined>(
+    room?.status.toString()
+  );
+
+  console.log(status);
+
   const nameRef = useRef<HTMLInputElement>(null);
   const descRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
-  const statusRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async () => {
-    const room_type = roomTypeRef.current?.querySelector("input")?.value || "";
     const name = nameRef.current?.querySelector("input")?.value || "";
-    const description = descRef.current?.querySelector("input")?.value || "";
+    const description = descRef.current?.querySelector("textarea")?.value || "";
     const image = imageRef.current?.querySelector("input")?.value || "1";
 
     const body = {
-      room_type,
+      id,
+      room_type_id,
       name,
       description,
       image,
+      status,
     };
 
     await handleApiEdit("room/update", body);
@@ -48,6 +56,18 @@ export const RoomEdit = () => {
     }
     getItem();
   }, [id]);
+  useEffect(() => {
+    async function getRoomType() {
+      try {
+        const listRoomType = await getData("room_type");
+        setListRoomType(listRoomType);
+      } catch (error) {
+        // Handle errors
+      }
+    }
+
+    getRoomType();
+  }, []);
 
   return (
     <aside className="min-h-screen w-full">
@@ -55,11 +75,18 @@ export const RoomEdit = () => {
         <div className="flex flex-col gap-4 p-5">
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Room Type</Typography>
-            <Select label="Room Type" ref={roomTypeRef}>
-              <Option>1</Option>
-              <Option>2</Option>
-              <Option>3</Option>
-              <Option>4</Option>
+            <Select
+              label="Room Type"
+              onChange={(value) => setRoomType(value)}
+              value={room?.room_type_id.toString()}
+            >
+              {listRoomType.map((type: IRoomType, index) => {
+                return (
+                  <Option key={index} value={type.id.toString()}>
+                    {type.name}
+                  </Option>
+                );
+              })}
             </Select>
           </div>
           <div className="flex flex-row gap-6">
@@ -74,7 +101,7 @@ export const RoomEdit = () => {
               defaultValue={room?.description}
             ></Textarea>
           </div>
-          <div className="flex flex-row gap-6">
+          {/* <div className="flex flex-row gap-6">
             <Typography className="w-32">Image</Typography>
             <Input
               type="file"
@@ -82,12 +109,16 @@ export const RoomEdit = () => {
               ref={imageRef}
               defaultValue={room?.image}
             ></Input>
-          </div>
+          </div> */}
           <div className="flex flex-row gap-6">
-            <Typography className="w-32">Role</Typography>
-            <Select label="Role" ref={statusRef}>
-              <Option>Yes</Option>
-              <Option>No</Option>
+            <Typography className="w-32">Status</Typography>
+            <Select
+              label="Status"
+              onChange={(value) => setStatus(value)}
+              value={room?.status.toString()}
+            >
+              <Option value="true">Yes</Option>
+              <Option value="false">No</Option>
             </Select>
           </div>
         </div>
@@ -99,7 +130,8 @@ export const RoomEdit = () => {
         <Button className="bg-blue-gray-700 h-10">Clear</Button>
       </div>
       <Popup
-        desc="User Create"
+        title="Popup Edit"
+        desc="Room Edit"
         open={open}
         onClose={handleOpen}
         submit={handleSubmit}

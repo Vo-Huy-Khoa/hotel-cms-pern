@@ -10,7 +10,6 @@ import {
   MenuItem,
   MenuList,
   Progress,
-  Tooltip,
   Typography,
 } from "@material-tailwind/react";
 import statisticsCardsData from "../../data/static-card-data";
