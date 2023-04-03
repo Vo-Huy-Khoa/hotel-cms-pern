@@ -21,11 +21,7 @@ export const RoomEdit = () => {
 
   const [listRoomType, setListRoomType] = useState([]);
   const [room_type_id, setRoomType] = useState<string | undefined>(undefined);
-  const [status, setStatus] = useState<string | undefined>(
-    room?.status.toString()
-  );
-
-  console.log(status);
+  const [status, setStatus] = useState<string | undefined>(undefined);
 
   const nameRef = useRef<HTMLInputElement>(null);
   const descRef = useRef<HTMLInputElement>(null);
@@ -51,8 +47,10 @@ export const RoomEdit = () => {
 
   useEffect(() => {
     async function getItem() {
-      const user = await handleApiGetItem(`room/edit/${id}`);
-      setRoom(user);
+      const room = await handleApiGetItem(`room/edit/${id}`);
+      setRoom(room);
+      setStatus(room?.status?.toString());
+      setRoomType(room?.room_type_id);
     }
     getItem();
   }, [id]);
@@ -75,19 +73,21 @@ export const RoomEdit = () => {
         <div className="flex flex-col gap-4 p-5">
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Room Type</Typography>
-            <Select
-              label="Room Type"
-              onChange={(value) => setRoomType(value)}
-              value={room?.room_type_id.toString()}
-            >
-              {listRoomType.map((type: IRoomType, index) => {
-                return (
-                  <Option key={index} value={type.id.toString()}>
-                    {type.name}
-                  </Option>
-                );
-              })}
-            </Select>
+            {listRoomType.length > 0 && room && (
+              <Select
+                label="Room Type"
+                onChange={(value) => setRoomType(value)}
+                value={`${room?.room_type_id}`}
+              >
+                {listRoomType.map((type: IRoomType, index) => {
+                  return (
+                    <Option key={index} value={`${type.id}`}>
+                      {type.name}
+                    </Option>
+                  );
+                })}
+              </Select>
+            )}
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Name</Typography>
@@ -115,7 +115,7 @@ export const RoomEdit = () => {
             <Select
               label="Status"
               onChange={(value) => setStatus(value)}
-              value={room?.status.toString()}
+              value={`${room?.status}`}
             >
               <Option value="true">Yes</Option>
               <Option value="false">No</Option>

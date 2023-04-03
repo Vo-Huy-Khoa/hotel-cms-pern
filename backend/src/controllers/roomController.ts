@@ -31,7 +31,7 @@ class roomController {
       const initValue = [room_type_id, name, description, image, status];
 
       const insertQuery =
-        "INSERT INTO rooms(room_type_id, name, description, image, status) VALUES($1, $2, $3, $4, $5)";
+        "INSERT INTO rooms(room_type_id, name, description, image, status) VALUES($1, $2, $3, $4, $5) RETURNING *";
       const { rows } = await pool.query(insertQuery, initValue);
       res.status(201).json(rows[0]);
     } catch (err) {

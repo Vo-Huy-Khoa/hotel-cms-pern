@@ -44,7 +44,7 @@ class clientController {
             try {
                 const { name, email, identity_number, phone } = req.body;
                 const initValue = [name, email, identity_number, phone];
-                const insertQuery = "INSERT INTO clients(name, email, identity_number, phone ) VALUES($1, $2, $3, $4)";
+                const insertQuery = "INSERT INTO clients(name, email, identity_number, phone ) VALUES($1, $2, $3, $4) RETURNING *";
                 const { rows } = yield configs_1.default.query(insertQuery, initValue);
                 res.status(201).json(rows[0]);
             }
@@ -71,7 +71,7 @@ class clientController {
             try {
                 const { id, name, email, identity_number, phone } = req.body;
                 const query = {
-                    text: "UPDATE clients SET name = $2, email = $3, identity_number = $4, phone = $5 = $8 WHERE id = $1",
+                    text: "UPDATE clients SET name = $2, email = $3, identity_number = $4, phone = $5 WHERE id = $1",
                     values: [id, name, email, identity_number, phone],
                 };
                 const { rowCount } = yield configs_1.default.query(query);

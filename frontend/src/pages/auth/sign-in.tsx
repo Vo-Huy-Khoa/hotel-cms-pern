@@ -1,11 +1,12 @@
-import { Button, Input, Typography } from "@material-tailwind/react";
-import { useRef } from "react";
+import { Alert, Button, Input, Typography } from "@material-tailwind/react";
+import { useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { handleApiLogin } from "../../services";
 export function SignIn() {
   const navigate = useNavigate();
   const userNameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const [isErrorLogin, setIsErrorLogin] = useState(false);
 
   const handleSignIn = async () => {
     const user_name = userNameRef.current?.querySelector("input")?.value || "";
@@ -15,10 +16,14 @@ export function SignIn() {
       password: password,
     };
     try {
-      await handleApiLogin(body);
+      const sessionData = await handleApiLogin(body);
+      sessionStorage.setItem("token", sessionData.token);
+      sessionStorage.setItem("refresh_token", sessionData.refresh_token);
+      sessionStorage.setItem("user", sessionData.user);
+      setIsErrorLogin(false);
       navigate("/dashboard/home");
     } catch (error) {
-      console.log(error);
+      setIsErrorLogin(true);
     }
   };
 
@@ -32,12 +37,20 @@ export function SignIn() {
       <form className="flex flex-col gap-4" action="">
         <div className="flex flex-col gap-1">
           <Typography>User Name</Typography>
-          <Input label="Username" value="thytran" ref={userNameRef} />
+          <Input label="Username" defaultValue="thytran" ref={userNameRef} />
         </div>
         <div className="flex flex-col gap-1">
           <Typography>Password</Typography>
-          <Input type="password" label="Password" value="1" ref={passwordRef} />
+          <Input
+            type="password"
+            label="Password"
+            defaultValue="1"
+            ref={passwordRef}
+          />
         </div>
+        {isErrorLogin && (
+          <Alert color="red">Invalid User Name or Password</Alert>
+        )}
         <Button onClick={handleSignIn} color="blue">
           Sign In
         </Button>

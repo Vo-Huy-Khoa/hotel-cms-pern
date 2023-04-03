@@ -8,7 +8,12 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Popup } from "../../../components";
-import { getData, handleApiCreate, handleApiGetItem } from "../../../services";
+import {
+  getData,
+  handleApiCreate,
+  handleApiEdit,
+  handleApiGetItem,
+} from "../../../services";
 import { IBooking, IClient, IRoom } from "../../../types";
 
 export const BookingEdit = () => {
@@ -16,11 +21,13 @@ export const BookingEdit = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
   const [listRoom, setListRoom] = useState([]);
+
   const { id } = useParams();
   const [booking, setBooking] = useState<IBooking>();
   const [client, setClient] = useState<IClient>();
 
-  const roomRef = useRef<HTMLInputElement>(null);
+  const [room_id, setRoomID] = useState<string | undefined>(undefined);
+
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const identityRef = useRef<HTMLInputElement>(null);
@@ -29,7 +36,6 @@ export const BookingEdit = () => {
   const checkOutRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async () => {
-    const room = roomRef.current?.querySelector("input")?.value || "";
     const name = nameRef.current?.querySelector("input")?.value || "";
     const email = emailRef.current?.querySelector("input")?.value || "";
     const identity_number =
@@ -39,20 +45,26 @@ export const BookingEdit = () => {
     const check_out = checkOutRef.current?.querySelector("input")?.value || "";
 
     const bodyClient = {
+      id: client?.id,
       name,
       email,
       identity_number,
       phone,
     };
-    const response = await handleApiCreate("client/create", bodyClient);
-    const user_id = response.data.id;
+
     const bodyBooking = {
-      room_id: room,
-      user_id,
+      id,
+      room_id,
+      client_id: client?.id,
       check_in,
       check_out,
     };
-    await handleApiCreate("booking/create", bodyBooking);
+    await handleApiEdit("client/update", bodyClient);
+    await handleApiEdit("booking/update", bodyBooking);
+
+    console.log(bodyClient);
+    console.log(bodyBooking);
+
     navigate("/dashboard/booking/list");
   };
 
@@ -60,8 +72,8 @@ export const BookingEdit = () => {
     async function getItem() {
       const booking = await handleApiGetItem(`booking/edit/${id}`);
       const client = await handleApiGetItem(`client/edit/${booking.client_id}`);
-
       setBooking(booking);
+      setRoomID(booking.room_id);
       setClient(client);
     }
     getItem();
@@ -86,11 +98,21 @@ export const BookingEdit = () => {
         <div className="flex flex-col gap-4 p-5">
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Room</Typography>
-            <Select label="Room" ref={roomRef}>
-              {listRoom.map((room: IRoom, index) => {
-                return <Option key={index}>{room?.name}</Option>;
-              })}
-            </Select>
+            {listRoom.length > 0 && booking && (
+              <Select
+                label="Room"
+                onChange={(value) => setRoomID(value)}
+                value={`${booking?.room_id}`}
+              >
+                {listRoom.map((room: IRoom, index) => {
+                  return (
+                    <Option key={index} value={`${room.id}`}>
+                      {room.name}
+                    </Option>
+                  );
+                })}
+              </Select>
+            )}
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">name</Typography>
@@ -134,7 +156,11 @@ export const BookingEdit = () => {
               type="date"
               label="Check In"
               ref={checkInRef}
-              defaultValue={booking?.check_in}
+              defaultValue={
+                booking?.check_in
+                  ? new Date(booking.check_in).toISOString().split("T")[0]
+                  : ""
+              }
             ></Input>
           </div>
           <div className="flex flex-row gap-6">
@@ -143,7 +169,11 @@ export const BookingEdit = () => {
               type="date"
               label="Check out"
               ref={checkOutRef}
-              defaultValue={booking?.check_out}
+              defaultValue={
+                booking?.check_out
+                  ? new Date(booking.check_out).toISOString().split("T")[0]
+                  : ""
+              }
             ></Input>
           </div>
         </div>

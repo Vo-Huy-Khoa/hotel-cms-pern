@@ -140,7 +140,7 @@ export const statisticsChartsData = [
     color: "pink",
     title: "Daily Sales",
     description: "15% increase in today sales",
-    footer: "updated 4 min ago",
+    footer: "updated 4 days ago",
     chart: dailySalesChart,
   },
   {

@@ -17,7 +17,7 @@ export function BookingCard({ booking, index }: Props) {
         color="blue"
         className="relative h-16 flex justify-center items-center"
       >
-        <Typography variant="h4" color="black" className="text-center">
+        <Typography variant="h4" color="white" className="text-center">
           {booking?.room}
         </Typography>
       </CardHeader>

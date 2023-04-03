@@ -48,7 +48,7 @@ class userController {
                 const password = yield bcrypt_1.default.hash(oldPassword, 10);
                 const status = req.body.status;
                 const initValue = [user_name, full_name, email, status, password];
-                const insertQuery = "INSERT INTO users(user_name, full_name, email, status, password) VALUES($1, $2, $3, $4, $5)";
+                const insertQuery = "INSERT INTO users(user_name, full_name, email, status, password) VALUES($1, $2, $3, $4, $5) RETURNING *";
                 const { rows } = yield configs_1.default.query(insertQuery, initValue);
                 res.status(201).json(rows[0]);
             }
