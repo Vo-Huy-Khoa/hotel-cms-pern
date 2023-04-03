@@ -45,7 +45,7 @@ export const RoomTypeEdit = () => {
   };
   const handleDelete = async () => {
     await handleApiDelete(`room_type/delete/${id}`);
-    navigate("/dashboard/user/list");
+    navigate("/dashboard/room-type/list");
   };
 
   useEffect(() => {

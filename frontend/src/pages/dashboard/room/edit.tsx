@@ -55,7 +55,7 @@ export const RoomEdit = () => {
 
   const handleDelete = async () => {
     await handleApiDelete(`room/delete/${id}`);
-    navigate("/dashboard/user/list");
+    navigate("/dashboard/room/list");
   };
 
   useEffect(() => {
