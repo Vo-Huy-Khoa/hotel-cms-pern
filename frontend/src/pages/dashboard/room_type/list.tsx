@@ -21,6 +21,7 @@ export function RoomTypeList() {
   const [listRoomType, setListRoomType] = useState([]);
   const totalRow: number = listRoomType.length;
   const [page, setPage] = useState(1);
+
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const roleRef = useRef<HTMLInputElement>(null);

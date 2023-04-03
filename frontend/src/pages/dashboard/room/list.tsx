@@ -21,6 +21,7 @@ export function RoomList() {
   const [listRoom, setListRoom] = useState([]);
   const totalRow: number = listRoom.length;
   const [page, setPage] = useState(1);
+
   const userNameRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);

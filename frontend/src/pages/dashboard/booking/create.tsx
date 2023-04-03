@@ -16,6 +16,7 @@ export const BookingCreate = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
   const [listRoom, setListRoom] = useState([]);
+  const [room_id, setRoom] = useState<string | undefined>();
 
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -23,8 +24,6 @@ export const BookingCreate = () => {
   const phoneRef = useRef<HTMLInputElement>(null);
   const checkInRef = useRef<HTMLInputElement>(null);
   const checkOutRef = useRef<HTMLInputElement>(null);
-
-  const [room_id, setRoom] = useState<string | undefined>();
 
   const handleSubmit = async () => {
     const name = nameRef.current?.querySelector("input")?.value || "";

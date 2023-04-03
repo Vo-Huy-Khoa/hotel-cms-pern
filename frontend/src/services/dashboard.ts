@@ -45,4 +45,20 @@ const handleApiEdit = async (url: string, body: object) => {
   }
 };
 
-export { getUsers, getData, handleApiCreate, handleApiGetItem, handleApiEdit };
+const handleApiDelete = async (url: string) => {
+  try {
+    const response = await axiosInstance.delete(url);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export {
+  getUsers,
+  getData,
+  handleApiCreate,
+  handleApiGetItem,
+  handleApiEdit,
+  handleApiDelete,
+};

@@ -1,3 +1,2 @@
-export * from "./CustomButton";
-export * from "./CustomImage";
+export * from "./CustomPopupDelete";
 export * from "./CustomDialog";

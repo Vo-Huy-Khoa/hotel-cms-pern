@@ -2,12 +2,17 @@ import { Alert, Button, Input, Typography } from "@material-tailwind/react";
 import { useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { handleApiLogin } from "../../services";
+import { EyeIcon } from "@heroicons/react/24/solid";
 export function SignIn() {
   const navigate = useNavigate();
   const userNameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [isErrorLogin, setIsErrorLogin] = useState(false);
+  const [typePassword, setTypePassword] = useState("password");
 
+  const handleTypeChange = () => {
+    setTypePassword(typePassword === "text" ? "password" : "text");
+  };
   const handleSignIn = async () => {
     const user_name = userNameRef.current?.querySelector("input")?.value || "";
     const password = passwordRef.current?.querySelector("input")?.value || "";
@@ -41,12 +46,19 @@ export function SignIn() {
         </div>
         <div className="flex flex-col gap-1">
           <Typography>Password</Typography>
-          <Input
-            type="password"
-            label="Password"
-            defaultValue="1"
-            ref={passwordRef}
-          />
+          <div className="relative flex w-full max-w-[24rem]">
+            <Input
+              type={typePassword}
+              label="Password"
+              defaultValue="1"
+              ref={passwordRef}
+            />
+            <EyeIcon
+              onClick={handleTypeChange}
+              width="20px"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 rounded cursor-pointer"
+            />
+          </div>
         </div>
         {isErrorLogin && (
           <Alert color="red">Invalid User Name or Password</Alert>

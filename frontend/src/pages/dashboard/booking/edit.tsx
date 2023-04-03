@@ -7,10 +7,10 @@ import {
 } from "@material-tailwind/react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Popup } from "../../../components";
+import { Popup, PopupDelete } from "../../../components";
 import {
   getData,
-  handleApiCreate,
+  handleApiDelete,
   handleApiEdit,
   handleApiGetItem,
 } from "../../../services";
@@ -18,15 +18,17 @@ import { IBooking, IClient, IRoom } from "../../../types";
 
 export const BookingEdit = () => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(!open);
-  const [listRoom, setListRoom] = useState([]);
-
   const { id } = useParams();
+  const [openCreate, setOpenCreate] = useState(false);
+  const changePopupCreate = () => setOpenCreate(!openCreate);
+
+  const [openDelete, setOpenDelete] = useState(false);
+  const changePopupDelete = () => setOpenDelete(!openDelete);
+
+  const [listRoom, setListRoom] = useState([]);
+  const [room_id, setRoomID] = useState<string | undefined>(undefined);
   const [booking, setBooking] = useState<IBooking>();
   const [client, setClient] = useState<IClient>();
-
-  const [room_id, setRoomID] = useState<string | undefined>(undefined);
 
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -62,10 +64,12 @@ export const BookingEdit = () => {
     await handleApiEdit("client/update", bodyClient);
     await handleApiEdit("booking/update", bodyBooking);
 
-    console.log(bodyClient);
-    console.log(bodyBooking);
-
     navigate("/dashboard/booking/list");
+  };
+
+  const handleDelete = async () => {
+    await handleApiDelete(`booking/delete/${id}`);
+    navigate("/dashboard/user/list");
   };
 
   useEffect(() => {
@@ -94,6 +98,11 @@ export const BookingEdit = () => {
 
   return (
     <aside className="min-h-screen w-full">
+      <div className="flex flex-row items-center justify-end my-6">
+        <Button className="w-24" color="red" onClick={changePopupDelete}>
+          Delete
+        </Button>
+      </div>
       <div className="bg-white rounded-lg">
         <div className="flex flex-col gap-4 p-5">
           <div className="flex flex-row gap-6">
@@ -179,17 +188,24 @@ export const BookingEdit = () => {
         </div>
       </div>
       <div className=" fixed left-0 bottom-0 w-full h-14 bg-gray-900  flex flex-row justify-end gap-6 items-center px-10 ">
-        <Button onClick={handleOpen} className="h-10">
+        <Button onClick={changePopupCreate} className="h-10">
           Submit
         </Button>
         <Button className="bg-blue-gray-700 h-10">Clear</Button>
       </div>
       <Popup
         title="Popup Edit"
-        desc="Booking Edit"
-        open={open}
-        onClose={handleOpen}
+        desc="User Edit"
+        open={openCreate}
+        onClose={changePopupCreate}
         submit={handleSubmit}
+      />
+      <PopupDelete
+        title="Popup Delete"
+        desc="Booking Delete"
+        open={openDelete}
+        onClose={changePopupDelete}
+        submit={handleDelete}
       />
     </aside>
   );
