@@ -16,13 +16,14 @@ export const RoomCreate = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
+
   const [room_type_id, setRoomType] = useState<string | undefined>(undefined);
+  const [listRoomType, setListRoomType] = useState([]);
   const [status, setStatus] = useState<string | undefined>("1");
 
   const nameRef = useRef<HTMLInputElement>(null);
   const descRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
-  const [listRoomType, setListRoomType] = useState([]);
 
   const handleSubmit = async () => {
     const name = nameRef.current?.querySelector("input")?.value || "";

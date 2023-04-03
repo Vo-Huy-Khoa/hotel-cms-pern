@@ -5,6 +5,7 @@ const router = Router();
 router.post("/create", bookingController.create);
 router.get("/edit/:id", bookingController.find);
 router.put("/update", bookingController.update);
+router.delete("/delete/:id", bookingController.delete);
 router.get("/count", bookingController.totalMoney);
 router.get("/check_in", bookingController.countCheckIn);
 router.get("/check_out", bookingController.countCheckOut);

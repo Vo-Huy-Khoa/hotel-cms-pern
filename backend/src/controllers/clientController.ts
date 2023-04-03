@@ -66,6 +66,16 @@ class clientController {
       res.status(500).json({ error: "Internal server error" });
     }
   }
+
+  async delete(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const { rows } = await pool.query(`DELETE FROM clients WHERE id = ${id}`);
+      res.status(202).json(rows[0]);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
 }
 
 export default new clientController();

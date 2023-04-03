@@ -8,15 +8,24 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Popup } from "../../../components";
-import { handleApiEdit, handleApiGetItem } from "../../../services";
+import {
+  handleApiDelete,
+  handleApiEdit,
+  handleApiGetItem,
+} from "../../../services";
 import { IUser } from "../../../types";
+import { PopupDelete } from "../../../components/CustomPopupDelete";
 
 export const UserEdit = () => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(!open);
   const { id } = useParams();
   const [user, setUser] = useState<IUser>();
+
+  const [openCreate, setOpenCreate] = useState(false);
+  const changePopupCreate = () => setOpenCreate(!openCreate);
+
+  const [openDelete, setOpenDelete] = useState(false);
+  const changePopupDelete = () => setOpenDelete(!openDelete);
 
   const userNameRef = useRef<HTMLInputElement>(null);
   const fullNameRef = useRef<HTMLInputElement>(null);
@@ -44,6 +53,11 @@ export const UserEdit = () => {
     navigate("/dashboard/user/list");
   };
 
+  const handleDelete = async () => {
+    await handleApiDelete(`user/delete/${id}`);
+    navigate("/dashboard/user/list");
+  };
+
   useEffect(() => {
     async function getUser() {
       const user = await handleApiGetItem(`user/edit/${id}`);
@@ -54,6 +68,11 @@ export const UserEdit = () => {
 
   return (
     <aside className="min-h-screen w-full">
+      <div className="flex flex-row items-center justify-end my-6">
+        <Button className="w-24" color="red" onClick={changePopupDelete}>
+          Delete
+        </Button>
+      </div>
       <div className="bg-white rounded-lg">
         <div className="flex flex-col gap-4 p-5">
           <div className="flex flex-row gap-6">
@@ -100,7 +119,7 @@ export const UserEdit = () => {
         </div>
       </div>
       <div className=" fixed left-0 bottom-0 w-full h-14 bg-gray-900  flex flex-row justify-end gap-6 items-center px-10 ">
-        <Button className="h-10" onClick={handleOpen}>
+        <Button className="h-10" onClick={changePopupCreate}>
           Submit
         </Button>
         <Button className="bg-blue-gray-700 h-10">Clear</Button>
@@ -108,9 +127,16 @@ export const UserEdit = () => {
       <Popup
         title="Popup Edit"
         desc="User Edit"
-        open={open}
-        onClose={handleOpen}
+        open={openCreate}
+        onClose={changePopupCreate}
         submit={handleSubmit}
+      />
+      <PopupDelete
+        title="Popup Delete"
+        desc="User Delete"
+        open={openDelete}
+        onClose={changePopupDelete}
+        submit={handleDelete}
       />
     </aside>
   );

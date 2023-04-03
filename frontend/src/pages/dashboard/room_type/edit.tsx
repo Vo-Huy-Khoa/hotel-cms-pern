@@ -7,16 +7,23 @@ import {
 } from "@material-tailwind/react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Popup } from "../../../components";
-import { handleApiEdit, handleApiGetItem } from "../../../services";
+import { Popup, PopupDelete } from "../../../components";
+import {
+  handleApiDelete,
+  handleApiEdit,
+  handleApiGetItem,
+} from "../../../services";
 import { IRoomType } from "../../../types";
 
 export const RoomTypeEdit = () => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(!open);
   const { id } = useParams();
   const [roomType, setRoomType] = useState<IRoomType>();
+  const [openCreate, setOpenCreate] = useState(false);
+  const changePopupCreate = () => setOpenCreate(!openCreate);
+
+  const [openDelete, setOpenDelete] = useState(false);
+  const changePopupDelete = () => setOpenDelete(!openDelete);
 
   const nameRef = useRef<HTMLInputElement>(null);
   const [count, setCount] = useState<string | undefined>(undefined);
@@ -36,6 +43,10 @@ export const RoomTypeEdit = () => {
     await handleApiEdit("room_type/update", body);
     navigate("/dashboard/room-type/list");
   };
+  const handleDelete = async () => {
+    await handleApiDelete(`room_type/delete/${id}`);
+    navigate("/dashboard/user/list");
+  };
 
   useEffect(() => {
     async function getItem() {
@@ -47,6 +58,11 @@ export const RoomTypeEdit = () => {
 
   return (
     <aside className="min-h-screen w-full">
+      <div className="flex flex-row items-center justify-end my-6">
+        <Button className="w-24" color="red" onClick={changePopupDelete}>
+          Delete
+        </Button>
+      </div>
       <div className="bg-white rounded-lg">
         <div className="flex flex-col gap-4 p-5">
           <div className="flex flex-row gap-6">
@@ -82,18 +98,24 @@ export const RoomTypeEdit = () => {
         </div>
       </div>
       <div className=" fixed left-0 bottom-0 w-full h-14 bg-gray-900  flex flex-row justify-end gap-6 items-center px-10 ">
-        <Button onClick={handleOpen} className="h-10">
+        <Button onClick={changePopupCreate} className="h-10">
           Submit
         </Button>
         <Button className="bg-blue-gray-700 h-10">Clear</Button>
       </div>
-      <Popup open={open} onClose={handleOpen} />
       <Popup
         title="Popup Edit"
-        desc="Room Type Edit"
-        open={open}
-        onClose={handleOpen}
+        desc="User Edit"
+        open={openCreate}
+        onClose={changePopupCreate}
         submit={handleSubmit}
+      />
+      <PopupDelete
+        title="Popup Delete"
+        desc="Room Type Delete"
+        open={openDelete}
+        onClose={changePopupDelete}
+        submit={handleDelete}
       />
     </aside>
   );

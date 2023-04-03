@@ -38,6 +38,7 @@ export function UserList() {
   const [listUser, setListUser] = useState<IUser[]>([]);
   const totalRow: number = listUser.length;
   const [page, setPage] = useState(1);
+
   const userNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const roleRef = useRef<HTMLInputElement>(null);
