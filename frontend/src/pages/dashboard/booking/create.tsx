@@ -5,7 +5,7 @@ import {
   Typography,
   Option,
 } from "@material-tailwind/react";
-import { useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Popup } from "../../../components";
 import { getData, handleApiCreate } from "../../../services";
@@ -26,29 +26,22 @@ export const BookingCreate = () => {
   const checkOutRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async () => {
-    const name = nameRef.current?.querySelector("input")?.value || "";
-    const email = emailRef.current?.querySelector("input")?.value || "";
-    const identity_number =
-      identityRef.current?.querySelector("input")?.value || "";
-    const phone = phoneRef.current?.querySelector("input")?.value || "";
-    const check_in = checkInRef.current?.querySelector("input")?.value || "";
-    const check_out = checkOutRef.current?.querySelector("input")?.value || "";
+    const getValue = (ref: RefObject<HTMLInputElement>, selector: string) =>
+      (ref.current?.querySelector(selector) as HTMLInputElement)?.value || "";
 
-    const bodyClient = {
-      name,
-      email,
-      identity_number,
-      phone,
-    };
+    const name = getValue(nameRef, "input");
+    const email = getValue(emailRef, "input");
+    const identity_number = getValue(identityRef, "input");
+    const phone = getValue(phoneRef, "input");
+    const check_in = getValue(checkInRef, "input");
+    const check_out = getValue(checkOutRef, "input");
+
+    const bodyClient = { name, email, identity_number, phone };
     const response = await handleApiCreate("client/create", bodyClient);
-    const client_id = response.data.id;
-    const bodyBooking = {
-      room_id,
-      client_id,
-      check_in,
-      check_out,
-    };
+    const client_id = response.id;
+    const bodyBooking = { room_id, client_id, check_in, check_out };
     await handleApiCreate("booking/create", bodyBooking);
+
     navigate("/dashboard/booking/list");
   };
 
