@@ -69,7 +69,7 @@ export const BookingEdit = () => {
 
   const handleDelete = async () => {
     await handleApiDelete(`booking/delete/${id}`);
-    navigate("/dashboard/user/list");
+    navigate("/dashboard/booking/list");
   };
 
   useEffect(() => {
