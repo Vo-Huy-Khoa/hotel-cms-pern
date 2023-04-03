@@ -12,9 +12,9 @@ class authController {
       const password = await bcrypt.hash(oldPassword, 10);
       const initValue = [full_name, user_name, email, password];
       const insertQuery =
-        "INSERT INTO users(full_name, user_name, email, password) VALUES($1, $2, $3, $4)";
-      await pool.query(insertQuery, initValue);
-      res.status(201).json("Register done!");
+        "INSERT INTO users(full_name, user_name, email, password) VALUES($1, $2, $3, $4) RETURNING *";
+      const { rows } = await pool.query(insertQuery, initValue);
+      res.status(201).json(rows[0]);
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: "Internal server error" });
@@ -32,6 +32,7 @@ class authController {
 
       if (!user || !bcrypt.compareSync(password, user.password)) {
         res.json({ message: "Invalid user_name or password" });
+        return;
       }
 
       const token = createToken(user) || "";

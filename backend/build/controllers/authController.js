@@ -24,9 +24,9 @@ class authController {
                 const oldPassword = req.body.password;
                 const password = yield bcrypt_1.default.hash(oldPassword, 10);
                 const initValue = [full_name, user_name, email, password];
-                const insertQuery = "INSERT INTO users(full_name, user_name, email, password) VALUES($1, $2, $3, $4)";
-                yield configs_1.default.query(insertQuery, initValue);
-                res.status(201).json("Register done!");
+                const insertQuery = "INSERT INTO users(full_name, user_name, email, password) VALUES($1, $2, $3, $4) RETURNING *";
+                const { rows } = yield configs_1.default.query(insertQuery, initValue);
+                res.status(201).json(rows[0]);
             }
             catch (err) {
                 console.error(err);
@@ -42,6 +42,7 @@ class authController {
                 const user = rows[0];
                 if (!user || !bcrypt_1.default.compareSync(password, user.password)) {
                     res.json({ message: "Invalid user_name or password" });
+                    return;
                 }
                 const token = (0, token_1.createToken)(user) || "";
                 const RefreshToken = (0, token_1.refreshToken)(user, token);

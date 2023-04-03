@@ -31,7 +31,7 @@ class userController {
       const initValue = [user_name, full_name, email, status, password];
 
       const insertQuery =
-        "INSERT INTO users(user_name, full_name, email, status, password) VALUES($1, $2, $3, $4, $5)";
+        "INSERT INTO users(user_name, full_name, email, status, password) VALUES($1, $2, $3, $4, $5) RETURNING *";
       const { rows } = await pool.query(insertQuery, initValue);
       res.status(201).json(rows[0]);
     } catch (err) {

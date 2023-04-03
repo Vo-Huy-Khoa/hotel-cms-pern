@@ -2,7 +2,7 @@
 #===========================SETTINGS===========================
 @url  = http://localhost:3001/api
 # @url  = https://cmshotel.onrender.com/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcl9uYW1lIjoidGh5dHJhbiIsImVtYWlsIjoidGh5dHJhbkBnbWFpbC5jb20iLCJpYXQiOjE2ODAzNDQzOTAsImV4cCI6MTY4MDM0NDUxMH0.IJtdujXaa9fpwwgN2AiV-5WhxWpW479KwTWmGMIab0k
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcl9uYW1lIjoidGh5dHJhbiIsImVtYWlsIjoidGh5dHJhbkBnbWFpbC5jb20iLCJpYXQiOjE2ODA0OTY4ODQsImV4cCI6MTY4MDQ5NzAwNH0.HwoMBusQBRxuXKdETGj2dsiBs_LOB2D3-912A0-n-d4
 
 @refresh_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTUzODgwOCwiZXhwIjoxNjc5NTQyNDA4fQ.UjHK0rDUCTRnbk6m6aBMF0N1VDNVWfOAV6OD5q0URVE
 
@@ -134,9 +134,9 @@ Authorization: Beaer {{token}}
 Content-Type: application/json
 
 {
-    "name": "Phong 2 nguoi",
+    "name": "Phong 1 nguoi",
     "count": 2,
-    "price": "500000"
+    "price": "300000"
 }
 
 
@@ -155,9 +155,9 @@ Authorization: Beaer {{token}}
 Content-Type: application/json
 
 {
-    "name": "Phong 2 nguoi",
+    "name": "1 person",
     "count": 2,
-    "price": "500000"
+    "price": "250000"
 }
 
 

@@ -18,7 +18,7 @@ class bookingController {
     getAll(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const query = "select bookings.id, bookings.client_id, rooms.name as room, clients.name as client, bookings.check_in, bookings.check_out,bookings.total_price, bookings.created_at, bookings.updated_at from bookings JOIN rooms on bookings.room_id=rooms.id JOIN clients on bookings.client_id= clients.id ORDER BY id DESC";
+                const query = "select bookings.id, bookings.client_id,bookings.room_id, rooms.name as room, clients.name as client, bookings.check_in, bookings.check_out,bookings.total_price, bookings.created_at, bookings.updated_at from bookings JOIN rooms on bookings.room_id=rooms.id JOIN clients on bookings.client_id= clients.id ORDER BY id DESC";
                 const { rows } = yield configs_1.default.query(query);
                 res.status(200).json(rows);
             }
@@ -66,9 +66,9 @@ class bookingController {
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { room_id, user_id, check_in, check_out, total_price } = req.body;
-                const initValue = [room_id, user_id, check_in, check_out, total_price];
-                const insertQuery = "INSERT INTO users(room_id, user_id, check_in, check_out, total_price) VALUES($1, $2, $3, $4, $5)";
+                const { room_id, client_id, check_in, check_out, total_price } = req.body;
+                const initValue = [room_id, client_id, check_in, check_out, total_price];
+                const insertQuery = "INSERT INTO bookings(room_id, client_id, check_in, check_out, total_price) VALUES($1, $2, $3, $4, $5) RETURNING *";
                 const { rows } = yield configs_1.default.query(insertQuery, initValue);
                 res.status(201).json(rows[0]);
             }
@@ -93,10 +93,10 @@ class bookingController {
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { id, room_id, user_id, check_in, check_out, total_price } = req.body;
+                const { id, room_id, client_id, check_in, check_out, total_price } = req.body;
                 const query = {
-                    text: "UPDATE bookings SET room_id = $2, user_id = $3, check_in = $4, check_out = $5, total_price = $6 WHERE id = $1",
-                    values: [id, room_id, user_id, check_in, check_out, total_price],
+                    text: "UPDATE bookings SET room_id = $2, client_id = $3, check_in = $4, check_out = $5, total_price = $6 WHERE id = $1",
+                    values: [id, room_id, client_id, check_in, check_out, total_price],
                 };
                 const { rowCount } = yield configs_1.default.query(query);
                 if (rowCount === 0) {

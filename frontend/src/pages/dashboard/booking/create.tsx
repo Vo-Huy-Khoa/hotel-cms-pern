@@ -42,14 +42,10 @@ export const BookingCreate = () => {
       phone,
     };
     const response = await handleApiCreate("client/create", bodyClient);
-    console.log(response);
-
-    const user_id = response.id;
-    console.log(user_id);
-
+    const client_id = response.data.id;
     const bodyBooking = {
       room_id,
-      user_id,
+      client_id,
       check_in,
       check_out,
     };

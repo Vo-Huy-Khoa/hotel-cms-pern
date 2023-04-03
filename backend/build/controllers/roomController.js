@@ -44,7 +44,7 @@ class roomController {
             try {
                 const { room_type_id, name, description, image, status } = req.body;
                 const initValue = [room_type_id, name, description, image, status];
-                const insertQuery = "INSERT INTO rooms(room_type_id, name, description, image, status) VALUES($1, $2, $3, $4, $5)";
+                const insertQuery = "INSERT INTO rooms(room_type_id, name, description, image, status) VALUES($1, $2, $3, $4, $5) RETURNING *";
                 const { rows } = yield configs_1.default.query(insertQuery, initValue);
                 res.status(201).json(rows[0]);
             }

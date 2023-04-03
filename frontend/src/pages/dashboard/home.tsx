@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import {
-  Avatar,
   Card,
   CardBody,
   CardHeader,
@@ -9,7 +8,6 @@ import {
   MenuHandler,
   MenuItem,
   MenuList,
-  Progress,
   Typography,
 } from "@material-tailwind/react";
 import statisticsCardsData from "../../data/static-card-data";
@@ -17,16 +15,30 @@ import statisticsChartsData from "../../data/statis-charts-data";
 import StatisticsChart from "../../widgets/char/statisChar";
 import {
   ArrowUpIcon,
-  CheckIcon,
   ClockIcon,
   EllipsisVerticalIcon,
 } from "@heroicons/react/24/outline";
 import StatisticsCard from "../../widgets/cards/statistics-card";
-import React from "react";
-import projectsTableData from "../../data/project-table-data";
+import React, { useEffect, useState } from "react";
 import ordersOverviewData from "../../data/orders-overview-data";
+import { getData } from "../../services";
+import moment from "moment";
 
 export function Home() {
+  const [listBooking, setListBooking] = useState([]);
+
+  useEffect(() => {
+    async function fetchGetlistBooking() {
+      try {
+        const listBooking = await getData("booking");
+        setListBooking(listBooking);
+      } catch (error) {
+        // Handle errors
+      }
+    }
+
+    fetchGetlistBooking();
+  }, []);
   return (
     <div className="mt-12">
       <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
@@ -74,15 +86,12 @@ export function Home() {
           >
             <div>
               <Typography variant="h6" color="blue-gray" className="mb-1">
-                Room Booking
+                Booking
               </Typography>
               <Typography
                 variant="small"
                 className="flex items-center gap-1 font-normal text-blue-gray-600"
-              >
-                <CheckIcon strokeWidth={3} className="h-4 w-4 text-blue-500" />
-                <strong>30 done</strong> this month
-              </Typography>
+              ></Typography>
             </div>
             <Menu placement="left-start">
               <MenuHandler>
@@ -105,7 +114,7 @@ export function Home() {
             <table className="w-full min-w-[640px] table-auto">
               <thead>
                 <tr>
-                  {["Room", "Total Money", "completion"].map((el) => (
+                  {["Room", "Name", "Phone", "Check In"].map((el) => (
                     <th
                       key={el}
                       className="border-b border-blue-gray-50 py-3 px-6 text-left"
@@ -121,56 +130,50 @@ export function Home() {
                 </tr>
               </thead>
               <tbody>
-                {projectsTableData.map(
-                  ({ img, name, budget, completion }, key) => {
-                    const className = `py-3 px-5 ${
-                      key === projectsTableData.length - 1
-                        ? ""
-                        : "border-b border-blue-gray-50"
-                    }`;
+                {listBooking.map(({ room, client, budget, check_in }, key) => {
+                  const className = `py-3 px-5 ${
+                    key === listBooking.length - 1
+                      ? ""
+                      : "border-b border-blue-gray-50"
+                  }`;
 
-                    return (
-                      <tr key={name}>
-                        <td className={className}>
-                          <div className="flex items-center gap-4">
-                            <Avatar src={img} alt={name} size="sm" />
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-bold"
-                            >
-                              {name}
-                            </Typography>
-                          </div>
-                        </td>
-                        <td className={className}>
-                          <Typography
-                            variant="small"
-                            className="text-xs font-medium text-blue-gray-600"
-                          >
-                            {budget}
-                          </Typography>
-                        </td>
-                        <td className={className}>
-                          <div className="w-10/12">
-                            <Typography
-                              variant="small"
-                              className="mb-1 block text-xs font-medium text-blue-gray-600"
-                            >
-                              {completion}%
-                            </Typography>
-                            <Progress
-                              value={completion}
-                              variant="gradient"
-                              color={completion === 100 ? "green" : "blue"}
-                              className="h-1"
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  }
-                )}
+                  return (
+                    <tr key={key}>
+                      <td className={className}>
+                        <Typography
+                          variant="small"
+                          className="text-xs font-medium text-blue-gray-600"
+                        >
+                          {room}
+                        </Typography>
+                      </td>
+                      <td className={className}>
+                        <Typography
+                          variant="small"
+                          className="text-xs font-medium text-blue-gray-600"
+                        >
+                          {client}
+                        </Typography>
+                      </td>
+                      <td className={className}>
+                        <Typography
+                          variant="small"
+                          className="text-xs font-medium text-blue-gray-600"
+                        >
+                          {budget}
+                        </Typography>
+                      </td>
+                      <td className={className}>
+                        <Typography
+                          variant="small"
+                          className="text-xs font-medium text-blue-gray-600"
+                        >
+                          {moment(check_in).format("YYYY-MM-DD HH:mm")}
+                        </Typography>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </CardBody>

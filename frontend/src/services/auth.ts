@@ -1,3 +1,5 @@
+import axios from "axios";
+import { LoginRequestBody } from "../types";
 import { axiosInstance } from "./instance";
 
 const getToken = () => sessionStorage.getItem("token");
@@ -30,18 +32,28 @@ const handleApiRegister = async (body: object) => {
   }
 };
 
-const handleApiLogin = async (body: object) => {
+const handleApiLogin = async (body: LoginRequestBody) => {
   try {
-    const response = await axiosInstance.post(
-      `auth/login`,
-      JSON.stringify(body)
-    );
-    sessionStorage.setItem("token", response.data.token);
-    sessionStorage.setItem("refresh_token", response.data.refresh_token);
-    sessionStorage.setItem("user", JSON.stringify(response.data.user));
-    return response;
+    const response = await axiosInstance.post(`/auth/login`, body);
+    if (
+      response.data &&
+      response.data.token &&
+      response.data.refresh_token &&
+      response.data.user
+    ) {
+      const sessionData = {
+        token: response.data.token,
+        refresh_token: response.data.refresh_token,
+        user: JSON.stringify(response.data.user),
+      };
+      return sessionData;
+    } else {
+      throw new Error("Invalid response from server");
+    }
   } catch (error) {
-    console.log(error);
+    const customError = new Error("Invalid username or password");
+    customError.name = "LoginError";
+    throw customError;
   }
 };
 

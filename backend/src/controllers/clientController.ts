@@ -28,7 +28,7 @@ class clientController {
       const initValue = [name, email, identity_number, phone];
 
       const insertQuery =
-        "INSERT INTO clients(name, email, identity_number, phone ) VALUES($1, $2, $3, $4)";
+        "INSERT INTO clients(name, email, identity_number, phone ) VALUES($1, $2, $3, $4) RETURNING *";
       const { rows } = await pool.query(insertQuery, initValue);
       res.status(201).json(rows[0]);
     } catch (err) {
@@ -53,7 +53,7 @@ class clientController {
     try {
       const { id, name, email, identity_number, phone } = req.body;
       const query = {
-        text: "UPDATE clients SET name = $2, email = $3, identity_number = $4, phone = $5 = $8 WHERE id = $1",
+        text: "UPDATE clients SET name = $2, email = $3, identity_number = $4, phone = $5 WHERE id = $1",
         values: [id, name, email, identity_number, phone],
       };
       const { rowCount } = await pool.query(query);

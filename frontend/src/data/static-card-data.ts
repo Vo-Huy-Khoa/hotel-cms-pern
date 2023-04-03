@@ -45,7 +45,7 @@ export const statisticsCardsData = [
     color: "orange",
     icon: ChartBarIcon,
     title: "Sales",
-    value: `${4}`,
+    value: "Loading...",
     footer: {
       color: "text-green-500",
       value: "+5%",

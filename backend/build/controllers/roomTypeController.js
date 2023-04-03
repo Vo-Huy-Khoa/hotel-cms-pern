@@ -44,13 +44,13 @@ class roomTypeController {
             try {
                 const { name, count, price } = req.body;
                 const initValue = [name, count, price];
-                const insertQuery = "INSERT INTO room_types(name, count, price) VALUES($1, $2, $3)";
+                const insertQuery = "INSERT INTO room_types(name, count, price) VALUES($1, $2, $3) RETURNING *";
                 const { rows } = yield configs_1.default.query(insertQuery, initValue);
                 res.status(201).json(rows[0]);
             }
             catch (err) {
                 console.error(err);
-                res.status(500).json({ error: "Internal server error" });
+                res.status(500).json({ error: "Create Room Type Fail!" });
             }
         });
     }

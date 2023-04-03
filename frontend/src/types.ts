@@ -43,6 +43,7 @@ export interface IRoom {
 
 export interface IBooking {
   id: number;
+  room_id: number;
   room: string;
   client: string;
   check_in: string;
@@ -63,3 +64,8 @@ export interface ClearVisibilityAction {
 export type SelectVisibilityAction =
   | SetVisibilityAction
   | ClearVisibilityAction;
+
+export type LoginRequestBody = {
+  user_name: string;
+  password: string;
+};
