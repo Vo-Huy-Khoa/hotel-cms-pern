@@ -31,7 +31,9 @@ export function BookingCard({ booking, index }: Props) {
         <NavLink to={`/dashboard/booking/edit/${booking.id}/`}>
           <Button color="gray">Update</Button>
         </NavLink>
-        <Button>Check out</Button>
+        <NavLink to={`/dashboard/checkout/${booking.id}/`}>
+          <Button>Check out</Button>
+        </NavLink>
       </CardFooter>
     </Card>
   );

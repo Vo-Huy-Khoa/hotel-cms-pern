@@ -39,7 +39,13 @@ export const BookingCreate = () => {
     const bodyClient = { name, email, identity_number, phone };
     const response = await handleApiCreate("client/create", bodyClient);
     const client_id = response.id;
-    const bodyBooking = { room_id, client_id, check_in, check_out };
+    const bodyBooking = {
+      room_id,
+      client_id,
+      check_in,
+      check_out,
+      status: "true",
+    };
     await handleApiCreate("booking/create", bodyBooking);
 
     navigate("/dashboard/booking/list");

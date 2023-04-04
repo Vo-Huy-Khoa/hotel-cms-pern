@@ -16,25 +16,28 @@ exports.seederBooking = void 0;
 const configs_1 = __importDefault(require("../../configs"));
 const bookings = [
     {
-        room_id: 2,
+        room_id: 4,
         client_id: 3,
         check_in: new Date(2023, 3, 15),
         check_out: new Date(2023, 3, 15),
         total_price: "2500000",
+        status: "true",
     },
     {
-        room_id: 2,
+        room_id: 5,
         client_id: 3,
         check_in: new Date(2023, 3, 1),
         check_out: new Date(2023, 3, 1),
         total_price: "2500000",
+        status: "true",
     },
     {
-        room_id: 3,
+        room_id: 4,
         client_id: 3,
         check_in: new Date(2023, 3, 1),
         check_out: new Date(2023, 3, 1),
         total_price: "2500000",
+        status: "true",
     },
 ];
 const seederBooking = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -49,8 +52,9 @@ const seederBooking = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 booking.check_in,
                 booking.check_out,
                 booking.total_price,
+                booking.status,
             ];
-            const insertQuery = "INSERT INTO bookings(room_id, client_id, check_in, check_out, total_price ) VALUES($1, $2, $3, $4, $5)";
+            const insertQuery = "INSERT INTO bookings(room_id, client_id, check_in, check_out, total_price, status ) VALUES($1, $2, $3, $4, $5, $6)";
             yield configs_1.default.query(insertQuery, insertValues);
         })));
         // Commit the transaction
