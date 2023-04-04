@@ -1,7 +1,8 @@
 import axios from "axios";
 
 // const apiUrl = "http://localhost:3001/api";
- const apiUrl = "https://cmshotel.onrender.com/api";
+const apiUrl = "https://cmshotel.onrender.com/api";
+
 
 const axiosInstance = axios.create({
   baseURL: apiUrl,
@@ -17,6 +18,7 @@ axiosInstance.interceptors.request.use(
     const token = sessionStorage.getItem("token");
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
+      axios.defaults.headers.common["Cache-Control"] = "no-cache";
     }
     return config;
   },

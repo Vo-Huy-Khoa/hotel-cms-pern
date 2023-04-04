@@ -29,7 +29,7 @@ export const Checkout = () => {
       client_id: client?.id,
       check_in: booking?.check_in,
       check_out: booking?.check_out,
-      total_price: 1,
+      total_price: price,
       status: "false",
     };
     await handleApiEdit("booking/update", body);
