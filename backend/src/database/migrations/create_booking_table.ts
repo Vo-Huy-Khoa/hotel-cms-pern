@@ -9,6 +9,7 @@ const migrationQuery = `
     check_in date NOT NULL,
     check_out date,
     total_price float,
+    status boolean,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
     FOREIGN KEY(room_id) 

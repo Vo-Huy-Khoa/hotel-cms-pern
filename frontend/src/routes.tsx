@@ -22,6 +22,7 @@ import {
   RoomTypeCreate,
   RoomTypeEdit,
   RoomTypeList,
+  Checkout,
 } from "./pages/dashboard";
 
 const icon = {
@@ -100,6 +101,10 @@ const routes = [
       {
         path: "room-type/edit/:id/",
         element: <RoomTypeEdit />,
+      },
+      {
+        path: "checkout/:id/",
+        element: <Checkout />,
       },
     ],
   },
