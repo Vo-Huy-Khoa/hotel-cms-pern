@@ -60,6 +60,7 @@ export const BookingEdit = () => {
       client_id: client?.id,
       check_in,
       check_out,
+      status: "true",
     };
     await handleApiEdit("client/update", bodyClient);
     await handleApiEdit("booking/update", bodyBooking);
