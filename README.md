@@ -3,8 +3,8 @@
 ![Node.js](https://img.shields.io/badge/node.js-339933.svg?style=for-the-badge&logo=Node%2Ejs&logoColor=white)
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 
-<h1>CMS PERN</h1>
-CMS Application built using Typescript, React, Express, PostgreSQL.
+<h1>CMS Hotel PERN Stack</h1>
+CMS Application built using PERN.
 
 ## Index
 
