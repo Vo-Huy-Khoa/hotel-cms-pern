@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Popup, PopupDelete } from "../../../components";
 import {
-  getData,
+  handleApiGetList,
   handleApiDelete,
   handleApiEdit,
   handleApiGetItem,
@@ -70,7 +70,7 @@ export const RoomEdit = () => {
   useEffect(() => {
     async function getRoomType() {
       try {
-        const listRoomType = await getData("room_type");
+        const listRoomType = await handleApiGetList("room_type");
         setListRoomType(listRoomType);
       } catch (error) {
         // Handle errors

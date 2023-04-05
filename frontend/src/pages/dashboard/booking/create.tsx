@@ -8,7 +8,7 @@ import {
 import { RefObject, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Popup } from "../../../components";
-import { getData, handleApiCreate } from "../../../services";
+import { handleApiGetList, handleApiCreate } from "../../../services";
 import { IRoom } from "../../../types";
 
 export const BookingCreate = () => {
@@ -54,7 +54,7 @@ export const BookingCreate = () => {
   useEffect(() => {
     async function fetchGetListRoom() {
       try {
-        const listRoom = await getData("room");
+        const listRoom = await handleApiGetList("room");
         setListRoom(listRoom);
       } catch (error) {
         // Handle errors

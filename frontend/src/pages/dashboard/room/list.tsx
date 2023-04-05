@@ -12,19 +12,23 @@ import { NavLink } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { getData } from "../../../services";
+import { handleApiGetList, handleApiSearch } from "../../../services";
 import Pagination from "../../../widgets/layout/panigation";
 import moment from "moment";
+import { IRoomType } from "../../../types";
 
 export function RoomList() {
   const [isVisibleSearch, setVisibleSearch] = useState(false);
   const [listRoom, setListRoom] = useState([]);
+  const [listRoomType, setListRoomType] = useState([]);
+  const [room_type_id, setRoomType] = useState<string | undefined>(undefined);
+  const [status, setStatus] = useState<string | undefined>("true");
+
   const totalRow: number = listRoom.length;
   const [page, setPage] = useState(1);
 
-  const userNameRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
-  const priceRef = useRef<HTMLInputElement>(null);
+  const typeRef = useRef<HTMLInputElement>(null);
   const statusRef = useRef<HTMLInputElement>(null);
 
   function handlePageChange(newPage: number) {
@@ -34,30 +38,50 @@ export function RoomList() {
     setVisibleSearch(!isVisibleSearch);
   };
 
-  const handleSearch = () => {
-    const room_type = userNameRef.current?.querySelector("input")?.value || "";
-    const name = nameRef.current?.querySelector("input")?.value || "";
-    const price = priceRef.current?.querySelector("input")?.value || "0";
-    const status = statusRef.current?.querySelector("input")?.value || "0";
+  const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const body = Object.fromEntries(formData.entries());
+    const response = await handleApiSearch("room/search", body);
+    setListRoom(response);
   };
 
   const handleClearSearch = async () => {
-    userNameRef.current?.onreset;
-    nameRef.current?.onreset;
-    priceRef.current?.querySelector("input")?.onreset;
-    statusRef.current?.querySelector("input")?.onreset;
+    if (nameRef.current && typeRef.current && statusRef.current) {
+      const nameInput = nameRef.current?.querySelector("input");
+      const typeInput = typeRef.current?.querySelector("input");
+      const statusInput = statusRef.current?.querySelector("input");
+
+      if (nameInput && typeInput && statusInput) {
+        nameInput.value = "";
+        typeInput.value = "";
+        statusInput.value = "";
+      }
+    }
+
+    const listRoom = await handleApiGetList("room");
+    setListRoom(listRoom);
   };
 
   useEffect(() => {
     async function fetchGetListRoom() {
       try {
-        const listRoom = await getData("room");
+        const listRoom = await handleApiGetList("room");
         setListRoom(listRoom);
       } catch (error) {
         // Handle errors
       }
     }
+    async function getRoomType() {
+      try {
+        const listRoomType = await handleApiGetList("room_type");
+        setListRoomType(listRoomType);
+      } catch (error) {
+        // Handle errors
+      }
+    }
 
+    getRoomType();
     fetchGetListRoom();
   }, []);
 
@@ -93,31 +117,50 @@ export function RoomList() {
               Search Box
             </Typography>
           </div>
-          <div className="grid grid-cols-4 gap-4">
-            <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">
-                Room Type
-              </Typography>
-              <Input ref={userNameRef} />
+          <form onSubmit={handleSearch} className="flex flex-col gap-4">
+            <div className="grid grid-cols-4 gap-4">
+              <div className="flex flex-col gap-2">
+                <Typography className="font-small capitalize">
+                  Room Type
+                </Typography>
+                <Select
+                  label="Room Type"
+                  onChange={(value) => setRoomType(value)}
+                >
+                  {listRoomType.map((type: IRoomType, index) => {
+                    return (
+                      <Option key={index} value={type.id.toString()}>
+                        {type.name}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Typography className="font-small capitalize">name</Typography>
+                <Input ref={nameRef} label="Name" />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Typography className="font-small capitalize">
+                  Status
+                </Typography>
+                <Select
+                  label="Status"
+                  onChange={(value) => setStatus(value)}
+                  value="true"
+                >
+                  <Option value="true">Yes</Option>
+                  <Option value="false">No</Option>
+                </Select>
+              </div>
             </div>
-            <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">name</Typography>
-              <Input ref={nameRef} />
+            <div className="w-full flex flex-row justify-between">
+              <Button type="submit">Search</Button>
+              <Button onClick={handleClearSearch} className=" bg-blue-gray-700">
+                Cancel
+              </Button>
             </div>
-            <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">Status</Typography>
-              <Select ref={statusRef}>
-                <Option>Yes</Option>
-                <Option>No</Option>
-              </Select>
-            </div>
-          </div>
-          <div className="w-full flex flex-row justify-between">
-            <Button onClick={handleSearch}>Search</Button>
-            <Button onClick={handleClearSearch} className=" bg-blue-gray-700">
-              Cancel
-            </Button>
-          </div>
+          </form>
         </div>
       )}
       <Card>

@@ -2,7 +2,7 @@
 #===========================SETTINGS===========================
 @url  = http://localhost:3001/api
 # @url  = https://cmshotel.onrender.com/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcl9uYW1lIjoidGh5dHJhbiIsImVtYWlsIjoidGh5dHJhbkBnbWFpbC5jb20iLCJpYXQiOjE2ODA0OTY4ODQsImV4cCI6MTY4MDQ5NzAwNH0.HwoMBusQBRxuXKdETGj2dsiBs_LOB2D3-912A0-n-d4
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcl9uYW1lIjoidGh5dHJhbiIsImVtYWlsIjoidGh5dHJhbkBnbWFpbC5jb20iLCJpYXQiOjE2ODA2NjA3NzIsImV4cCI6MTY4MDY2MDg5Mn0.OQJ7s6F-EozruS4r8d3PpC1mYULStZMDWMYw65pyFGw
 
 @refresh_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTUzODgwOCwiZXhwIjoxNjc5NTQyNDA4fQ.UjHK0rDUCTRnbk6m6aBMF0N1VDNVWfOAV6OD5q0URVE
 
@@ -84,6 +84,17 @@ Content-Type: application/json
     "role": "1"
 }
 
+
+### Find
+POST {{url}}/user/find
+Authorization: Beaer {{token}}
+Content-Type: application/json
+
+{
+
+    "full_name": "khoa",
+    "email": "huykhoa630@gmail.com"
+}
 
 #===========================BOOKING===========================
 

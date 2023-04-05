@@ -9,6 +9,7 @@ const router = (0, express_1.Router)();
 router.post("/create", bookingController_1.default.create);
 router.get("/edit/:id", bookingController_1.default.find);
 router.put("/update", bookingController_1.default.update);
+router.put("/search", bookingController_1.default.search);
 router.delete("/delete/:id", bookingController_1.default.delete);
 router.get("/count", bookingController_1.default.totalMoney);
 router.get("/check_in", bookingController_1.default.countCheckIn);

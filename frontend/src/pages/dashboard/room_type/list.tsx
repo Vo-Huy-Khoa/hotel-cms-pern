@@ -2,7 +2,6 @@ import {
   Card,
   CardBody,
   Typography,
-  Chip,
   Button,
   Input,
   Select,
@@ -12,7 +11,7 @@ import { NavLink } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { getData, getUsers } from "../../../services";
+import { handleApiGetList, handleApiSearch } from "../../../services";
 import Pagination from "../../../widgets/layout/panigation";
 import moment from "moment";
 
@@ -23,9 +22,8 @@ export function RoomTypeList() {
   const [page, setPage] = useState(1);
 
   const nameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const roleRef = useRef<HTMLInputElement>(null);
-  const statusRef = useRef<HTMLInputElement>(null);
+  const countRef = useRef<HTMLInputElement>(null);
+  const priceRef = useRef<HTMLInputElement>(null);
 
   function handlePageChange(newPage: number) {
     setPage(newPage);
@@ -34,24 +32,35 @@ export function RoomTypeList() {
     setVisibleSearch(!isVisibleSearch);
   };
 
-  const handleSearch = () => {
-    const full_name = nameRef.current?.querySelector("input")?.value || "";
-    const email = emailRef.current?.querySelector("input")?.value || "";
-    const role = roleRef.current?.querySelector("input")?.value || "0";
-    const status = statusRef.current?.querySelector("input")?.value || "0";
+  const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const body = Object.fromEntries(formData.entries());
+    const response = await handleApiSearch("room_type/search", body);
+    setListRoomType(response);
   };
 
   const handleClearSearch = async () => {
-    nameRef.current?.onreset;
-    emailRef.current?.onreset;
-    roleRef.current?.querySelector("input")?.onreset;
-    statusRef.current?.querySelector("input")?.onreset;
+    if (nameRef.current && countRef.current && priceRef.current) {
+      const nameInput = nameRef.current?.querySelector("input");
+      const emailInput = countRef.current?.querySelector("input");
+      const priceInput = priceRef.current?.querySelector("input");
+
+      if (nameInput && emailInput && priceInput) {
+        nameInput.value = "";
+        emailInput.value = "";
+        priceInput.value = "";
+      }
+    }
+
+    const listRoomType = await handleApiGetList("user");
+    setListRoomType(listRoomType);
   };
 
   useEffect(() => {
     async function fetchGetRoomType() {
       try {
-        const listRoomType = await getData("room_type");
+        const listRoomType = await handleApiGetList("room_type");
         setListRoomType(listRoomType);
       } catch (error) {
         // Handle errors
@@ -93,33 +102,37 @@ export function RoomTypeList() {
               Search Box
             </Typography>
           </div>
-          <div className="grid md:grid-cols-4 sm:grid-cols-1 gap-4">
-            <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">Name</Typography>
-              <Input ref={nameRef} />
+          <form onSubmit={handleSearch} className="flex flex-col gap-4">
+            <div className="grid md:grid-cols-4 sm:grid-cols-1 gap-4">
+              <div className="flex flex-col gap-2">
+                <Typography className="font-small capitalize">Name</Typography>
+                <Input name="name" ref={nameRef} label="Name" />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Typography className="font-small capitalize">Count</Typography>
+                <Input name="count" ref={countRef} label="Limit" />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Typography className="font-small capitalize">Price</Typography>
+                <Input name="price" ref={priceRef} label="Price" />
+              </div>
+              {/* <div className="flex flex-col gap-2">
+                <Typography className="font-small capitalize">
+                  Status
+                </Typography>
+                <Select ref={statusRef}>
+                  <Option>0</Option>
+                  <Option>1</Option>
+                </Select>
+              </div> */}
             </div>
-            <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">Count</Typography>
-              <Input ref={emailRef} />
+            <div className="w-full flex flex-row justify-between">
+              <Button type="submit">Search</Button>
+              <Button onClick={handleClearSearch} className=" bg-blue-gray-700">
+                Cancel
+              </Button>
             </div>
-            <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">Price</Typography>
-              <Input ref={emailRef} />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">Status</Typography>
-              <Select ref={statusRef}>
-                <Option>0</Option>
-                <Option>1</Option>
-              </Select>
-            </div>
-          </div>
-          <div className="w-full flex flex-row justify-between">
-            <Button onClick={handleSearch}>Search</Button>
-            <Button onClick={handleClearSearch} className=" bg-blue-gray-700">
-              Cancel
-            </Button>
-          </div>
+          </form>
         </div>
       )}
       <Card>
