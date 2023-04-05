@@ -66,6 +66,19 @@ class roomController {
             }
         });
     }
+    search(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { full_name, email } = req.body;
+                const insertQuery = `SELECT * FROM users WHERE full_name ILIKE '%${full_name}%' and email ILIKE '%${email}%'`;
+                const { rows } = yield configs_1.default.query(insertQuery);
+                res.status(202).json(rows);
+            }
+            catch (error) {
+                res.status(500).json({ error: "Internal server error" });
+            }
+        });
+    }
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

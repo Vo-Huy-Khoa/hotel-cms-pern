@@ -5,7 +5,7 @@ import {
   ChartBarIcon,
   UserMinusIcon,
 } from "@heroicons/react/24/solid";
-import { getData } from "../services";
+import { handleApiGetList } from "../services";
 
 export const statisticsCardsData = [
   {
@@ -60,7 +60,7 @@ const updateStatisticsData = async () => {
 
   if (token) {
     try {
-      const response1 = await getData("booking/count");
+      const response1 = await handleApiGetList("booking/count");
       const sum = response1.sum;
       const formattedTotalMoney = sum.toLocaleString("en-US", {
         style: "currency",
@@ -69,10 +69,10 @@ const updateStatisticsData = async () => {
       const totalPrice = formattedTotalMoney.replace(/\.00$/, "");
       statisticsCardsData[0].value = totalPrice;
 
-      const response2 = await getData("booking/check_in");
+      const response2 = await handleApiGetList("booking/check_in");
       statisticsCardsData[1].value = response2.count;
 
-      const response3 = await getData("booking/check_out");
+      const response3 = await handleApiGetList("booking/check_out");
       statisticsCardsData[2].value = response3.count;
     } catch (error) {
       console.error(error);

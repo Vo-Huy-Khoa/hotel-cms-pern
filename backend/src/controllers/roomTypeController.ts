@@ -48,6 +48,17 @@ class roomTypeController {
     }
   }
 
+  async search(req: Request, res: Response) {
+    try {
+      const { name, count, price } = req.body;
+      const insertQuery = `SELECT * FROM room_types WHERE name ILIKE '%${name}%' and count ILIKE '%${count}%' and price ILIKE '%${price}%'`;
+      const { rows } = await pool.query(insertQuery);
+      res.status(202).json(rows);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+
   async update(req: Request, res: Response) {
     try {
       const { id, name, count, price } = req.body;

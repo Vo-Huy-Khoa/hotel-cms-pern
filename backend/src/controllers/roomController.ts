@@ -49,6 +49,16 @@ class roomController {
       res.status(500).json({ error: "Internal server error" });
     }
   }
+  async search(req: Request, res: Response) {
+    try {
+      const { full_name, email } = req.body;
+      const insertQuery = `SELECT * FROM users WHERE full_name ILIKE '%${full_name}%' and email ILIKE '%${email}%'`;
+      const { rows } = await pool.query(insertQuery);
+      res.status(202).json(rows);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
 
   async update(req: Request, res: Response) {
     try {

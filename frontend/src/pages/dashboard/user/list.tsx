@@ -12,26 +12,10 @@ import { NavLink } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { getUsers } from "../../../services";
+import { handleApiGetList, handleApiSearch } from "../../../services";
 import Pagination from "../../../widgets/layout/panigation";
 import { IUser } from "../../../types";
 import moment from "moment";
-
-function filterUsers(
-  users: IUser[],
-  full_name: string,
-  email: string,
-  role: string,
-  status: string
-) {
-  return users.filter((user) => {
-    return (
-      user.full_name.includes(full_name) ||
-      user.email.includes(email) ||
-      user.status.includes(status)
-    );
-  });
-}
 
 export function UserList() {
   const [isVisibleSearch, setVisibleSearch] = useState(false);
@@ -39,10 +23,8 @@ export function UserList() {
   const totalRow: number = listUser.length;
   const [page, setPage] = useState(1);
 
-  const userNameRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
-  const roleRef = useRef<HTMLInputElement>(null);
-  const statusRef = useRef<HTMLInputElement>(null);
 
   function handlePageChange(newPage: number) {
     setPage(newPage);
@@ -51,29 +33,33 @@ export function UserList() {
     setVisibleSearch(!isVisibleSearch);
   };
 
-  const handleSearch = () => {
-    const full_name = userNameRef.current?.querySelector("input")?.value || "";
-    const email = emailRef.current?.querySelector("input")?.value || "";
-    const role = roleRef.current?.querySelector("input")?.value || "0";
-    const status = statusRef.current?.querySelector("input")?.value || "0";
-
-    const fillUser = filterUsers(listUser, full_name, email, role, status);
-    setListUser(fillUser);
+  const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const body = Object.fromEntries(formData.entries());
+    const response = await handleApiSearch("user/search", body);
+    setListUser(response);
   };
 
   const handleClearSearch = async () => {
-    userNameRef.current?.onreset;
-    emailRef.current?.onreset;
-    roleRef.current?.querySelector("input")?.onreset;
-    statusRef.current?.querySelector("input")?.onreset;
-    const listUser = await getUsers();
+    if (nameRef.current && emailRef.current) {
+      const nameInput = nameRef.current.querySelector("input");
+      const emailInput = emailRef.current.querySelector("input");
+
+      if (nameInput && emailInput) {
+        nameInput.value = "";
+        emailInput.value = "";
+      }
+    }
+
+    const listUser = await handleApiGetList("user");
     setListUser(listUser);
   };
 
   useEffect(() => {
     async function fetchGetListUser() {
       try {
-        const listUser = await getUsers();
+        const listUser = await handleApiGetList("user");
         setListUser(listUser);
       } catch (error) {
         // Handle errors
@@ -115,36 +101,33 @@ export function UserList() {
               Search Box
             </Typography>
           </div>
-          <div className="grid md:grid-cols-4 sm:grid-cols-1 gap-4">
-            <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">Name</Typography>
-              <Input ref={userNameRef} />
+          <form onSubmit={handleSearch} className="flex flex-col gap-4">
+            <div className="grid md:grid-cols-4 sm:grid-cols-1 gap-4">
+              <div className="flex flex-col gap-2">
+                <Typography className="font-small capitalize">Name</Typography>
+                <Input name="full_name" label="Name" ref={nameRef} />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Typography className="font-small capitalize">Email</Typography>
+                <Input type="email" name="email" label="email" ref={emailRef} />
+              </div>
+              {/* <div className="flex flex-col gap-2">
+                <Typography className="font-small capitalize">
+                  Status
+                </Typography>
+                <Select name="status">
+                  <Option value="true">Yes</Option>
+                  <Option value="false">No</Option>
+                </Select>
+              </div> */}
             </div>
-            <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">Email</Typography>
-              <Input ref={emailRef} />
+            <div className="w-full flex flex-row justify-between">
+              <Button type="submit">Search</Button>
+              <Button onClick={handleClearSearch} className=" bg-blue-gray-700">
+                Cancel
+              </Button>
             </div>
-            <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">Role</Typography>
-              <Select ref={roleRef}>
-                <Option>0</Option>
-                <Option>1</Option>
-              </Select>
-            </div>
-            <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">Status</Typography>
-              <Select ref={statusRef}>
-                <Option>0</Option>
-                <Option>1</Option>
-              </Select>
-            </div>
-          </div>
-          <div className="w-full flex flex-row justify-between">
-            <Button onClick={handleSearch}>Search</Button>
-            <Button onClick={handleClearSearch} className=" bg-blue-gray-700">
-              Cancel
-            </Button>
-          </div>
+          </form>
         </div>
       )}
       <Card>

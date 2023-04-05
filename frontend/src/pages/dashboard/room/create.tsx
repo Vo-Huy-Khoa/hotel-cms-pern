@@ -9,7 +9,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Popup } from "../../../components";
-import { getData, handleApiCreate } from "../../../services";
+import { handleApiGetList, handleApiCreate } from "../../../services";
 import { IRoomType } from "../../../types";
 
 export const RoomCreate = () => {
@@ -45,7 +45,7 @@ export const RoomCreate = () => {
   useEffect(() => {
     async function getRoomType() {
       try {
-        const listRoomType = await getData("room_type");
+        const listRoomType = await handleApiGetList("room_type");
         setListRoomType(listRoomType);
       } catch (error) {
         // Handle errors

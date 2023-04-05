@@ -39,12 +39,21 @@ class userController {
       res.status(500).json({ error: "Internal server error" });
     }
   }
-
   async find(req: Request, res: Response) {
     try {
       const { id } = req.params;
       const { rows } = await pool.query(`SELECT * FROM users WHERE id = ${id}`);
       res.status(202).json(rows[0]);
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+  async search(req: Request, res: Response) {
+    try {
+      const { full_name, email } = req.body;
+      const insertQuery = `SELECT * FROM users WHERE full_name ILIKE '%${full_name}%' and email ILIKE '%${email}%'`;
+      const { rows } = await pool.query(insertQuery);
+      res.status(202).json(rows);
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
     }

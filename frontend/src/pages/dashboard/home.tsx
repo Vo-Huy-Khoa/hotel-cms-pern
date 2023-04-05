@@ -3,6 +3,7 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Chip,
   IconButton,
   Menu,
   MenuHandler,
@@ -21,23 +22,23 @@ import {
 import StatisticsCard from "../../widgets/cards/statistics-card";
 import React, { useEffect, useState } from "react";
 import ordersOverviewData from "../../data/orders-overview-data";
-import { getData } from "../../services";
+import { handleApiGetList } from "../../services";
 import moment from "moment";
 
 export function Home() {
   const [listBooking, setListBooking] = useState([]);
 
   useEffect(() => {
-    async function fetchGetlistBooking() {
+    async function fetchGetListBooking() {
       try {
-        const listBooking = await getData("booking");
+        const listBooking = await handleApiGetList("booking");
         setListBooking(listBooking);
       } catch (error) {
         // Handle errors
       }
     }
 
-    fetchGetlistBooking();
+    fetchGetListBooking();
   }, []);
   return (
     <div className="mt-12">
@@ -114,7 +115,7 @@ export function Home() {
             <table className="w-full min-w-[640px] table-auto">
               <thead>
                 <tr>
-                  {["Room", "Name", "Phone", "Check In"].map((el) => (
+                  {["Room", "Name", "Check In", "status"].map((el) => (
                     <th
                       key={el}
                       className="border-b border-blue-gray-50 py-3 px-6 text-left"
@@ -130,7 +131,7 @@ export function Home() {
                 </tr>
               </thead>
               <tbody>
-                {listBooking.map(({ room, client, budget, check_in }, key) => {
+                {listBooking.map(({ room, client, check_in, status }, key) => {
                   const className = `py-3 px-5 ${
                     key === listBooking.length - 1
                       ? ""
@@ -160,16 +161,16 @@ export function Home() {
                           variant="small"
                           className="text-xs font-medium text-blue-gray-600"
                         >
-                          {budget}
+                          {moment(check_in).format("YYYY-MM-DD HH:mm")}
                         </Typography>
                       </td>
                       <td className={className}>
-                        <Typography
-                          variant="small"
-                          className="text-xs font-medium text-blue-gray-600"
-                        >
-                          {moment(check_in).format("YYYY-MM-DD HH:mm")}
-                        </Typography>
+                        <Chip
+                          variant="gradient"
+                          color={status == "true" ? "green" : "blue-gray"}
+                          value={status == true ? "yes" : "no"}
+                          className="py-0.5 px-2 text-[11px] font-medium"
+                        />
                       </td>
                     </tr>
                   );

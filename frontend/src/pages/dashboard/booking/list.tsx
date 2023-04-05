@@ -9,55 +9,61 @@ import { NavLink } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { getData } from "../../../services";
-import Pagination from "../../../widgets/layout/panigation";
-import { IBooking, IClient } from "../../../types";
+import { handleApiGetList, handleApiSearch } from "../../../services";
+import { IBooking, IRoom } from "../../../types";
 import moment from "moment";
 import { BookingCard } from "../../../widgets/cards";
 
 export function BookingList() {
   const [isVisibleSearch, setVisibleSearch] = useState(false);
   const [listBooking, setListBooking] = useState([]);
+  const [listRoom, setListRoom] = useState([]);
+  const [room_id, setRoom] = useState<string | undefined>();
 
   const totalRow: number = listBooking.length;
   const [page, setPage] = useState(1);
-  const bookingNameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const roleRef = useRef<HTMLInputElement>(null);
-  const statusRef = useRef<HTMLInputElement>(null);
 
-  function handlePageChange(newPage: number) {
-    setPage(newPage);
-  }
+  const roomRef = useRef<HTMLInputElement>(null);
+  const clientRef = useRef<HTMLInputElement>(null);
+  const checkInRef = useRef<HTMLInputElement>(null);
+  const checkOutRef = useRef<HTMLInputElement>(null);
+
   const handleVisibleSearch = () => {
     setVisibleSearch(!isVisibleSearch);
   };
 
-  const handleSearch = () => {
-    const full_name =
-      bookingNameRef.current?.querySelector("input")?.value || "";
-    const email = emailRef.current?.querySelector("input")?.value || "";
-    const role = roleRef.current?.querySelector("input")?.value || "0";
-    const status = statusRef.current?.querySelector("input")?.value || "0";
+  const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const body = Object.fromEntries(formData.entries());
+    const response = await handleApiSearch("booking/search", body);
+    setListBooking(response);
   };
 
   const handleClearSearch = async () => {
-    bookingNameRef.current?.onreset;
-    emailRef.current?.onreset;
-    roleRef.current?.querySelector("input")?.onreset;
-    statusRef.current?.querySelector("input")?.onreset;
+    const response = await handleApiGetList("bookings");
+    setListBooking(response);
   };
 
   useEffect(() => {
     async function fetchGetlistBooking() {
       try {
-        const listBooking = await getData("booking");
+        const listBooking = await handleApiGetList("booking");
         setListBooking(listBooking);
       } catch (error) {
         // Handle errors
       }
     }
+    async function fetchGetListRoom() {
+      try {
+        const listRoom = await handleApiGetList("room");
+        setListRoom(listRoom);
+      } catch (error) {
+        // Handle errors
+      }
+    }
 
+    fetchGetListRoom();
     fetchGetlistBooking();
   }, []);
 
@@ -93,34 +99,58 @@ export function BookingList() {
               Search Box
             </Typography>
           </div>
-          <div className="grid md:grid-cols-4 sm:grid-cols-1 gap-4">
-            <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">Room</Typography>
-              <Input ref={bookingNameRef} />
+          <form onSubmit={handleSearch} className="flex flex-col gap-4">
+            <div className="grid md:grid-cols-4 sm:grid-cols-1 gap-4">
+              <div className="flex flex-col gap-2">
+                <Typography className="font-small capitalize">Room</Typography>
+                <Select
+                  ref={roomRef}
+                  label="Room"
+                  onChange={(value) => setRoom(value)}
+                >
+                  {listRoom.map((room: IRoom, index) => {
+                    return (
+                      <Option key={index} value={room.id.toString()}>
+                        {room?.name}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Typography className="font-small capitalize">Name</Typography>
+                <Input name="client_id" ref={clientRef} label="Name" />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Typography className="font-small capitalize">
+                  check in
+                </Typography>
+                <Input
+                  name="check_in"
+                  type="date"
+                  ref={checkInRef}
+                  label="Check In"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Typography className="font-small capitalize">
+                  check out
+                </Typography>
+                <Input
+                  name="check_out"
+                  type="date"
+                  ref={checkOutRef}
+                  label="Check Out"
+                />
+              </div>
             </div>
-            <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">user</Typography>
-              <Input ref={emailRef} />
+            <div className="w-full flex flex-row justify-between">
+              <Button type="submit">Search</Button>
+              <Button onClick={handleClearSearch} className=" bg-blue-gray-700">
+                Cancel
+              </Button>
             </div>
-            <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">
-                check in
-              </Typography>
-              <Input type="date" ref={emailRef} />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Typography className="font-small capitalize">
-                check out
-              </Typography>
-              <Input type="date" ref={emailRef} />
-            </div>
-          </div>
-          <div className="w-full flex flex-row justify-between">
-            <Button onClick={handleSearch}>Search</Button>
-            <Button onClick={handleClearSearch} className=" bg-blue-gray-700">
-              Cancel
-            </Button>
-          </div>
+          </form>
         </div>
       )}
       <div className=" mt-10 w-full h-full grid gap-10 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 justify-center">

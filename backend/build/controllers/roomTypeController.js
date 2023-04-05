@@ -66,6 +66,19 @@ class roomTypeController {
             }
         });
     }
+    search(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { name, count, price } = req.body;
+                const insertQuery = `SELECT * FROM room_types WHERE name ILIKE '%${name}%' and count ILIKE '%${count}%' and price ILIKE '%${price}%'`;
+                const { rows } = yield configs_1.default.query(insertQuery);
+                res.status(202).json(rows);
+            }
+            catch (error) {
+                res.status(500).json({ error: "Internal server error" });
+            }
+        });
+    }
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
