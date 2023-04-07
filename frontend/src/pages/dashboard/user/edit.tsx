@@ -5,7 +5,7 @@ import {
   Option,
   Typography,
 } from "@material-tailwind/react";
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Popup } from "../../../components";
 import {
@@ -19,43 +19,53 @@ import { PopupDelete } from "../../../components/CustomPopupDelete";
 export const UserEdit = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [user, setUser] = useState<IUser>();
+  const [user, setUser] = useState<IUser>({
+    id: 1,
+    full_name: "",
+    user_name: "",
+    email: "",
+    password: "",
+    status: "",
+    created_at: "",
+    updated_at: "",
+  });
 
-  const [openCreate, setOpenCreate] = useState(false);
-  const changePopupCreate = () => setOpenCreate(!openCreate);
+  const [openEdit, setOpenEdit] = useState(false);
+  const changePopupEdit = () => setOpenEdit(!openEdit);
 
   const [openDelete, setOpenDelete] = useState(false);
   const changePopupDelete = () => setOpenDelete(!openDelete);
 
-  const userNameRef = useRef<HTMLInputElement>(null);
-  const fullNameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const statusRef = useRef<HTMLInputElement>(null);
-  // const passwordRef = useRef<HTMLInputElement>(null);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUser((prevValues) => ({ ...prevValues, [name]: value }));
+  };
 
   const handleSubmit = async () => {
-    const user_name = userNameRef.current?.querySelector("input")?.value || "";
-    const full_name = fullNameRef.current?.querySelector("input")?.value || "";
-    const email = emailRef.current?.querySelector("input")?.value || "";
-    const status = statusRef.current?.querySelector("input")?.value || "1";
-    // const password = passwordRef.current?.querySelector("input")?.value || "";
+    try {
+      await handleApiEdit("user/update", user);
+      navigate("/dashboard/user/list");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    const body = {
-      id,
-      user_name,
-      full_name,
-      email,
-      status,
-      // password,
-    };
-
-    await handleApiEdit("user/update", body);
-    navigate("/dashboard/user/list");
+  const handleClear = async () => {
+    try {
+      const user = await handleApiGetItem(`user/edit/${id}`);
+      setUser(user);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleDelete = async () => {
-    await handleApiDelete(`user/delete/${id}`);
-    navigate("/dashboard/user/list");
+    try {
+      await handleApiDelete(`user/delete/${id}`);
+      navigate("/dashboard/user/list");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -79,16 +89,18 @@ export const UserEdit = () => {
             <Typography className="w-32">Full name</Typography>
             <Input
               label="Full Name"
-              defaultValue={user?.full_name}
-              ref={fullNameRef}
+              name="full_name"
+              value={user?.full_name}
+              onChange={handleChange}
             ></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">User name</Typography>
             <Input
               label="User Name"
-              defaultValue={user?.user_name}
-              ref={userNameRef}
+              name="user_name"
+              value={user?.user_name}
+              onChange={handleChange}
             ></Input>
           </div>
           <div className="flex flex-row gap-6">
@@ -96,39 +108,36 @@ export const UserEdit = () => {
             <Input
               type="email"
               label="Email"
-              defaultValue={user?.email}
-              ref={emailRef}
+              name="email"
+              value={user?.email}
+              onChange={handleChange}
             ></Input>
           </div>
-          {/* <div className="flex flex-row gap-6">
+          <div className="flex flex-row gap-6">
             <Typography className="w-32">Password</Typography>
             <Input
               type="password"
-              label="Email"
-              defaultValue={user?.password}
-              ref={passwordRef}
+              label="Password"
+              name="password"
+              value={user?.password}
+              onChange={handleChange}
             ></Input>
-          </div> */}
-          {/* <div className="flex flex-row gap-6">
-            <Typography className="w-32">Status</Typography>
-            <Select label="Role">
-              <Option value="0">Disable</Option>
-              <Option value="1">Enable</Option>
-            </Select>
-          </div> */}
+          </div>
         </div>
       </div>
       <div className=" fixed left-0 bottom-0 w-full h-14 bg-gray-900  flex flex-row justify-end gap-6 items-center px-10 ">
-        <Button className="h-10" onClick={changePopupCreate}>
+        <Button className="h-10" onClick={changePopupEdit}>
           Submit
         </Button>
-        <Button className="bg-blue-gray-700 h-10">Clear</Button>
+        <Button onClick={handleClear} className="bg-blue-gray-700 h-10">
+          Clear
+        </Button>
       </div>
       <Popup
         title="Popup Edit"
         desc="User Edit"
-        open={openCreate}
-        onClose={changePopupCreate}
+        open={openEdit}
+        onClose={changePopupEdit}
         submit={handleSubmit}
       />
       <PopupDelete

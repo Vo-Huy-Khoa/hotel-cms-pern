@@ -6,42 +6,36 @@ import {
   Option,
   Textarea,
 } from "@material-tailwind/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Popup } from "../../../components";
 import { handleApiGetList, handleApiCreate } from "../../../services";
-import { IRoomType } from "../../../types";
+import { IRoomType, initRoom } from "../../../types";
 
 export const RoomCreate = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
 
-  const [room_type_id, setRoomType] = useState<string | undefined>(undefined);
   const [listRoomType, setListRoomType] = useState([]);
-  const [status, setStatus] = useState<string | undefined>("1");
+  const [values, setValues] = useState(initRoom);
 
-  const nameRef = useRef<HTMLInputElement>(null);
-  const descRef = useRef<HTMLInputElement>(null);
-  const imageRef = useRef<HTMLInputElement>(null);
-
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setValues((prevValues) => ({ ...prevValues, [name]: value }));
+  };
   const handleSubmit = async () => {
-    const name = nameRef.current?.querySelector("input")?.value || "";
-    const description = descRef.current?.querySelector("textarea")?.value || "";
-    const image = imageRef.current?.querySelector("input")?.value || "true";
-
-    const body = {
-      room_type_id,
-      name,
-      description,
-      image,
-      status,
-    };
-
-    await handleApiCreate("room/create", body);
-    navigate("/dashboard/room/list");
+    try {
+      await handleApiCreate("room/create", values);
+      navigate("/dashboard/room/list");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  const handleClear = () => {
+    setValues(initRoom);
+  };
   useEffect(() => {
     async function getRoomType() {
       try {
@@ -61,7 +55,12 @@ export const RoomCreate = () => {
         <div className="flex flex-col gap-4 p-5">
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Room Type</Typography>
-            <Select label="Room Type" onChange={(value) => setRoomType(value)}>
+            <Select
+              label="Room Type"
+              name="room_type_id"
+              value={values.room_type_id}
+              onChange={handleChange}
+            >
               {listRoomType.map((type: IRoomType, index) => {
                 return (
                   <Option key={index} value={type.id.toString()}>
@@ -73,22 +72,29 @@ export const RoomCreate = () => {
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Name</Typography>
-            <Input label="Name" ref={nameRef}></Input>
+            <Input
+              label="Name"
+              name="name"
+              value={values.name}
+              onChange={handleChange}
+            ></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Description</Typography>
-            <Textarea label="Description" ref={descRef}></Textarea>
+            <Textarea
+              name="description"
+              label="Description"
+              value={values.description}
+              onChange={handleChange}
+            ></Textarea>
           </div>
-          {/* <div className="flex flex-row gap-6">
-            <Typography className="w-32">Image</Typography>
-            <Input type="file" label="Image" ref={imageRef}></Input>
-          </div> */}
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Status</Typography>
             <Select
               label="Status"
-              onChange={(value) => setStatus(value)}
-              value="true"
+              name="status"
+              value={values.status}
+              onChange={handleChange}
             >
               <Option value="true">Yes</Option>
               <Option value="false">No</Option>
@@ -100,7 +106,9 @@ export const RoomCreate = () => {
         <Button onClick={handleOpen} className="h-10">
           Submit
         </Button>
-        <Button className="bg-blue-gray-700 h-10">Clear</Button>
+        <Button onClick={handleClear} className="bg-blue-gray-700 h-10">
+          Clear
+        </Button>
       </div>
       <Popup
         desc="Room Create"

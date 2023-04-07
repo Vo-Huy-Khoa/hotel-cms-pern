@@ -5,12 +5,10 @@ import {
   Chip,
   Button,
   Input,
-  Select,
-  Option,
 } from "@material-tailwind/react";
 import { NavLink } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { handleApiGetList, handleApiSearch } from "../../../services";
 import Pagination from "../../../widgets/layout/panigation";
@@ -23,8 +21,17 @@ export function UserList() {
   const totalRow: number = listUser.length;
   const [page, setPage] = useState(1);
 
-  const nameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
+  const [formData, setFormData] = useState({
+    full_name: "",
+    email: "",
+  });
+  const handleChange = (event: any) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
 
   function handlePageChange(newPage: number) {
     setPage(newPage);
@@ -35,25 +42,25 @@ export function UserList() {
 
   const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const body = Object.fromEntries(formData.entries());
-    const response = await handleApiSearch("user/search", body);
-    setListUser(response);
+    try {
+      const response = await handleApiSearch("user/search", formData);
+      setListUser(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleClearSearch = async () => {
-    if (nameRef.current && emailRef.current) {
-      const nameInput = nameRef.current.querySelector("input");
-      const emailInput = emailRef.current.querySelector("input");
-
-      if (nameInput && emailInput) {
-        nameInput.value = "";
-        emailInput.value = "";
-      }
+    setFormData({
+      full_name: "",
+      email: "",
+    });
+    try {
+      const listUser = await handleApiGetList("user");
+      setListUser(listUser);
+    } catch (error) {
+      console.log(error);
     }
-
-    const listUser = await handleApiGetList("user");
-    setListUser(listUser);
   };
 
   useEffect(() => {
@@ -105,21 +112,23 @@ export function UserList() {
             <div className="grid md:grid-cols-4 sm:grid-cols-1 gap-4">
               <div className="flex flex-col gap-2">
                 <Typography className="font-small capitalize">Name</Typography>
-                <Input name="full_name" label="Name" ref={nameRef} />
+                <Input
+                  name="full_name"
+                  label="Name"
+                  value={formData.full_name}
+                  onChange={handleChange}
+                />
               </div>
               <div className="flex flex-col gap-2">
                 <Typography className="font-small capitalize">Email</Typography>
-                <Input type="email" name="email" label="email" ref={emailRef} />
+                <Input
+                  type="email"
+                  name="email"
+                  label="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
               </div>
-              {/* <div className="flex flex-col gap-2">
-                <Typography className="font-small capitalize">
-                  Status
-                </Typography>
-                <Select name="status">
-                  <Option value="true">Yes</Option>
-                  <Option value="false">No</Option>
-                </Select>
-              </div> */}
             </div>
             <div className="w-full flex flex-row justify-between">
               <Button type="submit">Search</Button>

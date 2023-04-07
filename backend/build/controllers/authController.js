@@ -101,10 +101,8 @@ class authController {
                 if (!user) {
                     res.json({ message: "Invalid user_name or password" });
                 }
-                const RefreshToken = "";
-                yield configs_1.default.query("UPDATE users SET refresh_token = $2 WHERE id = $1 ", [
+                yield configs_1.default.query("UPDATE users SET refresh_token ='' WHERE id = $1 ", [
                     user.id,
-                    RefreshToken,
                 ]);
                 return res.status(201).json({ message: "Logout successfully!" });
             }

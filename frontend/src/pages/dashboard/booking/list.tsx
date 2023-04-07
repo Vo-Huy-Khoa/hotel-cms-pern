@@ -1,48 +1,56 @@
-import {
-  Typography,
-  Button,
-  Input,
-  Select,
-  Option,
-} from "@material-tailwind/react";
+import { Typography, Button, Input } from "@material-tailwind/react";
+import { MenuItem, Select } from "@mui/material";
+
 import { NavLink } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { handleApiGetList, handleApiSearch } from "../../../services";
 import { IBooking, IRoom } from "../../../types";
-import moment from "moment";
 import { BookingCard } from "../../../widgets/cards";
 
+const initSearchBooking = {
+  room_id: "",
+  name: "",
+  check_in: "",
+  check_out: "",
+};
 export function BookingList() {
   const [isVisibleSearch, setVisibleSearch] = useState(false);
   const [listBooking, setListBooking] = useState([]);
   const [listRoom, setListRoom] = useState([]);
-  const [room_id, setRoom] = useState<string | undefined>();
 
-  const totalRow: number = listBooking.length;
-  const [page, setPage] = useState(1);
+  const [values, setValues] = useState(initSearchBooking);
 
-  const roomRef = useRef<HTMLInputElement>(null);
-  const clientRef = useRef<HTMLInputElement>(null);
-  const checkInRef = useRef<HTMLInputElement>(null);
-  const checkOutRef = useRef<HTMLInputElement>(null);
-
+  const handleChange = (event: any) => {
+    const { name, value } = event.target;
+    setValues((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
   const handleVisibleSearch = () => {
     setVisibleSearch(!isVisibleSearch);
   };
 
   const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const body = Object.fromEntries(formData.entries());
-    const response = await handleApiSearch("booking/search", body);
-    setListBooking(response);
+    try {
+      const response = await handleApiSearch("booking/search", values);
+      setListBooking(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleClearSearch = async () => {
-    const response = await handleApiGetList("bookings");
-    setListBooking(response);
+    setValues(initSearchBooking);
+    try {
+      const response = await handleApiGetList("booking");
+      setListBooking(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -104,22 +112,28 @@ export function BookingList() {
               <div className="flex flex-col gap-2">
                 <Typography className="font-small capitalize">Room</Typography>
                 <Select
-                  ref={roomRef}
-                  label="Room"
-                  onChange={(value) => setRoom(value)}
+                  className="h-10"
+                  name="room_id"
+                  value={values.room_id}
+                  onChange={handleChange}
                 >
                   {listRoom.map((room: IRoom, index) => {
                     return (
-                      <Option key={index} value={room.id.toString()}>
+                      <MenuItem key={index} value={room.id.toString()}>
                         {room?.name}
-                      </Option>
+                      </MenuItem>
                     );
                   })}
                 </Select>
               </div>
               <div className="flex flex-col gap-2">
                 <Typography className="font-small capitalize">Name</Typography>
-                <Input name="client_id" ref={clientRef} label="Name" />
+                <Input
+                  name="name"
+                  label="Name"
+                  value={values.name}
+                  onChange={handleChange}
+                />
               </div>
               <div className="flex flex-col gap-2">
                 <Typography className="font-small capitalize">
@@ -128,8 +142,9 @@ export function BookingList() {
                 <Input
                   name="check_in"
                   type="date"
-                  ref={checkInRef}
                   label="Check In"
+                  value={values.check_in}
+                  onChange={handleChange}
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -139,8 +154,9 @@ export function BookingList() {
                 <Input
                   name="check_out"
                   type="date"
-                  ref={checkOutRef}
                   label="Check Out"
+                  value={values.check_out}
+                  onChange={handleChange}
                 />
               </div>
             </div>

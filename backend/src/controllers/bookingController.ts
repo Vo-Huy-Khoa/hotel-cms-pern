@@ -5,8 +5,11 @@ class bookingController {
   // Retrieve all users from the database
   async getAll(req: Request, res: Response) {
     try {
-      const query =
-        "select bookings.id, bookings.client_id,bookings.room_id, rooms.name as room, clients.name as client, bookings.check_in, bookings.check_out,bookings.total_price, bookings.created_at, bookings.updated_at from bookings JOIN rooms on bookings.room_id=rooms.id JOIN clients on bookings.client_id= clients.id WHERE bookings.status='true' ORDER BY id DESC";
+      const query = `SELECT bookings.id, bookings.client_id,bookings.room_id, rooms.name as room, clients.name as client,
+                    bookings.check_in, bookings.check_out,bookings.total_price, bookings.created_at, bookings.updated_at 
+                    FROM bookings JOIN rooms on bookings.room_id=rooms.id JOIN clients on bookings.client_id= clients.id 
+                    WHERE bookings.status='true'
+                    ORDER BY id DESC`;
       const { rows } = await pool.query(query);
       res.status(200).json(rows);
     } catch (error) {
@@ -79,8 +82,13 @@ class bookingController {
 
   async search(req: Request, res: Response) {
     try {
-      const { full_name, email } = req.body;
-      const insertQuery = `SELECT * FROM users WHERE full_name ILIKE '%${full_name}%' and email ILIKE '%${email}%'`;
+      const { room_id, name, check_in, check_out } = req.body;
+      const insertQuery = `SELECT bookings.id, bookings.client_id,bookings.room_id, rooms.name as room, clients.name as client,
+      bookings.check_in, bookings.check_out,bookings.total_price, bookings.created_at, bookings.updated_at 
+      FROM bookings JOIN rooms on bookings.room_id=rooms.id JOIN clients on bookings.client_id= clients.id 
+      WHERE bookings.status='true' AND clients.name ILIKE '%${name}%' AND bookings.room_id::text LIKE '%${room_id}%'
+      AND bookings.check_in::text LIKE '%${check_in}%' AND bookings.check_out::text LIKE '%${check_out}%'
+      ORDER BY id DESC`;
       const { rows } = await pool.query(insertQuery);
       res.status(202).json(rows);
     } catch (error) {

@@ -1,12 +1,13 @@
 import {
   Button,
   Input,
-  Select,
   Typography,
   Option,
   Textarea,
 } from "@material-tailwind/react";
-import { useEffect, useRef, useState } from "react";
+import { MenuItem, Select } from "@mui/material";
+
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Popup, PopupDelete } from "../../../components";
 import {
@@ -15,12 +16,12 @@ import {
   handleApiEdit,
   handleApiGetItem,
 } from "../../../services";
-import { IRoom, IRoomType } from "../../../types";
+import { IRoom, IRoomType, initRoom } from "../../../types";
 
 export const RoomEdit = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [room, setRoom] = useState<IRoom>();
+  const [room, setRoom] = useState<IRoom>(initRoom);
   const [openCreate, setOpenCreate] = useState(false);
   const changePopupCreate = () => setOpenCreate(!openCreate);
 
@@ -28,42 +29,41 @@ export const RoomEdit = () => {
   const changePopupDelete = () => setOpenDelete(!openDelete);
 
   const [listRoomType, setListRoomType] = useState([]);
-  const [room_type_id, setRoomType] = useState<string | undefined>(undefined);
-  const [status, setStatus] = useState<string | undefined>(undefined);
 
-  const nameRef = useRef<HTMLInputElement>(null);
-  const descRef = useRef<HTMLInputElement>(null);
-  const imageRef = useRef<HTMLInputElement>(null);
-
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setRoom((prevValues) => ({ ...prevValues, [name]: value }));
+  };
   const handleSubmit = async () => {
-    const name = nameRef.current?.querySelector("input")?.value || "";
-    const description = descRef.current?.querySelector("textarea")?.value || "";
-    const image = imageRef.current?.querySelector("input")?.value || "1";
+    try {
+      await handleApiEdit("room/update", room);
+      navigate("/dashboard/room/list");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    const body = {
-      id,
-      room_type_id,
-      name,
-      description,
-      image,
-      status,
-    };
-
-    await handleApiEdit("room/update", body);
-    navigate("/dashboard/room/list");
+  const handleClear = async () => {
+    async function getItem() {
+      const room = await handleApiGetItem(`room/edit/${id}`);
+      setRoom(room);
+    }
+    getItem();
   };
 
   const handleDelete = async () => {
-    await handleApiDelete(`room/delete/${id}`);
-    navigate("/dashboard/room/list");
+    try {
+      await handleApiDelete(`room/delete/${id}`);
+      navigate("/dashboard/room/list");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
     async function getItem() {
       const room = await handleApiGetItem(`room/edit/${id}`);
       setRoom(room);
-      setStatus(room?.status?.toString());
-      setRoomType(room?.room_type_id);
     }
     getItem();
   }, [id]);
@@ -93,15 +93,16 @@ export const RoomEdit = () => {
             <Typography className="w-32">Room Type</Typography>
             {listRoomType.length > 0 && room && (
               <Select
-                label="Room Type"
-                onChange={(value) => setRoomType(value)}
+                className="w-full h-10"
+                name="room_type_id"
                 value={`${room?.room_type_id}`}
+                onChange={handleChange}
               >
                 {listRoomType.map((type: IRoomType, index) => {
                   return (
-                    <Option key={index} value={`${type.id}`}>
+                    <MenuItem key={index} value={`${type.id}`}>
                       {type.name}
-                    </Option>
+                    </MenuItem>
                   );
                 })}
               </Select>
@@ -109,34 +110,32 @@ export const RoomEdit = () => {
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Name</Typography>
-            <Input label="Name" ref={nameRef} defaultValue={room?.name}></Input>
+            <Input
+              label="Name"
+              value={room?.name}
+              onChange={handleChange}
+              name="name"
+            ></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Description</Typography>
             <Textarea
               label="Description"
-              ref={descRef}
-              defaultValue={room?.description}
+              value={room?.description}
+              onChange={handleChange}
+              name="description"
             ></Textarea>
           </div>
-          {/* <div className="flex flex-row gap-6">
-            <Typography className="w-32">Image</Typography>
-            <Input
-              type="file"
-              label="Image"
-              ref={imageRef}
-              defaultValue={room?.image}
-            ></Input>
-          </div> */}
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Status</Typography>
             <Select
-              label="Status"
-              onChange={(value) => setStatus(value)}
+              className="w-full h-10"
               value={`${room?.status}`}
+              onChange={handleChange}
+              name="status"
             >
-              <Option value="true">Yes</Option>
-              <Option value="false">No</Option>
+              <MenuItem value="true">Yes</MenuItem>
+              <MenuItem value="false">No</MenuItem>
             </Select>
           </div>
         </div>
@@ -145,7 +144,9 @@ export const RoomEdit = () => {
         <Button onClick={changePopupCreate} className="h-10">
           Submit
         </Button>
-        <Button className="bg-blue-gray-700 h-10">Clear</Button>
+        <Button className="bg-blue-gray-700 h-10" onClick={handleClear}>
+          Clear
+        </Button>
       </div>
       <Popup
         title="Popup Edit"
