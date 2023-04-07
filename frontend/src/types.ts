@@ -30,21 +30,11 @@ export interface IRoomType {
   updated_at: string;
 }
 
-export const initIRoomType = {
-  id: 1,
-  name: "",
-  count: "",
-  price: "",
-  created_at: "",
-  updated_at: "",
-};
-
 export interface IRoom {
   id: number;
   room_type_id: number;
   name: string;
   description: string;
-  image: string;
   status: string;
   created_at: string;
   updated_at: string;
@@ -79,11 +69,23 @@ export type LoginRequestBody = {
   password: string;
 };
 
+export const initIRoomType = {
+  id: 1,
+  name: "",
+  count: "",
+  price: "",
+  created_at: "",
+  updated_at: "",
+};
+
 export const initBodyClient = {
+  id: 1,
   name: "",
   email: "",
   identity_number: "",
   phone: "",
+  created_at: "",
+  updated_at: "",
 };
 export const initBodyBooking = {
   room_id: "",
@@ -94,8 +96,22 @@ export const initBodyBooking = {
 };
 
 export const initRoom = {
-  room_type_id: "",
+  id: 1,
+  room_type_id: 1,
   name: "",
   description: "",
   status: "",
+  created_at: "",
+  updated_at: "",
+};
+
+export const initBooking = {
+  id: 1,
+  room_id: 1,
+  room: "",
+  client: "",
+  check_in: "",
+  check_out: "",
+  created_at: "",
+  updated_at: "",
 };

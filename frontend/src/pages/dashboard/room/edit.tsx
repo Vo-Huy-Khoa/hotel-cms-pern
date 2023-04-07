@@ -7,7 +7,7 @@ import {
 } from "@material-tailwind/react";
 import { MenuItem, Select } from "@mui/material";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Popup, PopupDelete } from "../../../components";
 import {
@@ -22,8 +22,11 @@ export const RoomEdit = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [room, setRoom] = useState<IRoom>(initRoom);
-  const [openCreate, setOpenCreate] = useState(false);
-  const changePopupCreate = () => setOpenCreate(!openCreate);
+  const [openPopupEdit, setOpenPopupEdit] = useState(false);
+  const changePopupEdit = useCallback(
+    () => setOpenPopupEdit((prev) => !prev),
+    []
+  );
 
   const [openDelete, setOpenDelete] = useState(false);
   const changePopupDelete = () => setOpenDelete(!openDelete);
@@ -141,7 +144,7 @@ export const RoomEdit = () => {
         </div>
       </div>
       <div className=" fixed left-0 bottom-0 w-full h-14 bg-gray-900  flex flex-row justify-end gap-6 items-center px-10 ">
-        <Button onClick={changePopupCreate} className="h-10">
+        <Button onClick={changePopupEdit} className="h-10">
           Submit
         </Button>
         <Button className="bg-blue-gray-700 h-10" onClick={handleClear}>
@@ -151,8 +154,8 @@ export const RoomEdit = () => {
       <Popup
         title="Popup Edit"
         desc="User Edit"
-        open={openCreate}
-        onClose={changePopupCreate}
+        open={openPopupEdit}
+        onClose={changePopupEdit}
         submit={handleSubmit}
       />
       <PopupDelete

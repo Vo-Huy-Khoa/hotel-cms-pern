@@ -58,8 +58,8 @@ class bookingController {
         status,
       ];
 
-      const insertQuery =
-        "INSERT INTO bookings(room_id, client_id, check_in, check_out, total_price, status) VALUES($1, $2, $3, $4, $5, $6) RETURNING *";
+      const insertQuery = `INSERT INTO bookings(room_id, client_id, check_in, check_out, total_price, status)
+         VALUES($1, $2, $3, $4, $5, $6) RETURNING *`;
       const { rows } = await pool.query(insertQuery, initValue);
       res.status(201).json(rows[0]);
     } catch (err) {
