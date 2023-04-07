@@ -1,6 +1,6 @@
 import { Button, Input, Typography } from "@material-tailwind/react";
 import { MenuItem, Select } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Popup } from "../../../components";
 import { handleApiGetList, handleApiCreate } from "../../../services";
@@ -9,61 +9,58 @@ import { IRoom, initBodyBooking, initBodyClient } from "../../../types";
 export const BookingCreate = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(!open);
-  const [listRoom, setListRoom] = useState([]);
+  const handleOpen = useCallback(() => setOpen((prev) => !prev), []);
 
-  const [bodyClient, setBodyClient] = useState(initBodyClient);
-  const [bodyBooking, setBodyBooking] = useState(initBodyBooking);
+  const [listRoom, setListRoom] = useState<IRoom[]>([]);
+  const [clientFormData, setClientFormData] = useState(initBodyClient);
+  const [bookingFormData, setBookingFormData] = useState(initBodyBooking);
 
-  const handleChangeBodyClient = (event: any) => {
+  const handleClientFormDataChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = event.target;
+      setClientFormData((prev) => ({ ...prev, [name]: value }));
+    },
+    []
+  );
+
+  const handleBookingFormDataChange = useCallback((event: any) => {
     const { name, value } = event.target;
-    setBodyClient((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
+    setBookingFormData((prev) => ({ ...prev, [name]: value }));
+  }, []);
 
-  const handleChangeBodyBooking = (event: any) => {
-    const { name, value } = event.target;
-    setBodyBooking((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     try {
-      const response = await handleApiCreate("client/create", bodyClient);
+      const response = await handleApiCreate("client/create", clientFormData);
       const client_id = response.id;
-      const updatedBodyBooking = {
-        ...bodyBooking,
-        client_id: client_id,
+      const updatedBookingFormData = {
+        ...bookingFormData,
+        client_id,
       };
 
-      await handleApiCreate("booking/create", updatedBodyBooking);
+      await handleApiCreate("booking/create", updatedBookingFormData);
       navigate("/dashboard/booking/list");
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [clientFormData, bookingFormData, navigate]);
 
-  const handleClear = () => {
-    setBodyClient(initBodyClient);
-    setBodyBooking(initBodyBooking);
-  };
+  const handleClear = useCallback(() => {
+    setClientFormData(initBodyClient);
+    setBookingFormData(initBodyBooking);
+  }, []);
+
+  const fetchListRoom = useCallback(async () => {
+    try {
+      const listRoom = await handleApiGetList("room");
+      setListRoom(listRoom);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   useEffect(() => {
-    async function fetchGetListRoom() {
-      try {
-        const listRoom = await handleApiGetList("room");
-        setListRoom(listRoom);
-      } catch (error) {
-        // Handle errors
-      }
-    }
-
-    fetchGetListRoom();
-  }, []);
+    fetchListRoom();
+  }, [fetchListRoom]);
 
   return (
     <aside className="min-h-screen w-full">
@@ -74,8 +71,8 @@ export const BookingCreate = () => {
             <Select
               className="w-full h-10"
               name="room_id"
-              value={bodyBooking.room_id}
-              onChange={handleChangeBodyBooking}
+              onChange={handleBookingFormDataChange}
+              value={bookingFormData.room_id}
             >
               {listRoom.map((room: IRoom, index) => {
                 return (
@@ -92,8 +89,8 @@ export const BookingCreate = () => {
               type="text"
               label="Name"
               name="name"
-              value={bodyClient.name}
-              onChange={handleChangeBodyClient}
+              value={clientFormData.name}
+              onChange={handleClientFormDataChange}
             ></Input>
           </div>
           <div className="flex flex-row gap-6">
@@ -102,8 +99,8 @@ export const BookingCreate = () => {
               type="email"
               label="Email"
               name="email"
-              value={bodyClient.email}
-              onChange={handleChangeBodyClient}
+              value={clientFormData.email}
+              onChange={handleClientFormDataChange}
             ></Input>
           </div>
           <div className="flex flex-row gap-6">
@@ -112,8 +109,8 @@ export const BookingCreate = () => {
               type="text"
               label="Identity Number"
               name="identity_number"
-              value={bodyClient.identity_number}
-              onChange={handleChangeBodyClient}
+              value={clientFormData.identity_number}
+              onChange={handleClientFormDataChange}
             ></Input>
           </div>
           <div className="flex flex-row gap-6">
@@ -122,8 +119,8 @@ export const BookingCreate = () => {
               type="text"
               label="Phone"
               name="phone"
-              value={bodyClient.phone}
-              onChange={handleChangeBodyClient}
+              value={clientFormData.phone}
+              onChange={handleClientFormDataChange}
             ></Input>
           </div>
           <div className="flex flex-row gap-6">
@@ -132,8 +129,8 @@ export const BookingCreate = () => {
               type="date"
               label="Check In"
               name="check_in"
-              value={bodyBooking.check_in}
-              onChange={handleChangeBodyBooking}
+              value={bookingFormData.check_in}
+              onChange={handleBookingFormDataChange}
             ></Input>
           </div>
           <div className="flex flex-row gap-6">
@@ -142,8 +139,8 @@ export const BookingCreate = () => {
               type="date"
               label="Check out"
               name="check_out"
-              value={bodyBooking.check_out}
-              onChange={handleChangeBodyBooking}
+              value={bookingFormData.check_out}
+              onChange={handleBookingFormDataChange}
             ></Input>
           </div>
         </div>

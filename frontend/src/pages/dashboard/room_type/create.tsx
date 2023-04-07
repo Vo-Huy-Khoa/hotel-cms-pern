@@ -5,7 +5,7 @@ import {
   Typography,
   Option,
 } from "@material-tailwind/react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Popup } from "../../../components";
 import { handleApiCreate } from "../../../services";
@@ -14,7 +14,7 @@ import { initIRoomType } from "../../../types";
 export const RoomTypeCreate = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(!open);
+  const handleOpen = useCallback(() => setOpen((prev) => !prev), []);
 
   const [values, setValues] = useState(initIRoomType);
 

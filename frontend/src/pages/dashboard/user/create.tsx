@@ -1,5 +1,5 @@
 import { Button, Input, Typography } from "@material-tailwind/react";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Popup } from "../../../components";
 import { handleApiCreate } from "../../../services";
@@ -7,7 +7,7 @@ import { handleApiCreate } from "../../../services";
 export const UserCreate = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(!open);
+  const handleOpen = useCallback(() => setOpen((prev) => !prev), []);
   const [values, setValues] = useState({
     full_name: "",
     user_name: "",

@@ -1,11 +1,7 @@
-import {
-  Button,
-  Input,
-  Select,
-  Typography,
-  Option,
-} from "@material-tailwind/react";
-import { useEffect, useRef, useState } from "react";
+import { Button, Input, Typography } from "@material-tailwind/react";
+import { MenuItem, Select } from "@mui/material";
+
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Popup, PopupDelete } from "../../../components";
 import {
@@ -14,63 +10,76 @@ import {
   handleApiEdit,
   handleApiGetItem,
 } from "../../../services";
-import { IBooking, IClient, IRoom } from "../../../types";
+import {
+  IBooking,
+  IClient,
+  IRoom,
+  initBodyClient,
+  initBooking,
+} from "../../../types";
 
 export const BookingEdit = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [openCreate, setOpenCreate] = useState(false);
-  const changePopupCreate = () => setOpenCreate(!openCreate);
+  const changePopupCreate = useCallback(
+    () => setOpenCreate((prev) => !prev),
+    []
+  );
 
   const [openDelete, setOpenDelete] = useState(false);
-  const changePopupDelete = () => setOpenDelete(!openDelete);
+  const changePopupDelete = useCallback(
+    () => setOpenDelete((prev) => !prev),
+    []
+  );
 
+  const [booking, setBooking] = useState<IBooking>(initBooking);
   const [listRoom, setListRoom] = useState([]);
-  const [room_id, setRoomID] = useState<string | undefined>(undefined);
-  const [booking, setBooking] = useState<IBooking>();
-  const [client, setClient] = useState<IClient>();
-
-  const nameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const identityRef = useRef<HTMLInputElement>(null);
-  const phoneRef = useRef<HTMLInputElement>(null);
-  const checkInRef = useRef<HTMLInputElement>(null);
-  const checkOutRef = useRef<HTMLInputElement>(null);
-
-  const handleSubmit = async () => {
-    const name = nameRef.current?.querySelector("input")?.value || "";
-    const email = emailRef.current?.querySelector("input")?.value || "";
-    const identity_number =
-      identityRef.current?.querySelector("input")?.value || "";
-    const phone = phoneRef.current?.querySelector("input")?.value || "";
-    const check_in = checkInRef.current?.querySelector("input")?.value || "";
-    const check_out = checkOutRef.current?.querySelector("input")?.value || "";
-
-    const bodyClient = {
-      id: client?.id,
-      name,
-      email,
-      identity_number,
-      phone,
-    };
-
-    const bodyBooking = {
-      id,
-      room_id,
-      client_id: client?.id,
-      check_in,
-      check_out,
-      status: "true",
-    };
-    await handleApiEdit("client/update", bodyClient);
-    await handleApiEdit("booking/update", bodyBooking);
-
-    navigate("/dashboard/booking/list");
-  };
+  const [client, setClient] = useState<IClient>(initBodyClient);
 
   const handleDelete = async () => {
     await handleApiDelete(`booking/delete/${id}`);
     navigate("/dashboard/booking/list");
+  };
+
+  const handleChangeBooking = (event: any) => {
+    const { name, value } = event.target;
+    setBooking((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleChangeClient = (event: any) => {
+    const { name, value } = event.target;
+    setClient((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await handleApiEdit("client/update", client);
+      const updatedBodyBooking = {
+        ...booking,
+      };
+      await handleApiEdit("booking/update", updatedBodyBooking);
+      navigate("/dashboard/booking/list");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleClear = async () => {
+    try {
+      const booking = await handleApiGetItem(`booking/edit/${id}`);
+      const client = await handleApiGetItem(`client/edit/${booking.client_id}`);
+      setBooking(booking);
+      setClient(client);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -78,7 +87,6 @@ export const BookingEdit = () => {
       const booking = await handleApiGetItem(`booking/edit/${id}`);
       const client = await handleApiGetItem(`client/edit/${booking.client_id}`);
       setBooking(booking);
-      setRoomID(booking.room_id);
       setClient(client);
     }
     getItem();
@@ -110,15 +118,16 @@ export const BookingEdit = () => {
             <Typography className="w-32">Room</Typography>
             {listRoom.length > 0 && booking && (
               <Select
-                label="Room"
-                onChange={(value) => setRoomID(value)}
+                className="w-full h-10"
                 value={`${booking?.room_id}`}
+                name="room_id"
+                onChange={handleChangeBooking}
               >
                 {listRoom.map((room: IRoom, index) => {
                   return (
-                    <Option key={index} value={`${room.id}`}>
+                    <MenuItem key={index} value={`${room.id}`}>
                       {room.name}
-                    </Option>
+                    </MenuItem>
                   );
                 })}
               </Select>
@@ -129,8 +138,9 @@ export const BookingEdit = () => {
             <Input
               type="text"
               label="name"
-              ref={nameRef}
-              defaultValue={client?.name}
+              value={client?.name}
+              name="name"
+              onChange={handleChangeClient}
             ></Input>
           </div>
           <div className="flex flex-row gap-6">
@@ -138,8 +148,9 @@ export const BookingEdit = () => {
             <Input
               type="email"
               label="Email"
-              ref={emailRef}
-              defaultValue={client?.email}
+              value={client?.email}
+              name="email"
+              onChange={handleChangeClient}
             ></Input>
           </div>
           <div className="flex flex-row gap-6">
@@ -147,8 +158,9 @@ export const BookingEdit = () => {
             <Input
               type="text"
               label="Identity Number"
-              ref={identityRef}
-              defaultValue={client?.identity_number}
+              value={client?.identity_number}
+              name="identity_number"
+              onChange={handleChangeClient}
             ></Input>
           </div>
           <div className="flex flex-row gap-6">
@@ -156,8 +168,9 @@ export const BookingEdit = () => {
             <Input
               type="text"
               label="Phone"
-              ref={phoneRef}
-              defaultValue={client?.phone}
+              value={client?.phone}
+              name="phone"
+              onChange={handleChangeClient}
             ></Input>
           </div>
           <div className="flex flex-row gap-6">
@@ -165,12 +178,13 @@ export const BookingEdit = () => {
             <Input
               type="date"
               label="Check In"
-              ref={checkInRef}
-              defaultValue={
+              value={
                 booking?.check_in
                   ? new Date(booking.check_in).toISOString().split("T")[0]
                   : ""
               }
+              name="check_in"
+              onChange={handleChangeBooking}
             ></Input>
           </div>
           <div className="flex flex-row gap-6">
@@ -178,12 +192,13 @@ export const BookingEdit = () => {
             <Input
               type="date"
               label="Check out"
-              ref={checkOutRef}
-              defaultValue={
+              value={
                 booking?.check_out
                   ? new Date(booking.check_out).toISOString().split("T")[0]
                   : ""
               }
+              name="check_out"
+              onChange={handleChangeBooking}
             ></Input>
           </div>
         </div>
@@ -192,7 +207,9 @@ export const BookingEdit = () => {
         <Button onClick={changePopupCreate} className="h-10">
           Submit
         </Button>
-        <Button className="bg-blue-gray-700 h-10">Clear</Button>
+        <Button onClick={handleClear} className="bg-blue-gray-700 h-10">
+          Clear
+        </Button>
       </div>
       <Popup
         title="Popup Edit"

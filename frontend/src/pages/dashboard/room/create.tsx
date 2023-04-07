@@ -6,7 +6,7 @@ import {
   Option,
   Textarea,
 } from "@material-tailwind/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Popup } from "../../../components";
 import { handleApiGetList, handleApiCreate } from "../../../services";
@@ -15,7 +15,7 @@ import { IRoomType, initRoom } from "../../../types";
 export const RoomCreate = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(!open);
+  const handleOpen = useCallback(() => setOpen((prev) => !prev), []);
 
   const [listRoomType, setListRoomType] = useState([]);
   const [values, setValues] = useState(initRoom);
@@ -58,7 +58,7 @@ export const RoomCreate = () => {
             <Select
               label="Room Type"
               name="room_type_id"
-              value={values.room_type_id}
+              value={values.room_type_id.toString()}
               onChange={handleChange}
             >
               {listRoomType.map((type: IRoomType, index) => {
