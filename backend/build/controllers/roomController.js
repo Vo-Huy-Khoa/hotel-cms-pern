@@ -18,7 +18,11 @@ class roomController {
     getAll(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const query = "SELECT rooms.id, room_types.name as room_type, rooms.name, rooms.description, rooms.image, rooms.status, rooms.created_at, rooms.updated_at FROM rooms JOIN room_types ON rooms.room_type_id=room_types.id ORDER BY id DESC";
+                const query = `
+          SELECT rooms.id, room_types.name as room_type, rooms.name, rooms.description, 
+          rooms.image, rooms.status, rooms.created_at, rooms.updated_at
+          FROM rooms JOIN room_types 
+          ON rooms.room_type_id=room_types.id ORDER BY id DESC`;
                 const { rows } = yield configs_1.default.query(query);
                 res.status(200).json(rows);
             }
@@ -69,8 +73,15 @@ class roomController {
     search(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { full_name, email } = req.body;
-                const insertQuery = `SELECT * FROM users WHERE full_name ILIKE '%${full_name}%' and email ILIKE '%${email}%'`;
+                const { room_type_id, name, status } = req.body;
+                const insertQuery = `
+        SELECT rooms.id, room_types.name as room_type, rooms.name, rooms.description,
+        rooms.image, rooms.status, rooms.created_at, rooms.updated_at
+        FROM rooms JOIN room_types
+        ON rooms.room_type_id=room_types.id  
+        WHERE room_type_id::text LIKE '%${room_type_id}%' AND rooms.name ILIKE '%${name}%'
+        AND rooms.status::text LIKE '%${status}%'
+        ORDER BY id DESC`;
                 const { rows } = yield configs_1.default.query(insertQuery);
                 res.status(202).json(rows);
             }

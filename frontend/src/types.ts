@@ -24,11 +24,20 @@ export interface IClient {
 export interface IRoomType {
   id: number;
   name: string;
-  count: number;
+  count: string | undefined;
   price: string;
   created_at: string;
   updated_at: string;
 }
+
+export const initIRoomType = {
+  id: 1,
+  name: "",
+  count: "",
+  price: "",
+  created_at: "",
+  updated_at: "",
+};
 
 export interface IRoom {
   id: number;
@@ -68,4 +77,25 @@ export type SelectVisibilityAction =
 export type LoginRequestBody = {
   user_name: string;
   password: string;
+};
+
+export const initBodyClient = {
+  name: "",
+  email: "",
+  identity_number: "",
+  phone: "",
+};
+export const initBodyBooking = {
+  room_id: "",
+  client_id: "",
+  check_in: "",
+  check_out: "",
+  status: "true",
+};
+
+export const initRoom = {
+  room_type_id: "",
+  name: "",
+  description: "",
+  status: "",
 };

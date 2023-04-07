@@ -4,13 +4,12 @@ import {
   Typography,
   Button,
   Input,
-  Select,
-  Option,
   Chip,
 } from "@material-tailwind/react";
+import { Select, MenuItem } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { handleApiGetList, handleApiSearch } from "../../../services";
 import Pagination from "../../../widgets/layout/panigation";
@@ -21,16 +20,22 @@ export function RoomList() {
   const [isVisibleSearch, setVisibleSearch] = useState(false);
   const [listRoom, setListRoom] = useState([]);
   const [listRoomType, setListRoomType] = useState([]);
-  const [room_type_id, setRoomType] = useState<string | undefined>(undefined);
-  const [status, setStatus] = useState<string | undefined>("true");
 
   const totalRow: number = listRoom.length;
   const [page, setPage] = useState(1);
 
-  const nameRef = useRef<HTMLInputElement>(null);
-  const typeRef = useRef<HTMLInputElement>(null);
-  const statusRef = useRef<HTMLInputElement>(null);
-
+  const [formData, setFormData] = useState({
+    room_type_id: "",
+    name: "",
+    status: "",
+  });
+  const handleChange = (event: any) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
   function handlePageChange(newPage: number) {
     setPage(newPage);
   }
@@ -40,27 +45,26 @@ export function RoomList() {
 
   const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const body = Object.fromEntries(formData.entries());
-    const response = await handleApiSearch("room/search", body);
-    setListRoom(response);
+    try {
+      const response = await handleApiSearch("room/search", formData);
+      setListRoom(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleClearSearch = async () => {
-    if (nameRef.current && typeRef.current && statusRef.current) {
-      const nameInput = nameRef.current?.querySelector("input");
-      const typeInput = typeRef.current?.querySelector("input");
-      const statusInput = statusRef.current?.querySelector("input");
-
-      if (nameInput && typeInput && statusInput) {
-        nameInput.value = "";
-        typeInput.value = "";
-        statusInput.value = "";
-      }
+    setFormData({
+      room_type_id: "",
+      name: "",
+      status: "",
+    });
+    try {
+      const listRoom = await handleApiGetList("room");
+      setListRoom(listRoom);
+    } catch (error) {
+      console.log(error);
     }
-
-    const listRoom = await handleApiGetList("room");
-    setListRoom(listRoom);
   };
 
   useEffect(() => {
@@ -124,33 +128,40 @@ export function RoomList() {
                   Room Type
                 </Typography>
                 <Select
-                  label="Room Type"
-                  onChange={(value) => setRoomType(value)}
+                  className="h-10"
+                  name="room_type_id"
+                  onChange={handleChange}
+                  value={`${formData?.room_type_id}`}
                 >
                   {listRoomType.map((type: IRoomType, index) => {
                     return (
-                      <Option key={index} value={type.id.toString()}>
-                        {type.name}
-                      </Option>
+                      <MenuItem key={index} value={`${type?.id}`}>
+                        {type?.name}
+                      </MenuItem>
                     );
                   })}
                 </Select>
               </div>
               <div className="flex flex-col gap-2">
                 <Typography className="font-small capitalize">name</Typography>
-                <Input ref={nameRef} label="Name" />
+                <Input
+                  name="name"
+                  onChange={handleChange}
+                  value={formData.name}
+                />
               </div>
               <div className="flex flex-col gap-2">
                 <Typography className="font-small capitalize">
                   Status
                 </Typography>
                 <Select
-                  label="Status"
-                  onChange={(value) => setStatus(value)}
-                  value="true"
+                  className="h-10"
+                  name="status"
+                  onChange={handleChange}
+                  value={formData.status}
                 >
-                  <Option value="true">Yes</Option>
-                  <Option value="false">No</Option>
+                  <MenuItem value="true">Yes</MenuItem>
+                  <MenuItem value="false">No</MenuItem>
                 </Select>
               </div>
             </div>

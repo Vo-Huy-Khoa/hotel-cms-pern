@@ -1,4 +1,4 @@
-import { Button, Typography } from "@material-tailwind/react";
+import { Button, Typography, Avatar } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { IBooking, IClient, IRoom, IRoomType } from "../../types";
@@ -16,6 +16,10 @@ export const Checkout = () => {
   const date2 = moment(booking?.check_out);
   const diffInDays = date2.diff(date1, "days");
   const price = Number(roomType?.price);
+  const convertPrice = price.toLocaleString("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
   const totalPrice = price * diffInDays;
   const convertTotalPrice = totalPrice.toLocaleString("vi-VN", {
     style: "currency",
@@ -53,7 +57,15 @@ export const Checkout = () => {
   }, [id]);
   return (
     <aside className="grid grid-cols-custom h-screen rounded-lg">
-      <section className="bg-blue-gray-700 h-full"></section>
+      <section className="bg-blue-gray-700 h-full flex flex-col items-center gap-16 p-24">
+        {/* <Typography color="white" variant="h2">
+          CMS Hotel
+        </Typography> */}
+        <img src="/img/checkout_booking.png" alt="avatar" className="w-48" />
+        <Typography color="white" variant="h2">
+          Thank you!
+        </Typography>
+      </section>
       <section className="bg-white h-full p-6 flex flex-col gap-2">
         <Typography className="" variant="h4">
           Summary
@@ -74,7 +86,7 @@ export const Checkout = () => {
           <div className="flex flex-row justify-between  ">
             <Typography className="">Price: </Typography>
             <Typography className="font-semibold text-blue-gray-600">
-              {roomType?.price}
+              {convertPrice}
             </Typography>
           </div>
           <div className="flex flex-row justify-between  ">

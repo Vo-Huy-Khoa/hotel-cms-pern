@@ -1,11 +1,7 @@
-import {
-  Button,
-  Input,
-  Select,
-  Typography,
-  Option,
-} from "@material-tailwind/react";
-import { useEffect, useRef, useState } from "react";
+import { Button, Input, Typography, Option } from "@material-tailwind/react";
+import { MenuItem, Select } from "@mui/material";
+
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Popup, PopupDelete } from "../../../components";
 import {
@@ -13,35 +9,42 @@ import {
   handleApiEdit,
   handleApiGetItem,
 } from "../../../services";
-import { IRoomType } from "../../../types";
+import { IRoomType, initIRoomType } from "../../../types";
 
 export const RoomTypeEdit = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [roomType, setRoomType] = useState<IRoomType>();
+  const [roomType, setRoomType] = useState<IRoomType>(initIRoomType);
+
   const [openCreate, setOpenCreate] = useState(false);
   const changePopupCreate = () => setOpenCreate(!openCreate);
 
   const [openDelete, setOpenDelete] = useState(false);
   const changePopupDelete = () => setOpenDelete(!openDelete);
 
-  const nameRef = useRef<HTMLInputElement>(null);
-  const [count, setCount] = useState<string | undefined>(undefined);
-  const priceRef = useRef<HTMLInputElement>(null);
-
+  const handleChange = (event: any) => {
+    const { name, value } = event.target;
+    setRoomType((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
   const handleSubmit = async () => {
-    const name = nameRef.current?.querySelector("input")?.value || "";
-    const price = priceRef.current?.querySelector("input")?.value || "";
+    try {
+      await handleApiEdit("room_type/update", roomType);
+      navigate("/dashboard/room-type/list");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    const body = {
-      id,
-      name,
-      count,
-      price,
-    };
-
-    await handleApiEdit("room_type/update", body);
-    navigate("/dashboard/room-type/list");
+  const handleClear = async () => {
+    try {
+      const roomType = await handleApiGetItem(`room_type/edit/${id}`);
+      setRoomType(roomType);
+    } catch (error) {
+      //
+    }
   };
   const handleDelete = async () => {
     await handleApiDelete(`room_type/delete/${id}`);
@@ -68,31 +71,34 @@ export const RoomTypeEdit = () => {
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Name</Typography>
             <Input
+              name="name"
               label="Name"
-              ref={nameRef}
-              defaultValue={roomType?.name}
+              value={roomType?.name}
+              onChange={handleChange}
             ></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Limit</Typography>
             <Select
+              name="count"
               label="Limit"
-              onChange={(value) => setCount(value)}
-              value={roomType?.count.toString()}
+              value={`${roomType?.count}`}
+              onChange={handleChange}
             >
-              <Option value="1">1</Option>
-              <Option value="2">2</Option>
-              <Option value="3">3</Option>
-              <Option value="4">4</Option>
+              <MenuItem value="1">1</MenuItem>
+              <MenuItem value="2">2</MenuItem>
+              <MenuItem value="3">3</MenuItem>
+              <MenuItem value="4">4</MenuItem>
             </Select>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Price</Typography>
             <Input
+              name="price"
               type="text"
               label="Price"
-              ref={priceRef}
-              defaultValue={roomType?.price}
+              value={roomType?.price}
+              onChange={handleChange}
             ></Input>
           </div>
         </div>
@@ -101,7 +107,9 @@ export const RoomTypeEdit = () => {
         <Button onClick={changePopupCreate} className="h-10">
           Submit
         </Button>
-        <Button className="bg-blue-gray-700 h-10">Clear</Button>
+        <Button onClick={handleClear} className="bg-blue-gray-700 h-10">
+          Clear
+        </Button>
       </div>
       <Popup
         title="Popup Edit"

@@ -1,54 +1,55 @@
-import {
-  Button,
-  Input,
-  Select,
-  Typography,
-  Option,
-} from "@material-tailwind/react";
-import { RefObject, useEffect, useRef, useState } from "react";
+import { Button, Input, Typography } from "@material-tailwind/react";
+import { MenuItem, Select } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Popup } from "../../../components";
 import { handleApiGetList, handleApiCreate } from "../../../services";
-import { IRoom } from "../../../types";
+import { IRoom, initBodyBooking, initBodyClient } from "../../../types";
 
 export const BookingCreate = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
   const [listRoom, setListRoom] = useState([]);
-  const [room_id, setRoom] = useState<string | undefined>();
 
-  const nameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const identityRef = useRef<HTMLInputElement>(null);
-  const phoneRef = useRef<HTMLInputElement>(null);
-  const checkInRef = useRef<HTMLInputElement>(null);
-  const checkOutRef = useRef<HTMLInputElement>(null);
+  const [bodyClient, setBodyClient] = useState(initBodyClient);
+  const [bodyBooking, setBodyBooking] = useState(initBodyBooking);
+
+  const handleChangeBodyClient = (event: any) => {
+    const { name, value } = event.target;
+    setBodyClient((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleChangeBodyBooking = (event: any) => {
+    const { name, value } = event.target;
+    setBodyBooking((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async () => {
-    const getValue = (ref: RefObject<HTMLInputElement>, selector: string) =>
-      (ref.current?.querySelector(selector) as HTMLInputElement)?.value || "";
+    try {
+      const response = await handleApiCreate("client/create", bodyClient);
+      const client_id = response.id;
+      const updatedBodyBooking = {
+        ...bodyBooking,
+        client_id: client_id,
+      };
 
-    const name = getValue(nameRef, "input");
-    const email = getValue(emailRef, "input");
-    const identity_number = getValue(identityRef, "input");
-    const phone = getValue(phoneRef, "input");
-    const check_in = getValue(checkInRef, "input");
-    const check_out = getValue(checkOutRef, "input");
+      await handleApiCreate("booking/create", updatedBodyBooking);
+      navigate("/dashboard/booking/list");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    const bodyClient = { name, email, identity_number, phone };
-    const response = await handleApiCreate("client/create", bodyClient);
-    const client_id = response.id;
-    const bodyBooking = {
-      room_id,
-      client_id,
-      check_in,
-      check_out,
-      status: "true",
-    };
-    await handleApiCreate("booking/create", bodyBooking);
-
-    navigate("/dashboard/booking/list");
+  const handleClear = () => {
+    setBodyClient(initBodyClient);
+    setBodyBooking(initBodyBooking);
   };
 
   useEffect(() => {
@@ -70,43 +71,80 @@ export const BookingCreate = () => {
         <div className="flex flex-col gap-4 p-5">
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Room</Typography>
-            <Select label="Room" onChange={(value) => setRoom(value)}>
+            <Select
+              className="w-full h-10"
+              name="room_id"
+              value={bodyBooking.room_id}
+              onChange={handleChangeBodyBooking}
+            >
               {listRoom.map((room: IRoom, index) => {
                 return (
-                  <Option key={index} value={room.id.toString()}>
+                  <MenuItem key={index} value={room.id.toString()}>
                     {room?.name}
-                  </Option>
+                  </MenuItem>
                 );
               })}
             </Select>
           </div>
           <div className="flex flex-row gap-6">
-            <Typography className="w-32">name</Typography>
-            <Input type="text" label="name" ref={nameRef}></Input>
+            <Typography className="w-32">Name</Typography>
+            <Input
+              type="text"
+              label="Name"
+              name="name"
+              value={bodyClient.name}
+              onChange={handleChangeBodyClient}
+            ></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Email</Typography>
-            <Input type="email" label="Email" ref={emailRef}></Input>
+            <Input
+              type="email"
+              label="Email"
+              name="email"
+              value={bodyClient.email}
+              onChange={handleChangeBodyClient}
+            ></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Identity Number</Typography>
             <Input
               type="text"
               label="Identity Number"
-              ref={identityRef}
+              name="identity_number"
+              value={bodyClient.identity_number}
+              onChange={handleChangeBodyClient}
             ></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Phone</Typography>
-            <Input type="text" label="Phone" ref={phoneRef}></Input>
+            <Input
+              type="text"
+              label="Phone"
+              name="phone"
+              value={bodyClient.phone}
+              onChange={handleChangeBodyClient}
+            ></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Check In</Typography>
-            <Input type="date" label="Check In" ref={checkInRef}></Input>
+            <Input
+              type="date"
+              label="Check In"
+              name="check_in"
+              value={bodyBooking.check_in}
+              onChange={handleChangeBodyBooking}
+            ></Input>
           </div>
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Check Out</Typography>
-            <Input type="date" label="Check out" ref={checkOutRef}></Input>
+            <Input
+              type="date"
+              label="Check out"
+              name="check_out"
+              value={bodyBooking.check_out}
+              onChange={handleChangeBodyBooking}
+            ></Input>
           </div>
         </div>
       </div>
@@ -114,7 +152,9 @@ export const BookingCreate = () => {
         <Button onClick={handleOpen} className="h-10">
           Submit
         </Button>
-        <Button className="bg-blue-gray-700 h-10">Clear</Button>
+        <Button onClick={handleClear} className="bg-blue-gray-700 h-10">
+          Clear
+        </Button>
       </div>
       <Popup
         desc="Booking Create"
