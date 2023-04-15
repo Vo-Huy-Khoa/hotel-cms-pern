@@ -209,7 +209,7 @@ export function RoomList() {
                   (
                     {
                       id,
-                      room_type,
+                      roomType,
                       name,
                       description,
                       status,
@@ -231,7 +231,7 @@ export function RoomList() {
                             color="blue-gray"
                             className="text-xs font-semibold text-blue-gray-600"
                           >
-                            {room_type}
+                            {roomType?.name}
                           </Typography>
                         </td>
                         <td className={className}>

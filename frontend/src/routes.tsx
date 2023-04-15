@@ -24,7 +24,6 @@ import {
   RoomTypeList,
   Checkout,
 } from "./pages/dashboard";
-import { MyForm } from "./pages/dashboard/test";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -106,10 +105,6 @@ const routes = [
       {
         path: "checkout/:id/",
         element: <Checkout />,
-      },
-      {
-        path: "test",
-        element: <MyForm />,
       },
     ],
   },

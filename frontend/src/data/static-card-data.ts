@@ -54,32 +54,33 @@ export const statisticsCardsData = [
   },
 ];
 
-const updateStatisticsData = async () => {
-  // Create an async function to call the API and update statisticsCardsData
-  const token = sessionStorage.getItem("token");
+// const updateStatisticsData = async () => {
+//   // Create an async function to call the API and update statisticsCardsData
+//   const token = sessionStorage.getItem("token");
 
-  if (token) {
-    try {
-      const response1 = await handleApiGetList("booking/count");
-      const sum = response1.sum;
-      const formattedTotalMoney = sum.toLocaleString("en-US", {
-        style: "currency",
-        currency: "USD",
-      });
-      const totalPrice = formattedTotalMoney.replace(/\.00$/, "");
-      statisticsCardsData[0].value = totalPrice;
+//   if (token) {
+//     try {
+//       const response1 = await handleApiGetList("booking/count");
+//       const sum = response1.sum;
+//       const formattedTotalMoney = sum.toLocaleString("en-US", {
+//         style: "currency",
+//         currency: "USD",
+//       });
+//       const totalPrice = formattedTotalMoney.replace(/\.00$/, "");
+//       statisticsCardsData[0].value = totalPrice;
 
-      const response2 = await handleApiGetList("booking/check_in");
-      statisticsCardsData[1].value = response2.count;
+//       const response2 = await handleApiGetList("booking/check_in");
+//       statisticsCardsData[1].value = response2.count;
 
-      const response3 = await handleApiGetList("booking/check_out");
-      statisticsCardsData[2].value = response3.count;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-};
+//       const response3 = await handleApiGetList("booking/check_out");
+//       statisticsCardsData[2].value = response3.count;
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   }
+// };
 
-updateStatisticsData(); // Call the function immediately to update statisticsCardsData
+// Call the function immediately to update statisticsCardsData
+// updateStatisticsData();
 
 export default statisticsCardsData;

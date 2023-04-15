@@ -145,7 +145,7 @@ export function Home() {
                           variant="small"
                           className="text-xs font-medium text-blue-gray-600"
                         >
-                          {room}
+                          {room?.name}
                         </Typography>
                       </td>
                       <td className={className}>
@@ -153,7 +153,7 @@ export function Home() {
                           variant="small"
                           className="text-xs font-medium text-blue-gray-600"
                         >
-                          {client}
+                          {client?.name}
                         </Typography>
                       </td>
                       <td className={className}>

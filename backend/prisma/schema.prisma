@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id            Int      @id @default(autoincrement())
+  user_name     String?  @db.VarChar(50)
+  full_name     String?  @db.VarChar(60)
+  email         String?  @db.VarChar(100)
+  password      String?  @db.VarChar(255)
+  status        Boolean? @default(true)
+  refresh_token String?  @db.VarChar(255)
+  created_at    DateTime @default(now()) @db.Timestamp
+  updated_at    DateTime @default(now()) @db.Timestamp
+}
+
+model clients {
+  id              Int        @id @default(autoincrement())
+  name            String?    @db.VarChar(60)
+  email           String?    @db.VarChar(100)
+  identity_number String?    @db.VarChar(15)
+  phone           String?    @db.VarChar(12)
+  created_at      DateTime   @default(now()) @db.Timestamp
+  updated_at      DateTime   @default(now()) @db.Timestamp
+  Booking         bookings[]
+}
+
+model room_types {
+  id         Int      @id @default(autoincrement())
+  name       String?  @db.VarChar(255)
+  count      Decimal? @db.Decimal
+  price      Decimal? @db.Decimal
+  created_at DateTime @default(now()) @db.Timestamp
+  updated_at DateTime @default(now()) @db.Timestamp
+  Room       rooms[]
+}
+
+model rooms {
+  id           Int        @id @default(autoincrement())
+  room_type_id Int
+  name         String?    @db.VarChar(255)
+  description  String?    @db.VarChar(255)
+  image        String?    @db.VarChar(100)
+  status       Boolean?   @db.Boolean
+  created_at   DateTime   @default(now()) @db.Timestamp
+  updated_at   DateTime   @default(now()) @db.Timestamp
+  roomType     room_types @relation(fields: [room_type_id], references: [id])
+  Booking      bookings[]
+}
+
+model bookings {
+  id          Int       @id @default(autoincrement())
+  room_id     Int
+  client_id   Int
+  check_in    DateTime? @db.Date
+  check_out   DateTime? @db.Date
+  total_price Float?
+  status      Boolean?  @db.Boolean
+  created_at  DateTime  @default(now()) @db.Timestamp
+  updated_at  DateTime  @default(now()) @db.Timestamp
+  room        rooms     @relation(fields: [room_id], references: [id])
+  client      clients   @relation(fields: [client_id], references: [id])
+}

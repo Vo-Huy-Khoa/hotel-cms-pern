@@ -2,8 +2,7 @@
 #===========================SETTINGS===========================
 @url  = http://localhost:3001/api
 # @url  = https://cmshotel.onrender.com/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcl9uYW1lIjoidGh5dHJhbiIsImVtYWlsIjoidGh5dHJhbkBnbWFpbC5jb20iLCJpYXQiOjE2ODA2NjA3NzIsImV4cCI6MTY4MDY2MDg5Mn0.OQJ7s6F-EozruS4r8d3PpC1mYULStZMDWMYw65pyFGw
-
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJraG9hdmhAZ21haWwuY29tIiwiaWF0IjoxNjgxNTMzNDYyLCJleHAiOjE2ODE1MzM1ODJ9.epiG1bCvHxVz4OUPTwfY-oPv3XpLtPJJR73WgDmddJo
 @refresh_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcl9uYW1lIjoia2hvYXZoIiwiZW1haWwiOiJodXlraG9hNjMwQGdtYWlsLmNvbSIsImlhdCI6MTY3OTUzODgwOCwiZXhwIjoxNjc5NTQyNDA4fQ.UjHK0rDUCTRnbk6m6aBMF0N1VDNVWfOAV6OD5q0URVE
 
 #===========================AUTH===========================
@@ -24,7 +23,7 @@ POST {{url}}/auth/login
 Content-Type: application/json
 
 {
-    "user_name": "thytran",
+    "user_name": "khoavh",
     "password": "1"
 }
 
@@ -156,7 +155,7 @@ Content-Type: application/json
 
 
 ###  List
-GET {{url}}/room_type
+GET {{url}}/room
 Authorization: Beaer {{token}}
 Content-Type: application/json
 
@@ -214,60 +213,17 @@ Content-Type: application/json
 
 }
 
+###  List
+GET {{url}}/booking/count
+Authorization: Beaer {{token}}
+Content-Type: application/json
 
-#===========================MIGRATION===========================
+###  List
+GET {{url}}/booking/check_in
+Authorization: Beaer {{token}}
+Content-Type: application/json
 
-### User
-GET {{url}}/migration/user
-
-### Room Type
-GET {{url}}/migration/room_type
-
-### Room
-GET {{url}}/migration/room
-
-### Client
-GET {{url}}/migration/client
-
-### Booking
-GET {{url}}/migration/booking
-
-#===========================DROP===========================
-
-
-### User
-GET {{url}}/drop/user
-
-### Room Type
-GET {{url}}/drop/room_type
-
-### Room
-GET {{url}}/drop/room
-
-### Client
-GET {{url}}/drop/client
-
-### Booking
-GET {{url}}/drop/booking
-
-
-#===========================SEEDER===========================
-
-### User
-GET {{url}}/seeder/user
-
-### Room Type
-GET {{url}}/seeder/room_type
-
-### Room
-GET {{url}}/seeder/room
-
-### Client
-GET {{url}}/seeder/client
-
-### Booking
-GET {{url}}/seeder/booking
-
-
-
-
+###  List
+GET {{url}}/booking/check_out
+Authorization: Beaer {{token}}
+Content-Type: application/json

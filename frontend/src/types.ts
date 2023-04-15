@@ -32,7 +32,7 @@ export interface IRoomType {
 
 export interface IRoom {
   id: number;
-  room_type_id: number;
+  roomType: object;
   name: string;
   description: string;
   status: string;
@@ -43,8 +43,8 @@ export interface IRoom {
 export interface IBooking {
   id: number;
   room_id: number;
-  room: string;
-  client: string;
+  room: object;
+  client: object;
   check_in: string;
   check_out: string;
   created_at: string;
@@ -100,9 +100,7 @@ export const initRoom = {
   room_type_id: 1,
   name: "",
   description: "",
-  status: "",
-  created_at: "",
-  updated_at: "",
+  status: true,
 };
 
 export const initBooking = {
