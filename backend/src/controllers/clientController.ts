@@ -1,4 +1,4 @@
-import prisma from '../../configs';
+import prisma from '../configs';
 import { Request, Response } from 'express';
 
 class clientController {

@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
-import prisma from '../../configs';
+import prisma from '../configs';
 
 class userController {
   async getAll(req: Request, res: Response) {

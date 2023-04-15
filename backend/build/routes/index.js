@@ -10,7 +10,7 @@ const room_type_1 = __importDefault(require("./room_type"));
 const client_1 = __importDefault(require("./client"));
 const booking_1 = __importDefault(require("./booking"));
 const auth_1 = __importDefault(require("./auth"));
-const auth_2 = require("../middleware/auth/auth");
+const auth_2 = require("../middleware/auth");
 const router = (0, express_1.Router)();
 const routes = (app) => {
     router.use('/auth', auth_1.default);

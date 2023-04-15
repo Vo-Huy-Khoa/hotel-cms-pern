@@ -12,12 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const server_1 = __importDefault(require("../../server"));
+const server_1 = __importDefault(require("../server"));
 const supertest_1 = __importDefault(require("supertest"));
 describe('POST Login', () => {
     it('should return a token if login is successful', () => __awaiter(void 0, void 0, void 0, function* () {
         const userData = {
-            user_name: 'thytran',
+            user_name: 'khoavh',
             password: '1',
         };
         const res = yield (0, supertest_1.default)(server_1.default).post('/api/auth/login').send(userData);
@@ -26,8 +26,8 @@ describe('POST Login', () => {
     }));
     it('should return an error if email or password is incorrect', () => __awaiter(void 0, void 0, void 0, function* () {
         const userData = {
-            user_name: 'thytran',
-            password: '123',
+            user_name: 'khoavh',
+            password: '2',
         };
         const res = yield (0, supertest_1.default)(server_1.default).post('/api/auth/login').send(userData);
         expect(res.status).toEqual(401);

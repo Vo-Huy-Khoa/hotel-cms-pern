@@ -5,7 +5,7 @@ import roomTypeRouter from './room_type';
 import clientRouter from './client';
 import bookingRouter from './booking';
 import authRouter from './auth';
-import { authToken } from '../middleware/auth/auth';
+import { authToken } from '../middleware/auth';
 
 const router = Router();
 const routes = (app: express.Application) => {

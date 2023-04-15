@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import { createToken, refreshToken } from '../../middleware/token/token';
+import { createToken, refreshToken } from '../middleware/token';
 import jwt from 'jsonwebtoken';
-import prisma from '../../configs';
-import { IUser } from '../../types';
+import prisma from '../configs';
+import { IUser } from '../types';
 
 class authController {
   async register(req: Request, res: Response) {

@@ -12,48 +12,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const configs_1 = __importDefault(require("../../configs"));
-class clientController {
-    // Retrieve all users from the database
+const configs_1 = __importDefault(require("../configs"));
+class room_typesController {
     getAll(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const clients = yield configs_1.default.clients.findMany({
-                    orderBy: {
-                        id: 'desc',
-                    },
+                const room_types = yield configs_1.default.room_types.findMany({
+                    orderBy: { id: 'desc' },
                 });
-                res.status(200).json(clients);
-            }
-            catch (error) {
-                res.status(500).json({ error: 'Internal server error' });
-            }
-        });
-    }
-    count(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const count = yield configs_1.default.clients.count();
-                res.status(200).json({ count });
-            }
-            catch (error) {
-                res.status(500).json({ error: 'Internal server error' });
-            }
-        });
-    }
-    create(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const { name, email, identity_number, phone } = req.body;
-                const client = yield configs_1.default.clients.create({
-                    data: {
-                        name,
-                        email,
-                        identity_number,
-                        phone,
-                    },
-                });
-                res.status(201).json(client);
+                res.status(200).json(room_types);
             }
             catch (error) {
                 console.error(error);
@@ -61,18 +28,66 @@ class clientController {
             }
         });
     }
+    count(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const count = yield configs_1.default.room_types.count();
+                res.status(200).json({ count });
+            }
+            catch (error) {
+                console.error(error);
+                res.status(500).json({ error: 'Internal server error' });
+            }
+        });
+    }
+    create(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { name, count, price } = req.body;
+                const room_types = yield configs_1.default.room_types.create({
+                    data: { name, count, price },
+                });
+                res.status(201).json(room_types);
+            }
+            catch (error) {
+                console.error(error);
+                res.status(500).json({ error: 'Create Room Type Fail!' });
+            }
+        });
+    }
     find(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { id } = req.params;
-                const client = yield configs_1.default.clients.findUnique({
-                    where: {
-                        id: Number(id),
-                    },
+                const room_types = yield configs_1.default.room_types.findUnique({
+                    where: { id: parseInt(id) },
                 });
-                res.status(202).json(client);
+                if (!room_types) {
+                    return res.status(404).json({ error: 'room_types not found' });
+                }
+                res.status(202).json(room_types);
             }
             catch (error) {
+                console.error(error);
+                res.status(500).json({ error: 'Internal server error' });
+            }
+        });
+    }
+    search(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { name, count, price } = req.body;
+                const room_typess = yield configs_1.default.room_types.findMany({
+                    where: {
+                        name: { contains: name, mode: 'insensitive' },
+                        count: { equals: count },
+                        price: { equals: price },
+                    },
+                });
+                res.status(202).json(room_typess);
+            }
+            catch (error) {
+                console.error(error);
                 res.status(500).json({ error: 'Internal server error' });
             }
         });
@@ -80,22 +95,15 @@ class clientController {
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { id, name, email, identity_number, phone } = req.body;
-                const client = yield configs_1.default.clients.update({
-                    where: {
-                        id: Number(id),
-                    },
-                    data: {
-                        name,
-                        email,
-                        identity_number,
-                        phone,
-                    },
+                const { id, name, count, price } = req.body;
+                const room_types = yield configs_1.default.room_types.update({
+                    where: { id: parseInt(id) },
+                    data: { name, count, price },
                 });
-                if (!client) {
-                    return res.status(404).json({ error: 'clients not found' });
+                if (!room_types) {
+                    return res.status(404).json({ error: 'room_types not found' });
                 }
-                res.status(202).json({ message: 'clients updated successfully' });
+                res.status(202).json({ message: 'room_types updated successfully' });
             }
             catch (error) {
                 console.error(error);
@@ -107,21 +115,15 @@ class clientController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { id } = req.params;
-                const client = yield configs_1.default.clients.delete({
-                    where: {
-                        id: Number(id),
-                    },
+                const deleteRoomType = yield configs_1.default.room_types.delete({
+                    where: { id: parseInt(id) },
                 });
-                if (!client) {
-                    return res.status(404).json({ error: 'clients not found' });
-                }
-                res.status(202).json({ message: 'clients deleted successfully' });
+                res.status(202).json(deleteRoomType);
             }
             catch (error) {
-                console.error(error);
                 res.status(500).json({ error: 'Internal server error' });
             }
         });
     }
 }
-exports.default = new clientController();
+exports.default = new room_typesController();

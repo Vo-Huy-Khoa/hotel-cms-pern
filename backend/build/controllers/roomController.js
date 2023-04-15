@@ -12,17 +12,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bcrypt_1 = __importDefault(require("bcrypt"));
-const configs_1 = __importDefault(require("../../configs"));
-class userController {
+const configs_1 = __importDefault(require("../configs"));
+class roomController {
     getAll(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const users = yield configs_1.default.users.findMany({ orderBy: { id: 'desc' } });
-                res.status(200).json(users);
+                const rooms = yield configs_1.default.rooms.findMany({
+                    select: {
+                        id: true,
+                        roomType: { select: { name: true } },
+                        name: true,
+                        description: true,
+                        image: true,
+                        status: true,
+                        created_at: true,
+                        updated_at: true,
+                    },
+                    orderBy: { id: 'desc' },
+                });
+                res.status(200).json(rooms);
             }
-            catch (err) {
-                console.error(err);
+            catch (error) {
                 res.status(500).json({ error: 'Internal server error' });
             }
         });
@@ -30,11 +40,10 @@ class userController {
     count(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const count = yield configs_1.default.users.count();
+                const count = yield configs_1.default.rooms.count();
                 res.status(200).json(count);
             }
-            catch (err) {
-                console.error(err);
+            catch (error) {
                 res.status(500).json({ error: 'Internal server error' });
             }
         });
@@ -42,18 +51,18 @@ class userController {
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { user_name, full_name, email, password: oldPassword, status, } = req.body;
-                const password = yield bcrypt_1.default.hash(oldPassword, 10);
-                const user = yield configs_1.default.users.create({
+                const { room_type_id, name, description, image, status } = req.body;
+                const newStatus = status === 'true' ? true : false;
+                const room = yield configs_1.default.rooms.create({
                     data: {
-                        user_name,
-                        full_name,
-                        email,
-                        password,
-                        status,
+                        room_type_id: parseInt(room_type_id),
+                        name,
+                        description,
+                        image,
+                        status: newStatus,
                     },
                 });
-                res.status(201).json(user);
+                res.status(201).json(room);
             }
             catch (err) {
                 console.error(err);
@@ -65,13 +74,12 @@ class userController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { id } = req.params;
-                const user = yield configs_1.default.users.findUnique({
+                const room = yield configs_1.default.rooms.findUnique({
                     where: { id: parseInt(id) },
                 });
-                res.status(202).json(user);
+                res.status(202).json(room);
             }
-            catch (err) {
-                console.error(err);
+            catch (error) {
                 res.status(500).json({ error: 'Internal server error' });
             }
         });
@@ -79,20 +87,26 @@ class userController {
     search(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { full_name, email } = req.body;
-                const users = yield configs_1.default.users.findMany({
-                    where: {
-                        full_name: {
-                            contains: full_name,
-                            mode: 'insensitive',
-                        },
-                        email: {
-                            contains: email,
-                            mode: 'insensitive',
-                        },
+                const { room_type_id, name, status } = req.body;
+                const rooms = yield configs_1.default.rooms.findMany({
+                    select: {
+                        id: true,
+                        roomType: { select: { name: true } },
+                        name: true,
+                        description: true,
+                        image: true,
+                        status: true,
+                        created_at: true,
+                        updated_at: true,
                     },
+                    where: {
+                        room_type_id: parseInt(room_type_id),
+                        name: { contains: name, mode: 'insensitive' },
+                        status: status,
+                    },
+                    orderBy: { id: 'desc' },
                 });
-                res.status(202).json(users);
+                res.status(202).json(rooms);
             }
             catch (error) {
                 res.status(500).json({ error: 'Internal server error' });
@@ -102,22 +116,21 @@ class userController {
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { id, user_name, full_name, email, status } = req.body;
-                const updatedUser = yield configs_1.default.users.update({
-                    where: {
-                        id,
-                    },
+                const { id, room_type_id, name, description, image, status } = req.body;
+                const updatedRoom = yield configs_1.default.rooms.update({
+                    where: { id },
                     data: {
-                        user_name,
-                        full_name,
-                        email,
+                        room_type_id: parseInt(room_type_id),
+                        name,
+                        description,
+                        image,
                         status,
                     },
                 });
-                if (!updatedUser) {
-                    return res.status(404).json({ error: 'User not found' });
+                if (!updatedRoom) {
+                    return res.status(404).json({ error: 'rooms not found' });
                 }
-                res.status(202).json({ message: 'User updated successfully' });
+                res.status(202).json({ message: 'rooms updated successfully' });
             }
             catch (error) {
                 console.error(error);
@@ -129,12 +142,10 @@ class userController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { id } = req.params;
-                const deletedUser = yield configs_1.default.users.delete({
-                    where: {
-                        id: parseInt(id),
-                    },
+                const deletedRoom = yield configs_1.default.rooms.delete({
+                    where: { id: parseInt(id) },
                 });
-                res.status(202).json(deletedUser);
+                res.status(202).json(deletedRoom);
             }
             catch (error) {
                 res.status(500).json({ error: 'Internal server error' });
@@ -142,4 +153,4 @@ class userController {
         });
     }
 }
-exports.default = new userController();
+exports.default = new roomController();

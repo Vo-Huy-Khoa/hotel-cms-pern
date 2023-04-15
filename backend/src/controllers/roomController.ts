@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import prisma from '../../configs';
+import prisma from '../configs';
 
 class roomController {
   async getAll(req: Request, res: Response) {

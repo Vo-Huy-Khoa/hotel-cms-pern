@@ -13,9 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const token_1 = require("../../middleware/token/token");
+const token_1 = require("../middleware/token");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const configs_1 = __importDefault(require("../../configs"));
+const configs_1 = __importDefault(require("../configs"));
 class authController {
     register(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
