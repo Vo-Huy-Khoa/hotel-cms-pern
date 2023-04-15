@@ -14,7 +14,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { handleApiGetList, handleApiSearch } from "../../../services";
 import Pagination from "../../../widgets/layout/panigation";
 import moment from "moment";
-import { IRoomType } from "../../../types";
+import { IRoom, IRoomType } from "../../../types";
 
 export function RoomList() {
   const [isVisibleSearch, setVisibleSearch] = useState(false);
@@ -205,69 +205,56 @@ export function RoomList() {
             <tbody>
               {listRoom
                 .slice(page * 10 - 10, page * 10)
-                .map(
-                  (
-                    {
-                      id,
-                      roomType,
-                      name,
-                      description,
-                      status,
-                      created_at,
-                      updated_at,
-                    },
-                    key
-                  ) => {
-                    const className = "py-3 px-5 border-b border-blue-gray-50";
-                    return (
-                      <tr key={key}>
-                        <td className={className}>
-                          <Typography className="text-xs font-semibold text-blue-gray-600">
-                            {id}
+                .map((room: IRoom, key) => {
+                  const className = "py-3 px-5 border-b border-blue-gray-50";
+                  return (
+                    <tr key={key}>
+                      <td className={className}>
+                        <Typography className="text-xs font-semibold text-blue-gray-600">
+                          {room?.id}
+                        </Typography>
+                      </td>
+                      <td className={className}>
+                        <Typography
+                          color="blue-gray"
+                          className="text-xs font-semibold text-blue-gray-600"
+                        >
+                          {room?.roomType?.name}
+                        </Typography>
+                      </td>
+                      <td className={className}>
+                        <NavLink to={`/dashboard/room/edit/${room?.id}/`}>
+                          <Typography className=" font-semibold">
+                            {name}
                           </Typography>
-                        </td>
-                        <td className={className}>
-                          <Typography
-                            color="blue-gray"
-                            className="text-xs font-semibold text-blue-gray-600"
-                          >
-                            {roomType?.name}
-                          </Typography>
-                        </td>
-                        <td className={className}>
-                          <NavLink to={`/dashboard/room/edit/${id}/`}>
-                            <Typography className=" font-semibold">
-                              {name}
-                            </Typography>
-                          </NavLink>
-                        </td>
-                        <td className={className}>
-                          <Typography className="text-xs font-semibold text-blue-gray-600">
-                            {description}
-                          </Typography>
-                        </td>
-                        <td className={className}>
-                          <Chip
-                            variant="gradient"
-                            color={status ? "green" : "blue-gray"}
-                            value={status ? "yes" : "no"}
-                            className="py-0.5 px-2 text-[11px] font-medium"
-                          />
-                        </td>
-                        <td className={className}>
-                          <Typography className="text-xs font-semibold text-blue-gray-600">
-                            {moment(created_at).format("YYYY-MM-DD")}
-                          </Typography>
-                        </td>
-                        <td className={className}>
-                          <Typography className="text-xs font-semibold text-blue-gray-600">
-                            {moment(updated_at).format("YYYY-MM-DD")}
-                          </Typography>
-                        </td>
-                      </tr>
-                    );
-                  }
-                )}
+                        </NavLink>
+                      </td>
+                      <td className={className}>
+                        <Typography className="text-xs font-semibold text-blue-gray-600">
+                          {room?.description}
+                        </Typography>
+                      </td>
+                      <td className={className}>
+                        <Chip
+                          variant="gradient"
+                          color={status ? "green" : "blue-gray"}
+                          value={status ? "yes" : "no"}
+                          className="py-0.5 px-2 text-[11px] font-medium"
+                        />
+                      </td>
+                      <td className={className}>
+                        <Typography className="text-xs font-semibold text-blue-gray-600">
+                          {moment(room?.created_at).format("YYYY-MM-DD")}
+                        </Typography>
+                      </td>
+                      <td className={className}>
+                        <Typography className="text-xs font-semibold text-blue-gray-600">
+                          {moment(room?.updated_at).format("YYYY-MM-DD")}
+                        </Typography>
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </CardBody>

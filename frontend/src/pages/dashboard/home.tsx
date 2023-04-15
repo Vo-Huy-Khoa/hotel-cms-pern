@@ -24,6 +24,12 @@ import React, { useEffect, useState } from "react";
 import ordersOverviewData from "../../data/orders-overview-data";
 import { handleApiGetList } from "../../services";
 import moment from "moment";
+import { IBooking } from "../../types";
+
+type Room = {
+  name: string;
+  // Other properties
+};
 
 export function Home() {
   const [listBooking, setListBooking] = useState([]);
@@ -131,7 +137,7 @@ export function Home() {
                 </tr>
               </thead>
               <tbody>
-                {listBooking.map(({ room, client, check_in, status }, key) => {
+                {listBooking.map((booking: IBooking, key) => {
                   const className = `py-3 px-5 ${
                     key === listBooking.length - 1
                       ? ""
@@ -145,7 +151,7 @@ export function Home() {
                           variant="small"
                           className="text-xs font-medium text-blue-gray-600"
                         >
-                          {room?.name}
+                          {booking?.room?.name}
                         </Typography>
                       </td>
                       <td className={className}>
@@ -153,7 +159,7 @@ export function Home() {
                           variant="small"
                           className="text-xs font-medium text-blue-gray-600"
                         >
-                          {client?.name}
+                          {booking?.client?.name}
                         </Typography>
                       </td>
                       <td className={className}>
@@ -161,14 +167,16 @@ export function Home() {
                           variant="small"
                           className="text-xs font-medium text-blue-gray-600"
                         >
-                          {moment(check_in).format("YYYY-MM-DD HH:mm")}
+                          {moment(booking.check_in).format("YYYY-MM-DD HH:mm")}
                         </Typography>
                       </td>
                       <td className={className}>
                         <Chip
                           variant="gradient"
-                          color={status == "true" ? "green" : "blue-gray"}
-                          value={status == true ? "yes" : "no"}
+                          color={
+                            booking?.status == "true" ? "green" : "blue-gray"
+                          }
+                          value={booking?.status == "true" ? "yes" : "no"}
                           className="py-0.5 px-2 text-[11px] font-medium"
                         />
                       </td>
