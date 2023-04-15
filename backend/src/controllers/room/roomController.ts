@@ -35,14 +35,15 @@ class roomController {
   async create(req: Request, res: Response) {
     try {
       const { room_type_id, name, description, image, status } = req.body;
+      const newStatus = status === 'true' ? true : false;
 
       const room = await prisma.rooms.create({
         data: {
-          room_type_id,
+          room_type_id: parseInt(room_type_id),
           name,
           description,
           image,
-          status,
+          status: newStatus,
         },
       });
 

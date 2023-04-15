@@ -13,12 +13,14 @@ export const UserCreate = () => {
     user_name: "",
     email: "",
     password: "",
-    status: "1",
+    status: true,
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setValues((prevValues) => ({ ...prevValues, [name]: value }));
+    const newValue = name === "status" ? value === "true" : value;
+
+    setValues((prevValues) => ({ ...prevValues, [name]: newValue }));
   };
 
   const handleSubmit = async () => {
@@ -36,7 +38,7 @@ export const UserCreate = () => {
       user_name: "",
       email: "",
       password: "",
-      status: "1",
+      status: true,
     });
   };
 

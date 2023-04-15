@@ -26,11 +26,6 @@ import { handleApiGetList } from "../../services";
 import moment from "moment";
 import { IBooking } from "../../types";
 
-type Room = {
-  name: string;
-  // Other properties
-};
-
 export function Home() {
   const [listBooking, setListBooking] = useState([]);
 

@@ -225,7 +225,7 @@ export function RoomList() {
                       <td className={className}>
                         <NavLink to={`/dashboard/room/edit/${room?.id}/`}>
                           <Typography className=" font-semibold">
-                            {name}
+                            {room.name}
                           </Typography>
                         </NavLink>
                       </td>
@@ -237,8 +237,8 @@ export function RoomList() {
                       <td className={className}>
                         <Chip
                           variant="gradient"
-                          color={status ? "green" : "blue-gray"}
-                          value={status ? "yes" : "no"}
+                          color={room.status ? "green" : "blue-gray"}
+                          value={room.status ? "yes" : "no"}
                           className="py-0.5 px-2 text-[11px] font-medium"
                         />
                       </td>

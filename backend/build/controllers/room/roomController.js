@@ -52,13 +52,14 @@ class roomController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { room_type_id, name, description, image, status } = req.body;
+                const newStatus = status === 'true' ? true : false;
                 const room = yield configs_1.default.rooms.create({
                     data: {
-                        room_type_id,
+                        room_type_id: parseInt(room_type_id),
                         name,
                         description,
                         image,
-                        status,
+                        status: newStatus,
                     },
                 });
                 res.status(201).json(room);
