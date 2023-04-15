@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import bookingController from '../controllers/booking/bookingController';
+import bookingController from '../controllers/bookingController';
 const router = Router();
 
 router.post('/create', bookingController.create);

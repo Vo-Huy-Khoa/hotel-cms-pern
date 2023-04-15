@@ -1,10 +1,10 @@
-import app from '../../server';
+import app from '../server';
 import request from 'supertest';
 
 describe('POST Login', () => {
   it('should return a token if login is successful', async () => {
     const userData = {
-      user_name: 'thytran',
+      user_name: 'khoavh',
       password: '1',
     };
     const res = await request(app).post('/api/auth/login').send(userData);
@@ -14,8 +14,8 @@ describe('POST Login', () => {
 
   it('should return an error if email or password is incorrect', async () => {
     const userData = {
-      user_name: 'thytran',
-      password: '123',
+      user_name: 'khoavh',
+      password: '2',
     };
     const res = await request(app).post('/api/auth/login').send(userData);
     expect(res.status).toEqual(401);

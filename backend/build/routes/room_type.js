@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const roomTypeController_1 = __importDefault(require("../controllers/room_type/roomTypeController"));
+const roomTypeController_1 = __importDefault(require("../controllers/roomTypeController"));
 const router = (0, express_1.Router)();
 router.post('/create', roomTypeController_1.default.create);
 router.get('/edit/:id', roomTypeController_1.default.find);
