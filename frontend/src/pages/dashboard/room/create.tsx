@@ -1,11 +1,5 @@
-import {
-  Button,
-  Input,
-  Select,
-  Typography,
-  Option,
-  Textarea,
-} from "@material-tailwind/react";
+import { Button, Input, Typography, Textarea } from "@material-tailwind/react";
+import { MenuItem, Select } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Popup } from "../../../components";
@@ -22,7 +16,8 @@ export const RoomCreate = () => {
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    setValues((prevValues) => ({ ...prevValues, [name]: value }));
+    const newValue = name === "status" ? value === "true" : value;
+    setValues((prevValues) => ({ ...prevValues, [name]: newValue }));
   };
   const handleSubmit = async () => {
     try {
@@ -56,16 +51,16 @@ export const RoomCreate = () => {
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Room Type</Typography>
             <Select
-              label="Room Type"
+              className="w-full h-10"
               name="room_type_id"
               value={values.room_type_id.toString()}
               onChange={handleChange}
             >
-              {listRoomType.map((type: IRoomType, index) => {
+              {listRoomType.map((roomType: IRoomType, index) => {
                 return (
-                  <Option key={index} value={type.id.toString()}>
-                    {type.name}
-                  </Option>
+                  <MenuItem key={index} value={roomType.id.toString()}>
+                    {roomType.name}
+                  </MenuItem>
                 );
               })}
             </Select>
@@ -91,13 +86,13 @@ export const RoomCreate = () => {
           <div className="flex flex-row gap-6">
             <Typography className="w-32">Status</Typography>
             <Select
-              label="Status"
+              className="w-full h-10"
               name="status"
               value={values.status}
               onChange={handleChange}
             >
-              <Option value="true">Yes</Option>
-              <Option value="false">No</Option>
+              <MenuItem value="true">Yes</MenuItem>
+              <MenuItem value="false">No</MenuItem>
             </Select>
           </div>
         </div>

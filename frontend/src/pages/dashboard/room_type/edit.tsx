@@ -1,4 +1,4 @@
-import { Button, Input, Typography, Option } from "@material-tailwind/react";
+import { Button, Input, Typography } from "@material-tailwind/react";
 import { MenuItem, Select } from "@mui/material";
 
 import { useEffect, useState } from "react";

@@ -1,0 +1,21 @@
+{
+  "root": true,
+  "env": {
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "plugins": ["@typescript-eslint", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "./backend"
+  },
+  "rules": {
+    "prettier/prettier": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "off"
+  }
+}

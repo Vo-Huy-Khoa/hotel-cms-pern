@@ -17,8 +17,6 @@ export interface IClient {
   email: string;
   identity_number: string;
   phone: string;
-  created_at: string;
-  updated_at: string;
 }
 
 export interface IRoomType {
@@ -26,13 +24,12 @@ export interface IRoomType {
   name: string;
   count: string | undefined;
   price: string;
-  created_at: string;
-  updated_at: string;
 }
 
 export interface IRoom {
   id: number;
   room_type_id: number;
+  roomType: IRoomType;
   name: string;
   description: string;
   status: string;
@@ -43,12 +40,11 @@ export interface IRoom {
 export interface IBooking {
   id: number;
   room_id: number;
-  room: string;
-  client: string;
+  room: IRoom;
+  client: IClient;
   check_in: string;
   check_out: string;
-  created_at: string;
-  updated_at: string;
+  status: string;
 }
 
 export interface SetVisibilityAction {
@@ -84,8 +80,6 @@ export const initBodyClient = {
   email: "",
   identity_number: "",
   phone: "",
-  created_at: "",
-  updated_at: "",
 };
 export const initBodyBooking = {
   room_id: "",
@@ -98,9 +92,10 @@ export const initBodyBooking = {
 export const initRoom = {
   id: 1,
   room_type_id: 1,
+  roomType: initIRoomType,
   name: "",
   description: "",
-  status: "",
+  status: "true",
   created_at: "",
   updated_at: "",
 };
@@ -108,10 +103,9 @@ export const initRoom = {
 export const initBooking = {
   id: 1,
   room_id: 1,
-  room: "",
-  client: "",
+  room: initRoom,
+  client: initBodyClient,
   check_in: "",
   check_out: "",
-  created_at: "",
-  updated_at: "",
+  status: "true",
 };
