@@ -100,9 +100,13 @@ class roomController {
                         updated_at: true,
                     },
                     where: {
-                        room_type_id: parseInt(room_type_id),
-                        name: { contains: name, mode: 'insensitive' },
-                        status: status,
+                        AND: [
+                            name ? { name: { contains: name, mode: 'insensitive' } } : {},
+                            room_type_id
+                                ? { room_type_id: { equals: parseInt(room_type_id, 10) } }
+                                : {},
+                            status ? { status: status } : {},
+                        ],
                     },
                     orderBy: { id: 'desc' },
                 });

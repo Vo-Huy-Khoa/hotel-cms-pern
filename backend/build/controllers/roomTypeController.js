@@ -77,14 +77,16 @@ class room_typesController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { name, count, price } = req.body;
-                const room_typess = yield configs_1.default.room_types.findMany({
+                const room_types = yield configs_1.default.room_types.findMany({
                     where: {
-                        name: { contains: name, mode: 'insensitive' },
-                        count: { equals: count },
-                        price: { equals: price },
+                        AND: [
+                            name ? { name: { contains: name, mode: 'insensitive' } } : {},
+                            count ? { count: { gte: parseInt(count, 10) } } : {},
+                            price ? { price: { equals: parseFloat(price) } } : {},
+                        ],
                     },
                 });
-                res.status(202).json(room_typess);
+                res.status(202).json(room_types);
             }
             catch (error) {
                 console.error(error);
