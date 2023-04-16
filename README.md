@@ -18,7 +18,6 @@
 ## Demo
 
 <h3 name="demo">Live: <a href="https://cms-vo-huy-khoa.vercel.app/">HOTEL CMS</a></h3>
-<!-- https://ezgif.com/ -->
 <br>
 <img src="https://s3.amazonaws.com/creativetim_bucket/products/488/original/material-tailwind-react-dashboard.jpg" alt="cms" />
 <br>
