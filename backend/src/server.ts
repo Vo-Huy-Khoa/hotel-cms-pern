@@ -5,14 +5,18 @@ import routes from './routes';
 import cors from 'cors';
 
 dotenv.config();
-const app: Express = express();
-const port = process.env.PORT;
-const ORIGIN_LOCALHOST = process.env.ORIGIN_LOCALHOST || '';
-const ORIGIN_PRODUCT = process.env.ORIGIN_PRODUCT || '';
 
-const allowedOrigins: string[] = [ORIGIN_LOCALHOST, ORIGIN_PRODUCT];
+const app: Express = express();
+
+const port = process.env.PORT || 3001;
+
+const allowedOrigins = [
+  process.env.ORIGIN_LOCALHOST || '',
+  process.env.ORIGIN_PRODUCT || '',
+];
 
 app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const corsOptions: cors.CorsOptions = {
@@ -23,6 +27,7 @@ const corsOptions: cors.CorsOptions = {
 app.use(cors(corsOptions));
 
 routes(app);
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}.`);
 });
