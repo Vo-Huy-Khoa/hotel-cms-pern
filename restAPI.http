@@ -213,17 +213,17 @@ Content-Type: application/json
 
 }
 
-###  List
+###  Count
 GET {{url}}/booking/count
 Authorization: Beaer {{token}}
 Content-Type: application/json
 
-###  List
+###  Check In
 GET {{url}}/booking/check_in
 Authorization: Beaer {{token}}
 Content-Type: application/json
 
-###  List
+###  Check Out
 GET {{url}}/booking/check_out
 Authorization: Beaer {{token}}
 Content-Type: application/json
