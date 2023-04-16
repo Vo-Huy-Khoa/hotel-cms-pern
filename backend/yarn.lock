@@ -1470,15 +1470,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/body-parser@*":
-  version "1.19.2"
-  resolved "https://registry.npmjs.org/@types/body-parser/-/body-parser-1.19.2.tgz"
-  integrity sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==
-  dependencies:
-    "@types/connect" "*"
-    "@types/node" "*"
-
-"@types/body-parser@^1.19.2":
+"@types/body-parser@*", "@types/body-parser@^1.19.2":
   version "1.19.2"
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.19.2.tgz#aea2059e28b7658639081347ac4fab3de166e6f0"
   integrity sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==

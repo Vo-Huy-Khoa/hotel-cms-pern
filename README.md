@@ -3,7 +3,8 @@
 ![Node.js](https://img.shields.io/badge/node.js-339933.svg?style=for-the-badge&logo=Node%2Ejs&logoColor=white)
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 
-# CMS Hotel PERN Stack
+# Hotel CMS PERN Stack
+
 ## CMS Application built using PERN.
 
 ## Index
@@ -16,7 +17,7 @@
 
 ## Demo
 
-<h3 name="demo">Live: <a href="https://cms-vo-huy-khoa.vercel.app/">CMS HOTEL</a></h3>
+<h3 name="demo">Live: <a href="https://cms-vo-huy-khoa.vercel.app/">HOTEL CMS</a></h3>
 <!-- https://ezgif.com/ -->
 <br>
 <img src="https://s3.amazonaws.com/creativetim_bucket/products/488/original/material-tailwind-react-dashboard.jpg" alt="cms" />
@@ -45,7 +46,7 @@ Make sure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.co
 1. Clone repository:
 
    ```
-   $ git clone https://github.com/Vo-Huy-Khoa/Blog_MERN.git
+   $ git clone https://github.com/Vo-Huy-Khoa/hotel-cms-pern.git
    $ cd Blog_MERN
    ```
 
@@ -72,25 +73,23 @@ Make sure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.co
 ```text
 src
 |
-├── app
-|   └── controllers
-│       └── userController.ts
-│   └── middleware
-│       └── auth.ts
-│   └── models
-│       └── User.ts
 ├── configs
 |   └── index.ts
-├── database
-|   └── migrations
-│       └── create_hotel_table.ts
-│       └── create_user_table.ts
-│       └── index.tsx
-│   └── seeders
+├── controllers
+│       └── userController.ts
+│       └── bookingController.ts
+├── middleware
+│       └── auth.ts
+├── routes
 │       └── user.ts
+│       └── booking.ts
 │       └── index.ts
-├── routes.ts
+├── test
+│       └── userController.test.ts
+│       └── authController.test.ts
 └── server.ts
+└── type.ts
+
 ```
 
 ### FrontEnd
