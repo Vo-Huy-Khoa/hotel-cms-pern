@@ -141,13 +141,17 @@ class bookingController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { room_id, name, check_in, check_out } = req.body;
+                const where = { status: true, room: {}, client: {} };
+                if (room_id)
+                    where.room.id = { equals: parseInt(room_id, 10) };
+                if (name)
+                    where.client.name = { contains: name, mode: 'insensitive' };
+                if (check_in)
+                    where.check_in = new Date(check_in);
+                if (check_out)
+                    where.check_out = new Date(check_out);
                 const bookings = yield configs_1.default.bookings.findMany({
-                    where: {
-                        status: true,
-                        room: { id: parseInt(room_id) },
-                        client: { name: { contains: name } },
-                        AND: [{ check_in: check_in }, { check_out: check_out }],
-                    },
+                    where,
                     orderBy: { id: 'desc' },
                     select: {
                         id: true,

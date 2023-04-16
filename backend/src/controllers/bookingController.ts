@@ -1,5 +1,6 @@
 import prisma from '../configs';
 import { Request, Response } from 'express';
+import { Booking, SearchQuery } from '../types';
 
 class bookingController {
   async getAll(req: Request, res: Response) {
@@ -116,14 +117,16 @@ class bookingController {
 
   async search(req: Request, res: Response) {
     try {
-      const { room_id, name, check_in, check_out } = req.body;
+      const { room_id, name, check_in, check_out }: SearchQuery = req.body;
+      const where: any = { status: true, room: {}, client: {} };
+
+      if (room_id) where.room.id = { equals: parseInt(room_id, 10) };
+      if (name) where.client.name = { contains: name, mode: 'insensitive' };
+      if (check_in) where.check_in = new Date(check_in);
+      if (check_out) where.check_out = new Date(check_out);
+
       const bookings = await prisma.bookings.findMany({
-        where: {
-          status: true,
-          room: { id: parseInt(room_id) },
-          client: { name: { contains: name } },
-          AND: [{ check_in: check_in }, { check_out: check_out }],
-        },
+        where,
         orderBy: { id: 'desc' },
         select: {
           id: true,
@@ -138,12 +141,14 @@ class bookingController {
           client: { select: { name: true } },
         },
       });
+
       res.status(202).json(bookings);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal server error' });
     }
   }
+
   async update(req: Request, res: Response) {
     try {
       const {
