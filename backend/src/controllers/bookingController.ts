@@ -165,8 +165,8 @@ class bookingController {
         data: {
           room_id: room_id,
           client_id: client_id,
-          check_in: check_in,
-          check_out: check_out,
+          check_in: check_in ? new Date(check_in) : null,
+          check_out: check_out ? new Date(check_out) : null,
           total_price: total_price,
           status: status,
         },

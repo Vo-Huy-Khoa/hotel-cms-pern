@@ -117,7 +117,7 @@ class userController {
                 if (!updatedUser) {
                     return res.status(404).json({ error: 'User not found' });
                 }
-                res.status(202).json({ message: 'User updated successfully' });
+                res.status(200).json({ message: 'User updated successfully!' });
             }
             catch (error) {
                 console.error(error);
@@ -129,12 +129,12 @@ class userController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { id } = req.params;
-                const deletedUser = yield configs_1.default.users.delete({
+                yield configs_1.default.users.delete({
                     where: {
                         id: parseInt(id),
                     },
                 });
-                res.status(202).json(deletedUser);
+                res.status(200).json({ message: 'User delete successfully!' });
             }
             catch (error) {
                 res.status(500).json({ error: 'Internal server error' });

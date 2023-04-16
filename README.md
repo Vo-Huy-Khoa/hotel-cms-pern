@@ -5,7 +5,7 @@
 
 # Hotel CMS PERN Stack
 
-## CMS Application built using PERN.
+## A CMS (Content Management System) application built using the PERN stack is a powerful and versatile solution for managing digital content. PERN is an acronym for PostgreSQL, Express.js, React.js, and Node.js, which are all open-source technologies that work seamlessly together to create web applications.
 
 ## Index
 
