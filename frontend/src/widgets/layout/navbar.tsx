@@ -98,13 +98,13 @@ export function Navbar() {
             <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
             {user?.full_name}
           </Button>
-          {/* <IconButton
+          <IconButton
             variant="text"
             color="blue-gray"
             className="grid xl:hidden"
           >
             <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
-          </IconButton> */}
+          </IconButton>
 
           <Menu>
             <MenuHandler>

@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const apiUrl = "http://localhost:3001/api";
-// const apiUrl = "https://cmshotel.onrender.com/api";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const axiosInstance = axios.create({
   baseURL: apiUrl,
