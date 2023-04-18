@@ -1,3 +1,4 @@
+import { API } from "../routes";
 import { LoginRequestBody } from "../types";
 import { axiosInstance } from "./instance";
 
@@ -12,7 +13,10 @@ const refresh_token = () => {
       token: refresh_token,
     };
 
-    const response = axiosInstance.post("refresh_token", JSON.stringify(body));
+    const response = axiosInstance.post(
+      API.REFRESH_TOKEN,
+      JSON.stringify(body)
+    );
     return response;
   } catch (error) {
     console.log(error);
@@ -22,7 +26,7 @@ const refresh_token = () => {
 const handleApiRegister = async (body: object) => {
   try {
     const response = await axiosInstance.post(
-      `auth/register`,
+      API.SIGN_UP,
       JSON.stringify(body)
     );
     return response;
@@ -33,7 +37,7 @@ const handleApiRegister = async (body: object) => {
 
 const handleApiLogin = async (body: LoginRequestBody) => {
   try {
-    const response = await axiosInstance.post(`/auth/login`, body);
+    const response = await axiosInstance.post(API.SIGN_IN, body);
     if (
       response.data &&
       response.data.token &&
@@ -62,7 +66,7 @@ const handleApiLogout = async () => {
     const body = {
       id: userID,
     };
-    const response = axiosInstance.post("auth/logout", JSON.stringify(body));
+    const response = axiosInstance.post(API.LOGOUT, JSON.stringify(body));
     sessionStorage.removeItem("user");
     sessionStorage.removeItem("token");
 
