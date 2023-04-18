@@ -141,4 +141,11 @@ const routes = [
   },
 ];
 
+export const API = {
+  REFRESH_TOKEN: "refresh_token",
+  SIGN_UP: "auth/register",
+  SIGN_IN: "/auth/login",
+  LOGOUT: "auth/logout",
+};
+
 export default routes;
