@@ -27,11 +27,11 @@ class authController {
   }
 
   async login(req: Request, res: Response) {
-    const { user_name, password } = req.body;
+    const { email, password } = req.body;
     try {
       const user: IUser | null = (await prisma.users.findFirst({
         where: {
-          user_name: user_name,
+          email: email,
         },
       })) as unknown as IUser;
 

@@ -42,7 +42,7 @@ export function SignUp() {
         </div>
         <div className="flex flex-col gap-1">
           <Typography>Email</Typography>
-          <Input label="Email" ref={emailRef} />
+          <Input type="email" label="Email" ref={emailRef} />
         </div>
         <div className="flex flex-col gap-1">
           <Typography>User Name</Typography>
