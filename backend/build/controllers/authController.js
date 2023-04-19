@@ -41,11 +41,11 @@ class authController {
     }
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { user_name, password } = req.body;
+            const { email, password } = req.body;
             try {
                 const user = (yield configs_1.default.users.findFirst({
                     where: {
-                        user_name: user_name,
+                        email: email,
                     },
                 }));
                 if (!user || !bcrypt_1.default.compareSync(password, user.password)) {

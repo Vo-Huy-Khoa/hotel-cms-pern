@@ -61,7 +61,7 @@ export type SelectVisibilityAction =
   | ClearVisibilityAction;
 
 export type LoginRequestBody = {
-  user_name: string;
+  email: string;
   password: string;
 };
 

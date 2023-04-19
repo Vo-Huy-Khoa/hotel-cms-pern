@@ -5,7 +5,7 @@ import { handleApiLogin } from "../../services";
 import { EyeIcon } from "@heroicons/react/24/solid";
 export function SignIn() {
   const navigate = useNavigate();
-  const userNameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [isErrorLogin, setIsErrorLogin] = useState(false);
   const [typePassword, setTypePassword] = useState("password");
@@ -14,10 +14,10 @@ export function SignIn() {
     setTypePassword(typePassword === "text" ? "password" : "text");
   };
   const handleSignIn = async () => {
-    const user_name = userNameRef.current?.querySelector("input")?.value || "";
+    const email = emailRef.current?.querySelector("input")?.value || "";
     const password = passwordRef.current?.querySelector("input")?.value || "";
     const body = {
-      user_name: user_name,
+      email: email,
       password: password,
     };
     try {
@@ -41,8 +41,13 @@ export function SignIn() {
       </div>
       <form className="flex flex-col gap-4" action="">
         <div className="flex flex-col gap-1">
-          <Typography>User Name</Typography>
-          <Input label="Username" defaultValue="khoavh" ref={userNameRef} />
+          <Typography>Email</Typography>
+          <Input
+            type="email"
+            label="Email"
+            defaultValue="khoavh@gmail.com"
+            ref={emailRef}
+          />
         </div>
         <div className="flex flex-col gap-1">
           <Typography>Password</Typography>
